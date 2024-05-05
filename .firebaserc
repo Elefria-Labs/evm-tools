@@ -1,14 +1,11 @@
 {
   "projects": {
-    "default": "zk-block"
+    "default": "evmtools-xyz"
   },
   "targets": {
-    "zk-block": {
+    "evmtools-xyz": {
       "hosting": {
-        "zkboilerplate": [
-          "out"
-        ],
-        "zkblock": [
+        "evmtools-dev": [
           "out"
         ]
       }

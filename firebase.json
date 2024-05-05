@@ -1,13 +1,7 @@
 {
   "hosting": [
     {
-      "site": "zkboilerplate",
-      "public": "out",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "cleanUrls": true
-    },
-    {
-      "site": "zk-block",
+      "site": "evmtools-dev",
       "public": "out",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true
