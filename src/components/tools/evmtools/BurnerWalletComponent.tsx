@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Box,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Checkbox,
-  Stack,
-  Progress,
-  useToast,
-} from '@chakra-ui/react';
-
+import { Progress, useToast } from '@chakra-ui/react';
+import { Button } from '@shadcn-components/ui/button';
+import { Input } from '@shadcn-components/ui/input';
+import { Checkbox } from '@shadcn-components/ui/checkbox';
+import { Label } from '@shadcn-components/ui/label';
 import { ethers } from 'ethers';
 
 export default function BurnerWalletComponent() {
@@ -57,43 +49,43 @@ export default function BurnerWalletComponent() {
   }, [useEntropy, entropy, entropyLoader, toast]);
 
   return (
-    <Box p={4}>
-      <Stack spacing={4}>
-        <Text fontSize="xl" fontWeight="bold" mb={4}>
-          Generate Random Private Key Pair
-        </Text>
+    <div>
+      <div>
+        <h3 className="mb-4 font-bold ">Generate Random Private Key Pair</h3>
 
-        <Button
-          variant="solid"
-          onClick={() => generateKeys()}
-          mb={4}
-          isDisabled={useEntropy}
-        >
+        <Button onClick={() => generateKeys()} disabled={useEntropy}>
           Generate Keys
         </Button>
-        <Checkbox
-          isChecked={useEntropy}
-          onChange={(e) => setUseEntropy(e.target.checked)}
-          colorScheme="blue"
-        >
-          Use entropy from cursor movement
-        </Checkbox>
+        <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+          <Checkbox
+            checked={useEntropy}
+            onCheckedChange={(e) => setUseEntropy(e.valueOf() as boolean)}
+          />
+
+          <div className="space-y-1 leading-none">
+            <Label>
+              Use entropy from cursor movement. Move the cursor on the screen to
+              generate randomness.
+            </Label>
+          </div>
+        </div>
+
         {useEntropy && (
           <Progress hasStripe value={entropyLoader} border={'4px'} />
         )}
-      </Stack>
-      <FormControl mt={4}>
-        <FormLabel>Private Key</FormLabel>
-        <Input value={privateKey} isReadOnly />
-      </FormControl>
-      <FormControl mt={4}>
-        <FormLabel>Public Key</FormLabel>
-        <Input value={publicKey} isReadOnly />
-      </FormControl>
-      <FormControl mt={4}>
-        <FormLabel>Public Address</FormLabel>
-        <Input value={publicAddress} isReadOnly />
-      </FormControl>
-    </Box>
+      </div>
+      <div className="mt-4">
+        <Label>Private Key</Label>
+        <Input value={privateKey} disabled />
+      </div>
+      <div className="mt-4">
+        <Label>Public Key</Label>
+        <Input value={publicKey} disabled />
+      </div>
+      <div className="mt-4">
+        <Label>Public Address</Label>
+        <Input value={publicAddress} disabled />
+      </div>
+    </div>
   );
 }
