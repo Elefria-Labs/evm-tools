@@ -1,14 +1,9 @@
 import { useState } from 'react';
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  useToast,
-} from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
+import { Input } from '@shadcn-components/ui/input';
+import { Label } from '@shadcn-components/ui/label';
 
 function StringByteConversion() {
   const [stringInput, setStringInput] = useState('');
@@ -39,10 +34,10 @@ function StringByteConversion() {
   };
 
   return (
-    <Box w="100%">
-      <Stack spacing={4}>
-        <FormControl>
-          <FormLabel>String Input</FormLabel>
+    <div>
+      <div>
+        <div>
+          <Label>String Input</Label>
           <Input
             type="text"
             value={stringInput}
@@ -51,9 +46,9 @@ function StringByteConversion() {
               convertToBytes(e.target.value);
             }}
           />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Bytes32 Input</FormLabel>
+        </div>
+        <div>
+          <Label>Bytes32 Input</Label>
           <Input
             type="text"
             value={bytesInput}
@@ -62,9 +57,9 @@ function StringByteConversion() {
               convertToString(e.target.value);
             }}
           />
-        </FormControl>
-      </Stack>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 
