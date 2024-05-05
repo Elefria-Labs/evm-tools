@@ -7,15 +7,19 @@ import {
   Flex,
   IconButton,
   Image,
-  Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   Text,
 } from '@chakra-ui/react';
+
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from '@shadcn-components/ui/menubar';
 import { Links } from '@config/constants';
+import Link from 'next/link';
 
 type MenuLinkProps = {
   text: string;
@@ -27,20 +31,46 @@ function MenuLink(props: MenuLinkProps) {
   const { text, link, newTab = false } = props;
 
   return (
-    <Link
-      borderBottomWidth={0}
-      borderBottomColor="gray.500"
-      _hover={{ textDecoration: 'none', borderBottomColor: 'black' }}
-      fontWeight={500}
-      color="black"
-      href={link}
-      target={newTab ? '_blank' : '_self'}
-    >
-      {text}
+    <Link href={link} target={newTab ? '_blank' : '_self'}>
+      <MenubarItem>{text}</MenubarItem>
     </Link>
   );
 }
-
+const menuLinks = [
+  {
+    title: 'Home',
+    link: Links.home,
+  },
+  {
+    title: 'EVM Tools',
+    link: Links.home,
+  },
+  {
+    title: 'ZK Tools',
+    link: Links.zkTools,
+  },
+  {
+    title: 'ZK Networks',
+    link: Links.zkChains,
+  },
+  {
+    title: 'Contribute',
+    link: Links.contribute,
+  },
+  {
+    title: 'Learn',
+    link: Links.blog,
+  },
+  {
+    title: 'Storage Reader',
+    link: Links.evmTools,
+    newTab: true,
+  },
+  {
+    title: 'Subscribe',
+    link: Links.subscribe,
+  },
+];
 function DesktopMenuLinks() {
   return (
     <Stack
@@ -52,85 +82,47 @@ function DesktopMenuLinks() {
       color="gray.50"
       fontSize="15px"
     >
-      <MenuLink text={'Home'} link={Links.home} />
-      <MenuLink text={'Zk Tools'} link={Links.zkTools} />
-      <MenuLink text={'Boilerplate'} link={Links.boilerplate} newTab />
-      <MenuLink text={'Learn'} link={Links.blog} />
-      <MenuLink text={'Zk Chains'} link={Links.zkChains} />
-      {/* <MenuLink text={'About'} link={Links.about} /> */}
-      <Menu isLazy>
-        <MenuButton
-          as={Text}
-          color="black"
-          // rightIcon={<ChevronDownIcon />}
-          cursor="pointer"
-        >
-          {'Dev Tools'}
-        </MenuButton>
-        <MenuList color="black">
-          <MenuItem>
+      <Menubar>
+        {menuLinks.map((m, i) => (
+          <MenubarMenu key={i}>
+            <Link href={m.link} target={m?.newTab ? '_blank' : '_self'}>
+              <MenubarTrigger className="cursor-pointer">
+                {m.title}
+              </MenubarTrigger>
+            </Link>
+          </MenubarMenu>
+        ))}
+
+        <MenubarMenu>
+          <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
+          <MenubarContent>
             <MenuLink text={'View all'} link={Links.devTools} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'EVM Visualizer'} link={Links.evmTools} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'EIP-712'} link={`/${Links.eip712}`} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'ERC-191'} link={`/${Links.erc191}`} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink
               text={'Checksum Address'}
               link={`/${Links.evmChecksumAddress}`}
             />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'Tx Decoder'} link={`/${Links.txDecoder}`} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'Gas Converter'} link={`/${Links.gasConverter}`} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'Burner Wallet'} link={`/${Links.burnerWallet}`} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink
               text={'Merkle Tree Generator'}
               link={`/${Links.merkleTreeGenerator}`}
             />
-          </MenuItem>
-          <MenuItem>
+
             <MenuLink
               text={'Bytes32 Conversion'}
               link={`/${Links.byteconversion}`}
             />
-          </MenuItem>
-          <MenuItem>
             <MenuLink
               text={'Deterministic Address'}
               link={`/${Links.contractAddressGen}`}
             />
-          </MenuItem>
-        </MenuList>
-      </Menu>
-      <MenuLink text={'Contribute'} link={Links.contribute} />
-      <Link
-        ml="10px"
-        bgGradient="linear(to-l, gray.700, gray.500)"
-        p="7px 10px"
-        rounded="4px"
-        _hover={{
-          textDecoration: 'none',
-          bgGradient: 'linear(to-l, gray.800, gray.800)',
-        }}
-        target="_blank"
-        fontWeight={500}
-        href={Links.subscribe}
-      >
-        Subscribe
-      </Link>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
     </Stack>
   );
 }
