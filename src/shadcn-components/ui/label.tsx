@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 const labelVariants = cva(
   'mb-4 text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
 );
-
+const customCss = 'mb-4';
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
@@ -17,7 +17,7 @@ const Label = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <LabelPrimitive.Root
     ref={ref}
-    className={cn(labelVariants(), className)}
+    className={cn(labelVariants(), className, customCss)}
     {...props}
   />
 ));

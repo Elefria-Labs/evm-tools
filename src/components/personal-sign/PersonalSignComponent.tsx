@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Text,
-  Box,
-  Button,
-  List,
-  ListIcon,
-  ListItem,
-  Flex,
-  Input,
-  Textarea,
-  useToast,
-  Heading,
-  Icon,
-} from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { splitSignature, verifyMessage } from 'ethers/lib/utils';
 import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
 import { SignatureLike } from '@ethersproject/bytes';
 import { toastOptions } from '@components/common/toast';
 import { useAccount, useSignMessage } from 'wagmi';
+import { Textarea } from '@shadcn-components/ui/textarea';
+import { Input } from '@shadcn-components/ui/input';
+import { Button } from '@shadcn-components/ui/button';
+import { Label } from '@shadcn-components/ui/label';
 
 type PersonalSignComponentPropsType = {};
 
@@ -76,22 +67,14 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
     setLoading(false);
   };
   return (
-    <Box
-      mt={4}
-      justifyContent="center"
-      alignItems="center"
-      borderRadius="10px 10px 0 0"
-    >
-      <Text>{loading}</Text>
-      <Flex justifyContent={'space-between'}>
-        <Flex flexDirection="column" w={'40%'}>
-          <Heading size="md">Signing Message:</Heading>
-          <Input
+    <div className="mt-4">
+      <h4>{loading}</h4>
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-col w-2/5">
+          <Label>Signing Message:</Label>
+          <Textarea
             placeholder="message to sign..."
-            mt="8px"
-            height="240px"
-            color="black"
-            borderColor="black"
+            className="h-96"
             onChange={(event) => {
               if (event.target.value == null) {
                 return;
@@ -99,74 +82,59 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
               setMessageToSign(event.target.value);
             }}
           />
-          <Button
-            variant="solid"
-            size="md"
-            mt="16px"
-            onClick={signPersonalMessageUsingEthers}
-          >
-            Sign
-          </Button>
-        </Flex>
+          <Button onClick={signPersonalMessageUsingEthers}>Sign</Button>
+        </div>
         {signMessageData && (
-          <Flex ml="8px" pl="8px" w={'60%'} borderLeft="1px solid gray">
-            <List spacing={3}>
-              <ListItem key={'sig'}>
-                <Text justifyContent="center">
-                  <Icon as={LockIcon} color="green.500" /> Signature:
-                </Text>
-                <Textarea
-                  mt={'4px'}
-                  contentEditable={false}
-                  value={signMessageData}
-                />
-              </ListItem>
-              <ListItem key={'split-sig'}>
-                <Text justifyContent="center">
-                  <Icon as={LockIcon} color="green.500" />
-                  Split Signature:
-                </Text>
-                <Textarea
-                  mt={'4px'}
-                  value={JSON.stringify(rsvSig)}
-                  contentEditable={false}
-                />
-              </ListItem>
-              <ListItem key={'verify'}>
-                Verify Signature:
-                <Input
-                  placeholder="signature..."
-                  color="black"
-                  borderColor="black"
-                  width={'340px'}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setVerifySigInput(event.target.value);
-                  }}
-                />
-                <Button variant="solid" size="md" ml="16px" onClick={verify}>
-                  Verify
-                </Button>
-              </ListItem>
-              <ListItem key={'signingAddress'}>
-                <ListIcon as={CheckCircleIcon} color="green.500" />
-                Signing Address: <strong>{account.address}</strong>
-              </ListItem>
-              {!!recoveredAddr && (
-                <ListItem key={'recoveredAddress'}>
+          <div className="flex flex-col w-3/5 ml-4">
+            <div>
+              <Label>
+                <LockIcon color="green.500" /> Signature:
+              </Label>
+              <Textarea contentEditable={false} value={signMessageData} />
+            </div>
+            <div>
+              <Label>
+                <LockIcon color="green.500" /> Split Signature:
+              </Label>
+              <Textarea
+                value={JSON.stringify(rsvSig)}
+                contentEditable={false}
+              />
+            </div>
+            <div key={'verify'}>
+              <Label>Verify Signature:</Label>
+              <Input
+                placeholder="signature..."
+                width={'340px'}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setVerifySigInput(event.target.value);
+                }}
+              />
+              <Button onClick={verify}>Verify</Button>
+            </div>
+            <div>
+              <Label>
+                <CheckCircleIcon color="green.500" /> Signing Address:{' '}
+                <strong>{account.address}</strong>
+              </Label>
+            </div>
+            {!!recoveredAddr && (
+              <div>
+                <Label>
                   {recoveredAddr?.toLowerCase() ==
                   account?.address?.toLowerCase() ? (
-                    <ListIcon as={CheckCircleIcon} color="green.500" />
+                    <CheckCircleIcon color="green.500" />
                   ) : (
-                    <ListIcon as={CloseIcon} color="red.500" />
-                  )}
+                    <CloseIcon color="red.500" />
+                  )}{' '}
                   Recovered Address:
                   <strong>{recoveredAddr?.toLowerCase()}</strong>
-                </ListItem>
-              )}
-            </List>
-          </Flex>
+                </Label>
+              </div>
+            )}
+          </div>
         )}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 }
