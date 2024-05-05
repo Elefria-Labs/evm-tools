@@ -128,10 +128,10 @@ export const playgroundToolsList: Item[] = [
     isExternal: false,
     isWalletRequired: false,
   },
-  {
-    title: 'EVM Visualizer (deprecating soon)',
-    description: 'Analyze EVM bytecode, slots and storage layout',
-    link: Links.evm,
-    isExternal: true,
-  },
+  // {
+  //   title: 'EVM Visualizer (deprecating soon)',
+  //   description: 'Analyze EVM bytecode, slots and storage layout',
+  //   link: Links.evm,
+  //   isExternal: true,
+  // },
 ];

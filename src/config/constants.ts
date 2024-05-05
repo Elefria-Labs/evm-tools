@@ -25,7 +25,7 @@ export const Links = {
   about: 'about',
   subscribe: 'subscribe',
   eipGpt: 'https://gpt.zkblock.app/',
-  evm: 'https://evm.zkblock.app/',
+  // evm: 'https://evm.zkblock.app/',
   evmTools: 'https://evmtools.xyz/',
 };
 

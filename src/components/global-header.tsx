@@ -72,7 +72,7 @@ function DesktopMenuLinks() {
             <MenuLink text={'View all'} link={Links.devTools} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'EVM Visualizer'} link={Links.evm} />
+            <MenuLink text={'EVM Visualizer'} link={Links.evmTools} />
           </MenuItem>
           <MenuItem>
             <MenuLink text={'EIP-712'} link={`/${Links.eip712}`} />

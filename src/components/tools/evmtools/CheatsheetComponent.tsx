@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useState } from 'react';
+import { IconButton, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Input } from '@shadcn-components/ui/input';
+import { Label } from '@shadcn-components/ui/label';
 import {
-  Box,
-  FormControl,
-  FormLabel,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   Select,
-  Stack,
-} from '@chakra-ui/react';
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@shadcn-components/ui/select';
+
 import { integerList } from '@data/integer-list';
 import { CopyIcon } from '@chakra-ui/icons';
 import { handleCopyClick } from '@utils/wallet';
 import { ethers } from 'ethers';
+import InputBaseCopy from '@components/common/BaseInputCopy';
 
 export default function CheatsheetComponent() {
   const [minMaxValue, setMinMaxValue] = useState<{
     min?: string;
     max: string;
   } | null>();
-  const [intType, setIntType] = useState<string | undefined>();
-  const [bits, setBits] = useState<number | null>();
+  const [dataType, setDataType] = useState<string | null>();
 
   const getMaxMinValue = useCallback((bits: number, intType: string) => {
     if (intType.includes('uint') == false) {
@@ -40,94 +40,72 @@ export default function CheatsheetComponent() {
     setMinMaxValue({ max: maxValue.toString() });
   }, []);
   useEffect(() => {
-    if (!bits || !intType) {
+    if (dataType == null) {
       return;
     }
+    const intType = dataType?.split('-')?.[0]!;
+    const bits = Number(dataType?.split('-')?.[1]);
+
     getMaxMinValue(bits, intType);
-  }, [bits, intType, getMaxMinValue]);
+  }, [dataType, getMaxMinValue]);
 
   return (
-    <Box w="100%">
-      <Stack spacing={4}>
-        <FormControl>
-          <FormLabel>Integer Type</FormLabel>
-          <Select
-            placeholder="Select option"
-            onChange={(e) => {
-              setBits(Number(e.target.value));
-
-              setIntType(e.target.selectedOptions?.[0]?.text);
-            }}
-          >
+    <div>
+      <div className="mb-4">
+        <Label>Integer Type</Label>
+        <Select
+          onValueChange={(value) => {
+            setDataType(value);
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select integer type" />
+          </SelectTrigger>
+          <SelectContent>
             {integerList.map((o) => (
-              <option key={o.option} value={o.value}>
+              <SelectItem key={o.option} value={o.value}>
                 {o.option}
-              </option>
+              </SelectItem>
             ))}
-          </Select>
-        </FormControl>
-        <FormControl>
-          {minMaxValue?.min && (
-            <>
-              <FormLabel>Min Value</FormLabel>
-              <InputGroup>
-                <Input
-                  type="text"
-                  minWidth={[100, 400]}
-                  value={minMaxValue?.min}
-                  disabled
+          </SelectContent>
+        </Select>
+      </div>
+      <div>
+        {minMaxValue?.min && (
+          <>
+            <Label>Min Value</Label>
+            <InputGroup>
+              <Input type="text" value={minMaxValue?.min} disabled />
+              <InputRightElement>
+                <IconButton
+                  aria-label="Copy int value"
+                  icon={<CopyIcon />}
+                  onClick={() => handleCopyClick(minMaxValue.min)}
                 />
-                <InputRightElement>
-                  <IconButton
-                    aria-label="Copy int value"
-                    icon={<CopyIcon />}
-                    onClick={() => handleCopyClick(minMaxValue.min)}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            </>
-          )}
-          {minMaxValue?.max && (
-            <>
-              <FormLabel>Max Value</FormLabel>
-              <InputGroup>
-                <Input
-                  type="text"
-                  minWidth={[100, 400]}
-                  value={minMaxValue?.max}
-                  disabled
-                />
-                <InputRightElement>
-                  <IconButton
-                    aria-label="Copy int value"
-                    icon={<CopyIcon />}
-                    onClick={() => handleCopyClick(minMaxValue.max)}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            </>
-          )}
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Zero Address</FormLabel>
-          <InputGroup>
-            <Input
-              type="text"
-              minWidth={[100, 400]}
-              value={ethers.constants.AddressZero}
+              </InputRightElement>
+            </InputGroup>
+          </>
+        )}
+        {minMaxValue?.max && (
+          <>
+            <Label>Max Value</Label>
+            <InputBaseCopy
+              onClick={() => handleCopyClick(minMaxValue.max)}
+              value={minMaxValue?.max}
               disabled
             />
-            <InputRightElement>
-              <IconButton
-                aria-label="Copy address"
-                icon={<CopyIcon />}
-                onClick={() => handleCopyClick(ethers.constants.AddressZero)}
-              />
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-      </Stack>
-    </Box>
+          </>
+        )}
+      </div>
+
+      <div>
+        <Label>Zero Address</Label>
+        <InputBaseCopy
+          onClick={() => handleCopyClick(ethers.constants.AddressZero)}
+          value={ethers.constants.AddressZero}
+          disabled
+        />
+      </div>
+    </div>
   );
 }
