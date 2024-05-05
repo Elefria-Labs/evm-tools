@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  VStack,
-} from '@chakra-ui/react';
+import { Flex, VStack } from '@chakra-ui/react';
 import { ethers } from 'ethers';
-import { CopyIcon } from '@chakra-ui/icons';
 import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
 import { useGetBaseFee } from '@hooks/useGetBaseFee';
+import { Label } from '@shadcn-components/ui/label';
+import InputBaseCopy from '@components/common/BaseInputCopy';
 
 function calculateValue(ethAmount: string, gasPrice: string): string {
   const ethValue = ethers.utils.parseEther(ethAmount.toString());
@@ -91,52 +83,40 @@ export default function GasConvertorComponent() {
   return (
     <Flex justifyContent="space-between">
       <VStack spacing={8}>
-        <FormControl>
-          <FormLabel htmlFor="wei-input">{'Wei'}</FormLabel>
-          <InputGroup>
-            <Input
-              type="number"
-              placeholder="Wei"
-              minWidth={[100, 400]}
+        <div>
+          <Label htmlFor="wei-input">{'Wei'}</Label>
+          <div>
+            <InputBaseCopy
               value={weiValue}
+              onClick={() => handleCopyClick(weiValue)}
               onChange={handleWeiChange}
             />
-            <InputRightElement>
-              <IconButton
-                aria-label="Copy Wei Value"
-                icon={<CopyIcon />}
-                onClick={() => handleCopyClick(weiValue)}
-              />
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
+          </div>
+        </div>
 
-        <FormControl>
-          <FormLabel htmlFor="gwei-input">{'Gwei'}</FormLabel>
-          <InputGroup>
-            <Input
-              type="number"
-              placeholder="Gwei"
-              minWidth={[100, 400]}
+        <div>
+          <Label htmlFor="gwei-input">{'Gwei'}</Label>
+          <div>
+            <InputBaseCopy
               value={gweiValue}
+              onClick={() => handleCopyClick(gweiValue)}
               onChange={handleGweiChange}
             />
-            <InputRightElement>
-              <IconButton
-                aria-label="Copy Gwei Value"
-                icon={<CopyIcon />}
-                onClick={() => handleCopyClick(gweiValue)}
-              />
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="eth-input">{'Eth'}</FormLabel>
-          <InputGroup>
-            <Input
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="eth-input">{'Eth'}</Label>
+          <div>
+            <InputBaseCopy
+              value={ethValue}
+              onClick={() => handleCopyClick(ethValue)}
+              onChange={handleEthChange}
+            />
+            {/* <Input
               type="text"
               placeholder="ETH"
-              minWidth={[100, 400]}
+              className="w-48"
+              // minWidth={[100, 400]}
               value={ethValue}
               onChange={handleEthChange}
             />
@@ -146,83 +126,59 @@ export default function GasConvertorComponent() {
                 icon={<CopyIcon />}
                 onClick={() => handleCopyClick(ethValue)}
               />
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
+            </InputRightElement> */}
+          </div>
+        </div>
         {!!ethPrice?.[0] && (
-          <FormControl>
-            <FormLabel htmlFor="eth-input">{'Eth Price'}</FormLabel>
-            <InputGroup>
-              <Input
-                type="number"
-                placeholder="ETH"
-                minWidth={[100, 400]}
+          <div>
+            <Label htmlFor="eth-input">{'Eth Price'}</Label>
+            <div>
+              <InputBaseCopy
                 value={ethPrice[0]?.data.amount}
-                // value={calculateValue(
-                //   Number(ethValue),
-                //   Number(ethPrice[0]?.data.amount),
-                // )}
                 disabled
+                onClick={() =>
+                  handleCopyClick(ethPrice[0]?.data.amount.toString()!)
+                }
               />
-              <InputRightElement>
-                <IconButton
-                  aria-label="Copy ETH Value"
-                  icon={<CopyIcon />}
-                  onClick={() =>
-                    handleCopyClick(ethPrice[0]?.data.amount.toString()!)
-                  }
-                />
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
+            </div>
+          </div>
         )}
         {!!gasDetails && (
-          <FormControl>
-            <FormLabel htmlFor="eth-input">{'Suggested Base Fee'}</FormLabel>
-            <InputGroup>
-              <Input
-                type="number"
-                placeholder="ETH"
-                minWidth={[100, 400]}
+          <div>
+            <Label htmlFor="eth-input">{'Suggested Base Fee'}</Label>
+            <div>
+              <InputBaseCopy
                 value={ethers.utils
                   .formatUnits(gasDetails.gasPrice.toString(), 'gwei')
                   .toString()
                   .substring(0, 4)}
                 disabled
+                onClick={() => handleCopyClick(ethValue)}
               />
-              <InputRightElement>
-                <IconButton
-                  aria-label="Copy ETH Value"
-                  icon={<CopyIcon />}
-                  onClick={() => handleCopyClick(ethValue)}
-                />
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
+            </div>
+          </div>
         )}
         {!!gasDetails && ethValue && (
-          <FormControl>
-            <FormLabel htmlFor="eth-input">{'Total Gas Cost'}</FormLabel>
-            <InputGroup>
-              <Input
-                type="number"
-                placeholder="ETH"
-                minWidth={[100, 400]}
+          <div>
+            <Label htmlFor="eth-input">{'Total Gas Cost'}</Label>
+            <div>
+              <InputBaseCopy
                 value={calculateValue(
                   ethValue.toString(),
                   gasDetails.gasPrice.toString(),
                 )}
                 disabled
+                onClick={() =>
+                  handleCopyClick(
+                    calculateValue(
+                      ethValue.toString(),
+                      gasDetails.gasPrice.toString(),
+                    ),
+                  )
+                }
               />
-              <InputRightElement>
-                <IconButton
-                  aria-label="Copy ETH Value"
-                  icon={<CopyIcon />}
-                  onClick={() => handleCopyClick(ethValue)}
-                />
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
+            </div>
+          </div>
         )}
       </VStack>
     </Flex>
