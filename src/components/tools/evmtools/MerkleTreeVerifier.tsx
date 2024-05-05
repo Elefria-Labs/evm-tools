@@ -1,17 +1,12 @@
 import { useState } from 'react';
-import {
-  Button,
-  Box,
-  Input,
-  Text,
-  Textarea,
-  useToast,
-  Divider,
-  FormLabel,
-} from '@chakra-ui/react';
+import { useToast, Divider } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
 import { StandardMerkleTree } from '@openzeppelin/merkle-tree';
+import { Label } from '@shadcn-components/ui/label';
+import { Textarea } from '@shadcn-components/ui/textarea';
+import { Button } from '@shadcn-components/ui/button';
+import { Input } from '@shadcn-components/ui/input';
 
 const defaultInput =
   '0xd8da6bf26964af9d7eed9e03e53415d37aa96045\n0xeee718c1e522ecb4b609265db7a83ab48ea0b06f\n0x14536667cd30e52c0b458baaccb9fada7046e056';
@@ -141,50 +136,40 @@ const MerkleTreeVerifier = () => {
   };
 
   return (
-    <Box p={4}>
-      <FormLabel mb={4}>Enter addresses (one per line):</FormLabel>
+    <div className="p-4">
+      <Label className="mb-4">Enter addresses (one per line):</Label>
       <Textarea
         placeholder="Enter addresses, one per line"
         rows={6}
-        size={['xs', 'xs', 'md']}
+        // size={['xs', 'xs', 'md']}
+        className="sm:text-sm text-md"
         value={addressesInput}
         onChange={handleAddressesInputChange}
       />
-      <Button onClick={handleCreateMerkleRoot} my={4}>
-        Create Merkle Root
-      </Button>
+      <Button onClick={handleCreateMerkleRoot}>Create Merkle Root</Button>
       {merkleRoot && (
-        <Box mt={4}>
-          <Text>Merkle Root: {merkleRoot}</Text>
-        </Box>
+        <div className="mt-4">
+          <h4>Merkle Root: {merkleRoot}</h4>
+        </div>
       )}
       <Divider my={4} />
-      <FormLabel my={4}>Generate merkle proof</FormLabel>
+      <Label>Generate merkle proof</Label>
       <Input
         placeholder="Address"
         value={proofAddressInput}
         onChange={handleProofAddressInput}
-        mb={4}
       />
-      <Button onClick={handleGenerateProof} mb={4}>
-        Generate Proof
-      </Button>
+      <Button onClick={handleGenerateProof}>Generate Proof</Button>
       {addressProof && <Textarea rows={6} value={addressProof} disabled />}
       <Divider my={4} />
-      <FormLabel my={4}>
-        Verify if an address belongs to the Merkle tree:
-      </FormLabel>
-
+      <Label>Verify if an address belongs to the Merkle tree:</Label>
       <Input
         placeholder="Address to Verify"
         value={verifyAddress}
         onChange={handleVerifyAddressChange}
-        mb={4}
       />
-      <Button onClick={handleVerifyAddress} mb={4}>
-        Verify Address
-      </Button>
-    </Box>
+      <Button onClick={handleVerifyAddress}>Verify Address</Button>
+    </div>
   );
 };
 

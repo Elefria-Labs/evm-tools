@@ -94,6 +94,9 @@ const Index = () => {
                 >
                   Dev Tools
                 </Heading>
+                <h1 className="text-slate-50 underline" id="app">
+                  Hello world!
+                </h1>
                 <Text
                   fontSize={['14px', '14px', '16px']}
                   mb="10px"
