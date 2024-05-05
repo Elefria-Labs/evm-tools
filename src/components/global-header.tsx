@@ -1,15 +1,4 @@
-import { useState } from 'react';
-import { HamburgerIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  CloseButton,
-  Container,
-  Flex,
-  IconButton,
-  Image,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Container, Image } from '@chakra-ui/react';
 
 import {
   Menubar,
@@ -73,15 +62,7 @@ const menuLinks = [
 ];
 function DesktopMenuLinks() {
   return (
-    <Stack
-      display={['none', 'flex', 'flex']}
-      shouldWrapChildren
-      isInline
-      spacing="15px"
-      alignItems="center"
-      color="gray.50"
-      fontSize="15px"
-    >
+    <div className="flex flex-row">
       <Menubar>
         {menuLinks.map((m, i) => (
           <MenubarMenu key={i}>
@@ -123,91 +104,80 @@ function DesktopMenuLinks() {
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
-    </Stack>
+    </div>
   );
 }
 
-function MobileMenuLinks() {
-  const [isOpen, setIsOpen] = useState(false);
+// function MobileMenuLinks() {
+//   const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <>
-      <IconButton
-        rounded="5px"
-        padding={0}
-        aria-label={'Menu'}
-        display={['block', 'none', 'none']}
-        icon={<HamburgerIcon color="black" w="25px" height="25px" />}
-        color="black"
-        cursor="pointer"
-        h="auto"
-        bg="transparent"
-        _hover={{ bg: 'transparent' }}
-        _active={{ bg: 'transparent' }}
-        _focus={{ bg: 'transparent' }}
-        onClick={() => setIsOpen(true)}
-      />
+//   return (
+//     <>
+//       <IconButton
+//         rounded="5px"
+//         padding={0}
+//         aria-label={'Menu'}
+//         display={['block', 'none', 'none']}
+//         icon={<HamburgerMenuIcon color="black" />}
+//         color="black"
+//         cursor="pointer"
+//         h="auto"
+//         bg="transparent"
+//         _hover={{ bg: 'transparent' }}
+//         _active={{ bg: 'transparent' }}
+//         _focus={{ bg: 'transparent' }}
+//         onClick={() => setIsOpen(true)}
+//       />
 
-      {isOpen && (
-        <Stack
-          color="gray.100"
-          fontSize={['22px', '22px', '22px', '32px']}
-          alignItems="center"
-          justifyContent="center"
-          pos="fixed"
-          left={0}
-          right={0}
-          bottom={0}
-          top={0}
-          bg="gray.900"
-          spacing="12px"
-          zIndex={999}
-        >
-          <Link href={Links.home}>Home</Link>
-          <Link href={Links.zkTools}>Zk Tools</Link>
-          <Link href={Links.boilerplate}>Boilerplate</Link>
-          <Link href={Links.blog} target="_blank">
-            Learn
-          </Link>
-          <Link href={Links.zkChains}>Zk Chains</Link>
-          <Link href={Links.subscribe}>Subscribe</Link>
-          <Link href={Links.about}>About</Link>
-          <Link href={Links.contribute}>Contribute</Link>
-          <CloseButton
-            onClick={() => setIsOpen(false)}
-            pos="fixed"
-            top="40px"
-            right="15px"
-            size="lg"
-          />
-        </Stack>
-      )}
-    </>
-  );
-}
+//       {isOpen && (
+//         <Stack
+//           color="gray.100"
+//           fontSize={['22px', '22px', '22px', '32px']}
+//           alignItems="center"
+//           justifyContent="center"
+//           pos="fixed"
+//           left={0}
+//           right={0}
+//           bottom={0}
+//           top={0}
+//           bg="gray.900"
+//           spacing="12px"
+//           zIndex={999}
+//         >
+//           <Link href={Links.home}>Home</Link>
+//           <Link href={Links.zkTools}>Zk Tools</Link>
+//           <Link href={Links.boilerplate}>Boilerplate</Link>
+//           <Link href={Links.blog} target="_blank">
+//             Learn
+//           </Link>
+//           <Link href={Links.zkChains}>Zk Chains</Link>
+//           <Link href={Links.subscribe}>Subscribe</Link>
+//           <Link href={Links.about}>About</Link>
+//           <Link href={Links.contribute}>Contribute</Link>
+//           <CloseButton
+//             onClick={() => setIsOpen(false)}
+//             pos="fixed"
+//             top="40px"
+//             right="15px"
+//             size="lg"
+//           />
+//         </Stack>
+//       )}
+//     </>
+//   );
+// }
 
 type GlobalHeaderProps = {
   variant?: 'transparent' | 'solid';
 };
 
 export function GlobalHeader(props: GlobalHeaderProps) {
-  const { variant = 'solid' } = props;
-
   return (
-    <Box bg={variant === 'solid' ? 'gray.900' : 'transparent'} p="20px 0">
+    <div className="p-4">
       <Container maxW="container.lg">
-        <Flex justifyContent="space-between" alignItems="center">
-          <Box>
-            <Link
-              w="100%"
-              display="flex"
-              href={Links.home}
-              alignItems="center"
-              color="black"
-              fontWeight={600}
-              _hover={{ textDecoration: 'none' }}
-              fontSize="18px"
-            >
+        <div className="flex flex-row justify-between items-center">
+          <Link href={Links.home}>
+            <div className="flex flex-row">
               <Image
                 alt=""
                 h="30px"
@@ -215,13 +185,13 @@ export function GlobalHeader(props: GlobalHeaderProps) {
                 src="../assets/images/zk-block-logo.svg"
                 mr="10px"
               />
-              <Text as="span">zkblock</Text>
-            </Link>
-          </Box>
+              <span>zkblock</span>
+            </div>
+          </Link>
           <DesktopMenuLinks />
-          <MobileMenuLinks />
-        </Flex>
+          {/* <MobileMenuLinks /> */}
+        </div>
       </Container>
-    </Box>
+    </div>
   );
 }

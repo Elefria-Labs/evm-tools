@@ -15,7 +15,7 @@ const Main = (props: IMainProps) => {
       {props.meta}
       <div style={{ paddingLeft: '0px', paddingTop: '0px' }}>
         <PageWrapper>
-          <GlobalHeader variant={'transparent'} />
+          <GlobalHeader />
           <Box
             display="flex"
             flexDirection="column"
