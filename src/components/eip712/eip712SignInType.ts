@@ -6,7 +6,7 @@ export type Eip712MessageType = {
   nonce: number;
   data: string;
 };
-// export type Eip712MessageType2 = {
+
 //   message: string;
 //   tnc: string;
 //   nonce: number;

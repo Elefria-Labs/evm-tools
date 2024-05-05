@@ -185,48 +185,6 @@ export function getSpecific712Data<T, K>(
   };
 }
 
-// export const buildDelegationWithSigParams = (
-//   delegatee,
-//   nonce,
-//   deadline,
-//   value,
-// ) => {
-//   const chainId = SEPOLIA_CHAIN_ID;
-//   const token = GHO_DEBT_TOKEN_ADDR_SEPOLIA;
-//   const revision = '1';
-//   const tokenName = 'Aave Variable Debt Sepolia GHO';
-
-//   return {
-//     types: {
-//       EIP712Domain: [
-//         { name: 'name', type: 'string' },
-//         { name: 'version', type: 'string' },
-//         { name: 'chainId', type: 'uint256' },
-//         { name: 'verifyingContract', type: 'address' },
-//       ],
-//       DelegationWithSig: [
-//         { name: 'delegatee', type: 'address' },
-//         { name: 'value', type: 'uint256' },
-//         { name: 'nonce', type: 'uint256' },
-//         { name: 'deadline', type: 'uint256' },
-//       ],
-//     },
-//     primaryType: 'DelegationWithSig',
-//     domain: {
-//       name: tokenName,
-//       version: revision,
-//       chainId: chainId,
-//       verifyingContract: token,
-//     },
-//     message: {
-//       delegatee,
-//       value,
-//       nonce,
-//       deadline,
-//     },
-//   };
-// };
-
 export const eip712MetaTxMessage: Eip712MessageType = {
   from: '0xEC8bfA4a9F650a4439cce1Bdc23EAc0AD95E7a0D',
   to: '0xEC8bfA4a9F650a4439cce1Bdc23EAc0AD95E7a0D',

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
-
 import { ethers } from 'ethers';
 import { splitSignature, verifyTypedData } from 'ethers/lib/utils';
 import JSONInput from 'react-json-editor-ajrm';
