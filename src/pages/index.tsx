@@ -1,42 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Container,
-  Divider,
-  Flex,
-  Heading,
-  Icon,
-  Text,
-} from '@chakra-ui/react';
+import React from 'react';
+import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
 import Link from 'next/link';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { ToolCard } from '@components/tool-card';
-import { allTools } from '../data/tools';
-import { ToolsType } from '@types';
-import { GithubIcon } from '@components/icon/github';
-import { Links, repoLink } from '@config/constants';
+import { Links } from '@config/constants';
 import { playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
 
 const Index = () => {
-  const [selectedTools] = useState<string[]>(['snarks', 'circom']);
-  const [matchingTools, setMatchingTools] = useState<ToolsType[] | undefined>();
-  useEffect(() => {
-    setMatchingTools(
-      allTools.filter((tool: ToolsType) => {
-        const tags = tool?.tags?.split(',');
-        return selectedTools.some(
-          (toolTag) => tags?.includes(toolTag) || toolTag.includes(tool.name),
-        );
-      }),
-    );
-    if (selectedTools.includes('all')) {
-      setMatchingTools(allTools);
-    }
-  }, [selectedTools]);
-
   return (
     <Main
       meta={
@@ -93,51 +65,6 @@ const Index = () => {
                   .map((tool) => (
                     <HomeCard {...tool} key={tool.title} />
                   ))}
-              </div>
-            </Box>
-            <Box py={['16px', '16px', '24px']}>
-              <Heading
-                color="black"
-                fontSize={['22px', '22px', '28px']}
-                mb={['8px', '8px', '15px']}
-              >
-                Zk Tools
-              </Heading>
-              <Flex
-                flexDirection="row"
-                alignContent="center"
-                justifyContent="flex-end"
-              >
-                <Link aria-label="Go to Zk Tools" href={Links.zkTools} passHref>
-                  View All
-                </Link>
-              </Flex>
-              <Flex flexDirection="row" alignContent="center">
-                <Link
-                  aria-label="Go to GitHub page"
-                  href={repoLink}
-                  passHref
-                  legacyBehavior
-                >
-                  <a target="_blank" rel="noopener noreferrer">
-                    <Icon
-                      as={GithubIcon}
-                      display="block"
-                      transition="color 0.2s"
-                      cursor="pointer"
-                      color="black"
-                      w="10"
-                      h="10"
-                      _hover={{ color: 'gray.600' }}
-                    />
-                  </a>
-                </Link>
-              </Flex>
-              <Divider my="16px" />
-              <div className="mb-8 grid grid-cols-3 gap-4">
-                {matchingTools?.slice(4).map((tools: ToolsType) => (
-                  <ToolCard {...tools} key={tools.name} />
-                ))}
               </div>
             </Box>
           </Box>

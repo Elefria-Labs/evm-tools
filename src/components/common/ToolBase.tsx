@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Heading } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 
 type ToolBaseProps = {
   title: string;
@@ -9,28 +9,7 @@ type ToolBaseProps = {
 export default function ToolBase(props: ToolBaseProps) {
   return (
     <Container maxW={'container.lg'} position="relative">
-      <Heading
-        as="h1"
-        color="black"
-        fontSize={['35px', '35px', '40px']}
-        fontWeight={700}
-        mb="20px"
-        mt="20px"
-      >
-        {props.title}
-      </Heading>
-      {/* <Flex justifyContent="end">
-          {!account ? (
-            <Button variant="solid" size="md" onClick={connectWallet}>
-              Connect Wallet
-            </Button>
-          ) : (
-            <Button variant="solid" size="md" onClick={disconnect}>
-              Disconnect {truncateAddress(account)}
-            </Button>
-          )}
-        </Flex> */}
-      {/* <DeterministicAddress provider={provider} address={account} /> */}
+      <h1 className="mt-4 mb-4 font-bold text-lg">{props.title}</h1>
       {props.toolComponent}
     </Container>
   );
