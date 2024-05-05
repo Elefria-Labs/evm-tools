@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 
 import {
   Box,
-  Button,
   Container,
   Divider,
   Flex,
   Heading,
   Icon,
   SimpleGrid,
-  Text,
   useToast,
 } from '@chakra-ui/react';
 
@@ -24,6 +22,13 @@ import { ZkNetworkCard } from '@components/zk-network-card';
 import { useWalletConnect } from '@hooks/useWalletConnect';
 import { toHex, truncateAddress } from '@utils/wallet';
 import { toastOptions } from '@components/common/toast';
+import {
+  CardTitle,
+  CardContent,
+  Card,
+  CardHeader,
+} from '@shadcn-components/ui/card';
+import { Button } from '@shadcn-components/ui/button';
 
 const ZkNetwork = () => {
   const [zkNetworks] = useState<Record<string, any>>(networkConfig);
@@ -91,23 +96,22 @@ const ZkNetwork = () => {
                     </a>
                   </Link>
                   {account && (
-                    <Box
-                      backgroundColor={'gray.200'}
-                      borderRadius="10px"
-                      p="16px"
-                    >
-                      {chainId && (
-                        <Text fontSize="md">{`Network: ${
-                          networkConfig[toHex(chainId)]?.chainName
-                        }`}</Text>
-                      )}
-                      <Text fontSize="md">{`Account: ${truncateAddress(
-                        account,
-                      )}`}</Text>
-                      <Text fontSize="md">{`Network ID: ${
-                        chainId ?? 'No Network'
-                      }`}</Text>
-                    </Box>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Current Network</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        {chainId && (
+                          <p>
+                            {`Network: ${
+                              networkConfig[toHex(chainId)]?.chainName
+                            }`}
+                          </p>
+                        )}
+                        <p>{`Account: ${truncateAddress(account)}`}</p>
+                        <p>{`Chain Id: ${chainId ?? 'No Network'}`}</p>
+                      </CardContent>
+                    </Card>
                   )}
                   <Box ml="8px">
                     <Box
@@ -118,21 +122,11 @@ const ZkNetwork = () => {
                     >
                       <Box>
                         {!account ? (
-                          <Button
-                            variant="solid"
-                            size="md"
-                            onClick={connectWallet}
-                          >
+                          <Button onClick={connectWallet}>
                             Connect Wallet {account}
                           </Button>
                         ) : (
-                          <Button
-                            variant="solid"
-                            size="md"
-                            onClick={disconnect}
-                          >
-                            Disconnect
-                          </Button>
+                          <Button onClick={disconnect}>Disconnect</Button>
                         )}
                       </Box>
                     </Box>

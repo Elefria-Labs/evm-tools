@@ -1,5 +1,11 @@
-import { Button, Card, CardFooter, CardHeader } from '@chakra-ui/react';
-import { CardTitle, CardContent } from '@shadcn-components/ui/card';
+import {
+  CardTitle,
+  CardContent,
+  Card,
+  CardFooter,
+  CardHeader,
+} from '@shadcn-components/ui/card';
+import { Button } from '@shadcn-components/ui/button';
 import { BlockchainNetwork } from '@types';
 import { CardStackPlusIcon } from '@radix-ui/react-icons';
 
