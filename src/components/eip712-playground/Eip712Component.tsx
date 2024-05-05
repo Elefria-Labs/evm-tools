@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  List,
-  ListIcon,
-  ListItem,
-  Flex,
-  Input,
-  Textarea,
-  useToast,
-  Select,
-  Text,
-} from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 
 import { ethers } from 'ethers';
 import { splitSignature, verifyTypedData } from 'ethers/lib/utils';
-import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
 import JSONInput from 'react-json-editor-ajrm';
 import { SignatureLike } from '@ethersproject/bytes';
 import {
   GenericData712Type,
   getEip721DataByTemplate,
 } from '@components/eip712/eip712type';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@shadcn-components/ui/select';
+import { Textarea } from '@shadcn-components/ui/textarea';
+import { Button } from '@shadcn-components/ui/button';
+import { Input } from '@shadcn-components/ui/input';
+import { Label } from '@shadcn-components/ui/label';
 const locale = require('react-json-editor-ajrm/locale/en');
 
 type Eip712PlaygroundType = {
@@ -65,21 +63,31 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
       return;
     }
     setLoading(true);
-    const signer = await provider.getSigner();
+    const signer = provider.getSigner();
     const types = {
       [data7122.primaryType]: data7122.types[data7122.primaryType],
     } as Record<string, []>;
-    const flatSig = await signer._signTypedData(
-      data7122.domain,
-      types,
-      data7122.message,
-    );
-    setSig(flatSig);
-    const sig = splitSignature(flatSig);
-    setRsvSig(sig);
-    setVerifySigInput(flatSig);
-    setSignTypedData(flatSig);
-    setLoading(false);
+    try {
+      const flatSig = await signer._signTypedData(
+        data7122.domain,
+        types,
+        data7122.message,
+      );
+      setSig(flatSig);
+      const sig = splitSignature(flatSig);
+      setRsvSig(sig);
+      setVerifySigInput(flatSig);
+      setSignTypedData(flatSig);
+      setLoading(false);
+    } catch (e) {
+      toast({
+        title: 'Provided chainId must match the active chainId in wallet',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
   };
 
   const verify = async () => {
@@ -100,29 +108,30 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
     setLoading(false);
   };
   return (
-    <Box
-      mt={4}
-      justifyContent="center"
-      alignItems="center"
-      borderRadius="10px 10px 0 0"
-    >
-      <Text>{loading}</Text>
-
-      <Flex justifyContent={'space-between'}>
-        <Flex flexDirection="column">
-          <Text mb="8px">{'eth_signTypedData_v4'}</Text>
-          <Select
-            placeholder="Select Template"
-            onChange={(event) => {
-              setEip712Template(event.target.value);
-            }}
-            mb={4}
-          >
-            <option value="meta-tx">Meta Transaction</option>
-            <option value="aave-delegate-credit">
-              Aave Credit Delegation (Sepolia)
-            </option>
-          </Select>
+    <div className="mt-4">
+      <h4>{loading}</h4>
+      <div className="flex flex-row content-between">
+        <div className="flex flex-col">
+          <div className="flex flex-row items-center">
+            <Label className="my-0">{'eth_signTypedData_v4'}</Label>
+            <div className="my-4 ml-4">
+              <Select
+                onValueChange={(value) => {
+                  setEip712Template(value);
+                }}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select Template" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="meta-tx">Meta Transaction</SelectItem>
+                  <SelectItem value="aave-delegate-credit">
+                    Aave Credit Delegation (Sepolia)
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
           <JSONInput
             id="data7122"
             placeholder={data7122}
@@ -136,60 +145,62 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
             }}
           />
 
-          <Button variant="solid" size="md" mt="16px" onClick={signUsingEthers}>
-            Sign
-          </Button>
-        </Flex>
-        <Box ml="8px">
+          <Button onClick={signUsingEthers}>Sign</Button>
+        </div>
+        <div className="ml-4 flex flex-col">
           {sig && (
-            <List spacing={3}>
-              <ListItem key={'sig'}>
-                <ListIcon as={LockIcon} color="green.500" />
-                Signature:
-                <Textarea width="480px" contentEditable={false} value={sig} />
-              </ListItem>
-              <ListItem key={'split-sig'}>
-                <ListIcon as={LockIcon} color="green.400" />
-                Split Signature:
+            <div className="mt-6">
+              <div>
+                <Label>Signature:</Label>
                 <Textarea
-                  width="480px"
+                  className="w-96"
+                  // width="480px"
+                  contentEditable={false}
+                  value={sig}
+                />
+              </div>
+              <div>
+                <Label>Split Signature:</Label>
+                <Textarea
+                  // width="480px"
+                  className="w-96"
                   value={JSON.stringify(rsvSig)}
                   contentEditable={false}
                 />
-              </ListItem>
-              <ListItem key={'verify'}>
+              </div>
+              <div>
                 <Input
                   placeholder="signature..."
+                  className="w-96"
                   value={sig}
-                  color="black"
-                  borderColor="black"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setVerifySigInput(event.target.value);
                   }}
                 />
-                <Button variant="solid" size="md" ml="16px" onClick={verify}>
-                  Verify
-                </Button>
-              </ListItem>
-              <ListItem key={'signingAddress'}>
-                <ListIcon as={CheckCircleIcon} color="green.500" />
-                Signing Address: <strong>{recoveredAddr}</strong>
-              </ListItem>
+                <Button onClick={verify}>Verify</Button>
+              </div>
+              <div>
+                <Label>
+                  Signing Address: <strong>{address?.toLowerCase()}</strong>
+                </Label>
+              </div>
               {!!recoveredAddr && (
-                <ListItem key={'recoveredAddress'}>
-                  {recoveredAddr?.toLowerCase() == address?.toLowerCase() ? (
-                    <ListIcon as={CheckCircleIcon} color="green.500" />
+                <div>
+                  {/* {recoveredAddr?.toLowerCase() == address?.toLowerCase() ? (
+                    <CheckCircleIcon color="green.500" />
                   ) : (
-                    <ListIcon as={CloseIcon} color="red.500" />
-                  )}
-                  Recovered Address:
-                  <strong>{recoveredAddr?.toLowerCase()}</strong>
-                </ListItem>
+                    <CloseIcon color="red.500" />
+                  )} */}
+                  <Label>
+                    Recovered Address:
+                    <strong>{recoveredAddr?.toLowerCase()}</strong>
+                  </Label>
+                </div>
               )}
-            </List>
+            </div>
           )}
-        </Box>
-      </Flex>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
