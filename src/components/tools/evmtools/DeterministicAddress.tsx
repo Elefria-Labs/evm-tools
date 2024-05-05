@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
-import {
-  Heading,
-  Text,
-  VStack,
-  Button,
-  Input,
-  useToast,
-  Textarea,
-  Checkbox,
-} from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
+import { Input } from '@shadcn-components/ui/input';
+import { Button } from '@shadcn-components/ui/button';
+import { Textarea } from '@shadcn-components/ui/textarea';
+import { Checkbox } from '@shadcn-components/ui/checkbox';
+import { Label } from '@shadcn-components/ui/label';
 
 type DeterministicAddressPropsType = {
   provider?: ethers.providers.JsonRpcProvider;
@@ -78,10 +74,10 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   };
 
   return (
-    <VStack>
-      <Heading size="sm">
+    <div>
+      <h4 className="font-bold">
         Contract address when deployed from the below account
-      </Heading>
+      </h4>
       <Input
         type="text"
         placeholder="0xAccountAddress.."
@@ -96,6 +92,16 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
           onChange={handleNonceChange}
         />
       )}
+      <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+        <Checkbox
+          checked={useCreate2}
+          onCheckedChange={(e) => setUseCreate2(e.valueOf() as boolean)}
+        />
+
+        <div className="space-y-1 leading-none">
+          <Label>Determine address using create2 (salt)</Label>
+        </div>
+      </div>
       {useCreate2 && (
         <>
           <Input
@@ -112,13 +118,6 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
           />
         </>
       )}
-      <Checkbox
-        isChecked={useCreate2}
-        onChange={(e) => setUseCreate2(e.target.checked)}
-        colorScheme="blue"
-      >
-        Determine address using create2 (salt)
-      </Checkbox>
 
       <Button
         onClick={
@@ -127,10 +126,10 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
       >
         Generate
       </Button>
-      {contractAddress && (
-        <Text as="b">Contract Address: {contractAddress}</Text>
-      )}
-    </VStack>
+      <div>
+        {contractAddress && <Label>Contract Address: {contractAddress}</Label>}
+      </div>
+    </div>
   );
 };
 
