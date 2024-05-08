@@ -22,7 +22,7 @@ export type HomeCardPropsType = {
 export function HomeCard(props: HomeCardPropsType) {
   return (
     <div className={props.glow ? 'box glowing' : ''}>
-      <Card className="h-[254px]">
+      <Card className="h-[254px] min-w-[325px]">
         <CardHeader>
           <CardTitle>{props.title}</CardTitle>
         </CardHeader>

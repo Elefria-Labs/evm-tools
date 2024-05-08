@@ -1,4 +1,4 @@
-import { Image, Icon } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
 import { Links, twitterLink } from '@config/constants';
 import { TwitterIcon } from './icon/twitter';
 import Link from 'next/link';
@@ -126,14 +126,14 @@ export function Footer() {
           <div className="mt-8 mb-8">
             <div className="flex flex-row items-center">
               <Link className="flex flex-row items-center" href={Links.home}>
-                <Image
+                {/* <Image
                   alt=""
                   h="25px"
                   w="25px"
                   src="../assets/images/zk-block-logo.svg"
                   mr="6px"
-                />
-                zkblock.app
+                /> */}
+                evmtools
               </Link>
               <span className="mx-2">by</span>
               <Link
@@ -156,14 +156,12 @@ export function Footer() {
                 />
               </Link>
             </div>
-
             <p className="my-4">
               Tools for zero knowledge proofs, smart contracts, ethereum (& L2),
               web3 apps and cryptography.
             </p>
-
             <p>
-              <span className="mr-4 mb-4">&copy; zkblock.app</span>
+              <span className="mr-4 mb-4">&copy; evmtools.xyz</span>
             </p>
           </div>
         </div>

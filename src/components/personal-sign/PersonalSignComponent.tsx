@@ -69,12 +69,12 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
   return (
     <div className="mt-4">
       <h4>{loading}</h4>
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-col w-2/5">
+      <div className="flex flex-col sm:flex-row sm:justify-between md:flex-row md:justify-between">
+        <div className="flex flex-col w-2/5 min-w-[240px]">
           <Label>Signing Message:</Label>
           <Textarea
             placeholder="message to sign..."
-            className="h-96"
+            className="h-96 min-w-[240px]"
             onChange={(event) => {
               if (event.target.value == null) {
                 return;
@@ -85,7 +85,7 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
           <Button onClick={signPersonalMessageUsingEthers}>Sign</Button>
         </div>
         {signMessageData && (
-          <div className="flex flex-col w-3/5 ml-4">
+          <div className="flex flex-col  min-w-[240px] w-3/5 ml-4 mt-8 sm:mt-0">
             <div>
               <Label>
                 <LockIcon color="green.500" /> Signature:
@@ -101,11 +101,10 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
                 contentEditable={false}
               />
             </div>
-            <div key={'verify'}>
+            <div>
               <Label>Verify Signature:</Label>
               <Input
                 placeholder="signature..."
-                width={'340px'}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   setVerifySigInput(event.target.value);
                 }}
@@ -113,10 +112,11 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
               <Button onClick={verify}>Verify</Button>
             </div>
             <div>
-              <Label>
+              <Label className="word-wrap">
                 <CheckCircleIcon color="green.500" /> Signing Address:{' '}
                 <strong>{account.address}</strong>
               </Label>
+              {/* <Input value={account.address} disabled /> */}
             </div>
             {!!recoveredAddr && (
               <div>

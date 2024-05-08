@@ -1,5 +1,5 @@
-import { Image } from '@chakra-ui/react';
-
+import { CloseButton, Image } from '@chakra-ui/react';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
   MenubarContent,
@@ -9,6 +9,7 @@ import {
 } from '@shadcn-components/ui/menubar';
 import { Links } from '@config/constants';
 import Link from 'next/link';
+import { useState } from 'react';
 
 type MenuLinkProps = {
   text: string;
@@ -103,71 +104,53 @@ function DesktopMenuLinks() {
   );
 }
 
-// function MobileMenuLinks() {
-//   const [isOpen, setIsOpen] = useState(false);
+function MobileMenuLinks() {
+  const [isOpen, setIsOpen] = useState(false);
 
-//   return (
-//     <>
-//       <IconButton
-//         rounded="5px"
-//         padding={0}
-//         aria-label={'Menu'}
-//         display={['block', 'none', 'none']}
-//         icon={<HamburgerMenuIcon color="black" />}
-//         color="black"
-//         cursor="pointer"
-//         h="auto"
-//         bg="transparent"
-//         _hover={{ bg: 'transparent' }}
-//         _active={{ bg: 'transparent' }}
-//         _focus={{ bg: 'transparent' }}
-//         onClick={() => setIsOpen(true)}
-//       />
+  return (
+    <>
+      <HamburgerMenuIcon color="red" onClick={() => setIsOpen(true)} />
 
-//       {isOpen && (
-//         <Stack
-//           color="gray.100"
-//           fontSize={['22px', '22px', '22px', '32px']}
-//           alignItems="center"
-//           justifyContent="center"
-//           pos="fixed"
-//           left={0}
-//           right={0}
-//           bottom={0}
-//           top={0}
-//           bg="gray.900"
-//           spacing="12px"
-//           zIndex={999}
-//         >
-//           <Link href={Links.home}>Home</Link>
-//           <Link href={Links.zkTools}>Zk Tools</Link>
-//           <Link href={Links.boilerplate}>Boilerplate</Link>
-//           <Link href={Links.blog} target="_blank">
-//             Learn
-//           </Link>
-//           <Link href={Links.zkChains}>Zk Chains</Link>
-//           <Link href={Links.subscribe}>Subscribe</Link>
-//           <Link href={Links.about}>About</Link>
-//           <Link href={Links.contribute}>Contribute</Link>
-//           <CloseButton
-//             onClick={() => setIsOpen(false)}
-//             pos="fixed"
-//             top="40px"
-//             right="15px"
-//             size="lg"
-//           />
-//         </Stack>
-//       )}
-//     </>
-//   );
-// }
+      {isOpen && (
+        <div
+          className="flex flex-col content-center justify-center left-0 right-0 bottom-0 top-0 z-999"
+          // left={0}
+          // right={0}
+          // bottom={0}
+          // top={0}
+
+          // spacing="12px"
+          // zIndex={999}
+        >
+          <Link href={Links.home}>Home</Link>
+          <Link href={Links.zkTools}>Zk Tools</Link>
+          <Link href={Links.boilerplate}>Boilerplate</Link>
+          <Link href={Links.blog} target="_blank">
+            Learn
+          </Link>
+          <Link href={Links.zkChains}>Zk Chains</Link>
+          <Link href={Links.subscribe}>Subscribe</Link>
+          <Link href={Links.about}>About</Link>
+          <Link href={Links.contribute}>Contribute</Link>
+          <CloseButton
+            onClick={() => setIsOpen(false)}
+            pos="fixed"
+            top="40px"
+            right="15px"
+            size="lg"
+          />
+        </div>
+      )}
+    </>
+  );
+}
 
 export function GlobalHeader() {
   return (
     <div className="p-4 flex flex-row justify-center">
-      <div className="flex flex-row justify-between items-center w-[1024px]">
+      <div className="flex flex-row justify-between items-center w-full md:w-[1024px] lg:w-[1024px]">
         <Link href={Links.home}>
-          <div className="flex flex-row">
+          <div className="flex flex-row" style={{ border: '1px solid red' }}>
             <Image
               alt=""
               h="30px"
@@ -175,11 +158,15 @@ export function GlobalHeader() {
               src="../assets/images/zk-block-logo.svg"
               mr="10px"
             />
-            <span>zkblock</span>
+            <span>evmtools</span>
           </div>
         </Link>
-        <DesktopMenuLinks />
-        {/* <MobileMenuLinks /> */}
+        <div className="invisible sm:visible md:visible lg:visible">
+          <DesktopMenuLinks />
+        </div>
+      </div>
+      <div className="sm:invisible md:invisible lg:invisible">
+        <MobileMenuLinks />
       </div>
     </div>
   );

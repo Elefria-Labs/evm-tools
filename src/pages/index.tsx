@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Flex } from '@chakra-ui/react';
+import { Divider } from '@chakra-ui/react';
 
 import Link from 'next/link';
 import { Meta } from '@layout/Meta';
@@ -26,12 +26,7 @@ const Index = () => {
               <p>
                 List of tools to help you develop on ethereum and evm chains.
               </p>
-
-              <Flex
-                flexDirection="row"
-                alignContent="center"
-                justifyContent="flex-end"
-              >
+              <div className="flex flex-row content-center justify-end">
                 <Link
                   aria-label="Go to Playgrounds"
                   href={Links.devTools}
@@ -39,9 +34,9 @@ const Index = () => {
                 >
                   View All
                 </Link>
-              </Flex>
+              </div>
               <Divider my="16px" />
-              <div className="mb-8 grid grid-cols-3 gap-4">
+              <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
                 {playgroundToolsList
                   .filter((tool) => tool.isBeta && !tool.onChain)
                   .map((tool) => (

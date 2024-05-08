@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Flex, Heading } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { PersonalSignComponent } from '@components/personal-sign/PersonalSignComponent';
@@ -15,22 +14,13 @@ export default function Erc191() {
         />
       }
     >
-      <Container maxW={'container.lg'}>
-        <Heading
-          as="h1"
-          color="black"
-          fontSize={['35px', '35px', '40px']}
-          fontWeight={700}
-          mb="20px"
-          mt="20px"
-        >
-          ERC-191 Signature
-        </Heading>
-        <Flex justifyContent="end">
+      <div className="max-w-[640px] lg:max-w-[1024px]">
+        <h1 className="font-bold my-8">ERC-191 Signature</h1>
+        <div className="flex flex-row justify-end">
           <ConnectButton />
-        </Flex>
+        </div>
         <PersonalSignComponent />
-      </Container>
+      </div>
     </Main>
   );
 }
