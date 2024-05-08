@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import { Divider, Flex } from '@chakra-ui/react';
 
 import Link from 'next/link';
 import { Meta } from '@layout/Meta';
@@ -18,27 +18,15 @@ const Index = () => {
         />
       }
     >
-      <Container maxW="container.lg">
-        <Box display="flex" flexDirection="column" justifyItems="space-between">
-          <Box>
-            <Box py={['16px', '16px', '24px']}>
-              <Heading
-                color="black"
-                fontSize={['22px', '22px', '28px']}
-                mb={['8px', '8px', '15px']}
-              >
-                Dev Tools
-              </Heading>
-              <h1 className="text-slate-50 underline" id="app">
-                Hello world!
-              </h1>
-              <Text fontSize={['14px', '14px', '16px']} mb="10px" color="black">
-                <Text fontWeight={500} as="span" color="gray">
-                  Dev Tools
-                </Text>{' '}
-                provides list of tools to help you develop on ethereum and evm
-                chains.
-              </Text>
+      <div>
+        <div className="flex flex-col justify-between">
+          <div>
+            <div className="py-8">
+              <h1 className="text-lg font-bold">EVM Tools</h1>
+              <p>
+                List of tools to help you develop on ethereum and evm chains.
+              </p>
+
               <Flex
                 flexDirection="row"
                 alignContent="center"
@@ -61,15 +49,15 @@ const Index = () => {
                   ))}
                 {playgroundToolsList
                   ?.filter((tool) => !tool.isBeta && !tool.onChain)
-                  .slice(5)
+                  .slice(2)
                   .map((tool) => (
                     <HomeCard {...tool} key={tool.title} />
                   ))}
               </div>
-            </Box>
-          </Box>
-        </Box>
-      </Container>
+            </div>
+          </div>
+        </div>
+      </div>
     </Main>
   );
 };

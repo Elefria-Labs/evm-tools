@@ -1,4 +1,4 @@
-import { Container, Image } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 
 import {
   Menubar,
@@ -31,29 +31,25 @@ const menuLinks = [
     link: Links.home,
   },
   {
-    title: 'EVM Tools',
-    link: Links.home,
+    title: 'Storage Reader',
+    link: Links.evmTools,
+    newTab: true,
   },
-  {
-    title: 'ZK Tools',
-    link: Links.zkTools,
-  },
+  // {
+  //   title: 'ZK Tools',
+  //   link: Links.zkTools,
+  // },
   {
     title: 'ZK Networks',
     link: Links.zkChains,
-  },
-  {
-    title: 'Contribute',
-    link: Links.contribute,
   },
   {
     title: 'Learn',
     link: Links.blog,
   },
   {
-    title: 'Storage Reader',
-    link: Links.evmTools,
-    newTab: true,
+    title: 'Contribute',
+    link: Links.contribute,
   },
   {
     title: 'Subscribe',
@@ -73,7 +69,6 @@ function DesktopMenuLinks() {
             </Link>
           </MenubarMenu>
         ))}
-
         <MenubarMenu>
           <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
           <MenubarContent>
@@ -167,31 +162,25 @@ function DesktopMenuLinks() {
 //   );
 // }
 
-type GlobalHeaderProps = {
-  variant?: 'transparent' | 'solid';
-};
-
-export function GlobalHeader(props: GlobalHeaderProps) {
+export function GlobalHeader() {
   return (
-    <div className="p-4">
-      <Container maxW="container.lg">
-        <div className="flex flex-row justify-between items-center">
-          <Link href={Links.home}>
-            <div className="flex flex-row">
-              <Image
-                alt=""
-                h="30px"
-                w="30px"
-                src="../assets/images/zk-block-logo.svg"
-                mr="10px"
-              />
-              <span>zkblock</span>
-            </div>
-          </Link>
-          <DesktopMenuLinks />
-          {/* <MobileMenuLinks /> */}
-        </div>
-      </Container>
+    <div className="p-4 flex flex-row justify-center">
+      <div className="flex flex-row justify-between items-center w-[1024px]">
+        <Link href={Links.home}>
+          <div className="flex flex-row">
+            <Image
+              alt=""
+              h="30px"
+              w="30px"
+              src="../assets/images/zk-block-logo.svg"
+              mr="10px"
+            />
+            <span>zkblock</span>
+          </div>
+        </Link>
+        <DesktopMenuLinks />
+        {/* <MobileMenuLinks /> */}
+      </div>
     </div>
   );
 }

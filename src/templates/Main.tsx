@@ -1,8 +1,7 @@
 import { GlobalHeader } from '@components/global-header';
 import { PageWrapper } from '@components/page-wrapper';
 import { ReactNode } from 'react';
-import { Box } from '@chakra-ui/react';
-import { Footer } from '@components/footer';
+import { Footer } from '@components/Footer';
 
 type IMainProps = {
   meta: ReactNode;
@@ -16,18 +15,10 @@ const Main = (props: IMainProps) => {
       <div style={{ paddingLeft: '0px', paddingTop: '0px' }}>
         <PageWrapper>
           <GlobalHeader />
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-            // TODO
-            minH="94vh"
-          >
-            <Box display="flex" flexDirection="column" flex="1">
-              {props.children}
-            </Box>
+          <div className="flex flex-col content-between items-center min-h-screen">
+            <div className="flex flex-col w-2/3">{props.children}</div>
             <Footer />
-          </Box>
+          </div>
         </PageWrapper>
       </div>
     </div>

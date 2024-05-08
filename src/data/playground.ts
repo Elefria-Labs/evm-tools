@@ -72,7 +72,6 @@ export const playgroundToolsList: Item[] = [
     link: Links.txDecoder,
     isBeta: false,
     isWalletRequired: false,
-    // component: TxDecoderComponent,
   },
   {
     title: 'Merkle Tree Generator',
@@ -81,7 +80,6 @@ export const playgroundToolsList: Item[] = [
     link: Links.merkleTreeGenerator,
     isBeta: false,
     isWalletRequired: false,
-    // component: MerkleTreeVerifier,
   },
   {
     title: 'Gas Convertor',
@@ -90,7 +88,6 @@ export const playgroundToolsList: Item[] = [
     link: Links.gasConverter,
     isBeta: false,
     isWalletRequired: false,
-    // component: GasConvertorComponent,
   },
   {
     title: 'Bytes & String Convertor',
@@ -98,7 +95,6 @@ export const playgroundToolsList: Item[] = [
     link: Links.byteconversion,
     isBeta: false,
     isWalletRequired: false,
-    // component: StringByteConversion,
   },
   {
     title: 'Burner Wallet',
@@ -106,7 +102,6 @@ export const playgroundToolsList: Item[] = [
     link: Links.burnerWallet,
     isBeta: false,
     isWalletRequired: false,
-    // component: BurnerWalletComponent,
   },
   {
     title: 'Deterministic Contracts',
@@ -122,7 +117,8 @@ export const playgroundToolsList: Item[] = [
   },
   {
     title: 'Cheatsheet',
-    description: 'Solidity helpers',
+    description:
+      'Solidity helpers such uint, int max values, zero address, etc. ',
     link: Links.cheatsheet,
     isBeta: false,
     isExternal: false,

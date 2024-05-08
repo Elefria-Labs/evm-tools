@@ -1,4 +1,4 @@
-import { Container, Image, Icon } from '@chakra-ui/react';
+import { Image, Icon } from '@chakra-ui/react';
 import { Links, twitterLink } from '@config/constants';
 import { TwitterIcon } from './icon/twitter';
 import Link from 'next/link';
@@ -119,55 +119,55 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <div className="pt-4">
-      <Container maxW="container.lg">
+    <div className="pt-4 w-2/3">
+      <div>
         {/* <NavigationLinks /> */}
-        <div className="flex flex-row w-full divide-x border-b-2"></div>
-        <div className="mt-8 mb-8 w-max-96">
-          <div className="flex flex-row items-center">
-            <Link className="flex flex-row items-center" href={Links.home}>
-              <Image
-                alt=""
-                h="25px"
-                w="25px"
-                src="../assets/images/zk-block-logo.svg"
-                mr="6px"
-              />
-              zkblock.app
-            </Link>
-            <span className="mx-2">by</span>
-            <Link
-              className="bg-black rounded-sm text-white px-2"
-              href="https://github.com/heypran/zk-block"
-              target="_blank"
-            >
-              @heypran
-            </Link>
+        <div className="flex flex-row w-full divide-x border-t-2">
+          <div className="mt-8 mb-8">
+            <div className="flex flex-row items-center">
+              <Link className="flex flex-row items-center" href={Links.home}>
+                <Image
+                  alt=""
+                  h="25px"
+                  w="25px"
+                  src="../assets/images/zk-block-logo.svg"
+                  mr="6px"
+                />
+                zkblock.app
+              </Link>
+              <span className="mx-2">by</span>
+              <Link
+                className="bg-black rounded-sm text-white px-2"
+                href="https://github.com/heypran/zk-block"
+                target="_blank"
+              >
+                @heypran
+              </Link>
+              <Link className="ml-4" href={twitterLink}>
+                <Icon
+                  as={TwitterIcon}
+                  display="block"
+                  transition="color 0.2s"
+                  cursor="pointer"
+                  color="black"
+                  w="6"
+                  h="6"
+                  _hover={{ color: 'gray.600' }}
+                />
+              </Link>
+            </div>
 
-            <Link className="ml-4" href={twitterLink}>
-              <Icon
-                as={TwitterIcon}
-                display="block"
-                transition="color 0.2s"
-                cursor="pointer"
-                color="black"
-                w="6"
-                h="6"
-                _hover={{ color: 'gray.600' }}
-              />
-            </Link>
+            <p className="my-4">
+              Tools for zero knowledge proofs, smart contracts, ethereum (& L2),
+              web3 apps and cryptography.
+            </p>
+
+            <p>
+              <span className="mr-4 mb-4">&copy; zkblock.app</span>
+            </p>
           </div>
-
-          <p className="my-4">
-            Tools for zero knowledge proofs, smart contracts, ethereum (& L2),
-            web3 apps and cryptography.
-          </p>
-
-          <p>
-            <span className="mr-4 mb-4">&copy; zkblock.app</span>
-          </p>
         </div>
-      </Container>
+      </div>
     </div>
   );
 }
