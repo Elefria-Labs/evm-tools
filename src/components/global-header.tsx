@@ -52,14 +52,14 @@ const menuLinks = [
     title: 'Contribute',
     link: Links.contribute,
   },
-  {
-    title: 'Subscribe',
-    link: Links.subscribe,
-  },
+  // {
+  //   title: 'Subscribe',
+  //   link: Links.subscribe,
+  // },
 ];
 function DesktopMenuLinks() {
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row items-center">
       <Menubar>
         {menuLinks.map((m, i) => (
           <MenubarMenu key={i}>
@@ -70,6 +70,7 @@ function DesktopMenuLinks() {
             </Link>
           </MenubarMenu>
         ))}
+
         <MenubarMenu>
           <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
           <MenubarContent>
@@ -99,7 +100,18 @@ function DesktopMenuLinks() {
             />
           </MenubarContent>
         </MenubarMenu>
+        {/* <MenubarMenu></MenubarMenu> */}
       </Menubar>
+      <Link className="ml-2" href={Links.subscribe} target={'_self'}>
+        <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            Subscribe
+          </span>
+        </button>
+        {/* <MenubarTrigger className="cursor-pointer">
+                {m.title}
+              </MenubarTrigger> */}
+      </Link>
     </div>
   );
 }
@@ -150,12 +162,12 @@ export function GlobalHeader() {
     <div className="p-4 flex flex-row justify-center">
       <div className="flex flex-row justify-between items-center w-full md:w-[1024px] lg:w-[1024px]">
         <Link href={Links.home}>
-          <div className="flex flex-row" style={{ border: '1px solid red' }}>
+          <div className="flex flex-row items-center">
             <Image
               alt=""
-              h="30px"
-              w="30px"
-              src="../assets/images/zk-block-logo.svg"
+              h="60px"
+              w="60px"
+              src="../assets/images/evm-tools-logo-2.svg"
               mr="10px"
             />
             <span>evmtools</span>

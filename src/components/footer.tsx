@@ -1,4 +1,4 @@
-import { Icon } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import { Links, twitterLink } from '@config/constants';
 import { TwitterIcon } from './icon/twitter';
 import Link from 'next/link';
@@ -126,13 +126,13 @@ export function Footer() {
           <div className="mt-8 mb-8">
             <div className="flex flex-row items-center">
               <Link className="flex flex-row items-center" href={Links.home}>
-                {/* <Image
+                <Image
                   alt=""
-                  h="25px"
-                  w="25px"
-                  src="../assets/images/zk-block-logo.svg"
+                  h="60px"
+                  w="60px"
+                  src="../assets/images/evm-tools-logo-2.svg"
                   mr="6px"
-                /> */}
+                />
                 evmtools
               </Link>
               <span className="mx-2">by</span>
@@ -144,16 +144,9 @@ export function Footer() {
                 @heypran
               </Link>
               <Link className="ml-4" href={twitterLink}>
-                <Icon
-                  as={TwitterIcon}
-                  display="block"
-                  transition="color 0.2s"
-                  cursor="pointer"
-                  color="black"
-                  w="6"
-                  h="6"
-                  _hover={{ color: 'gray.600' }}
-                />
+                <div className="w-[30px] h-[30px]">
+                  <TwitterIcon />
+                </div>
               </Link>
             </div>
             <p className="my-4">

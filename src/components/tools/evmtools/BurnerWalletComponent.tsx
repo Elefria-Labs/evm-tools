@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Progress } from '@chakra-ui/react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { Button } from '@shadcn-components/ui/button';
 import { Input } from '@shadcn-components/ui/input';
@@ -69,7 +68,14 @@ export default function BurnerWalletComponent() {
         </div>
 
         {useEntropy && (
-          <Progress hasStripe value={entropyLoader} border={'4px'} />
+          <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+            <div
+              className=" mt-4 bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+              style={{ width: `${entropyLoader}%` }}
+            >
+              {`${entropyLoader}%`}
+            </div>
+          </div>
         )}
       </div>
       <div className="mt-4">
