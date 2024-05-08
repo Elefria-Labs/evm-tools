@@ -5,6 +5,7 @@ type ToolBaseProps = {
   isWalletRequired?: boolean;
   toolComponent: JSX.Element;
 };
+
 export default function ToolBase(props: ToolBaseProps) {
   return (
     <div className="max-w-1024">

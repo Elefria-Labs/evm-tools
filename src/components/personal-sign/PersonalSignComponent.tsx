@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { splitSignature, verifyMessage } from 'ethers/lib/utils';
 import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
@@ -19,7 +19,7 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
   // const { provider } = props;
   const account = useAccount();
   const { data: signMessageData, signMessage } = useSignMessage();
-  const toast = useToast();
+  const { toast } = useToast();
 
   const [verifySigInput, setVerifySigInput] = useState<
     SignatureLike | undefined

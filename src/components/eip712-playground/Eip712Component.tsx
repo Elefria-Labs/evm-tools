@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+
 import { ethers } from 'ethers';
 import { splitSignature, verifyTypedData } from 'ethers/lib/utils';
 import JSONInput from 'react-json-editor-ajrm';
@@ -19,6 +19,9 @@ import { Textarea } from '@shadcn-components/ui/textarea';
 import { Button } from '@shadcn-components/ui/button';
 import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
+import { useToast } from '@shadcn-components/ui/use-toast';
+import { toastOptions } from '@components/common/toast';
+
 const locale = require('react-json-editor-ajrm/locale/en');
 
 type Eip712PlaygroundType = {
@@ -28,7 +31,7 @@ type Eip712PlaygroundType = {
 
 export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
   const { provider, address } = props;
-  const toast = useToast();
+  const { toast } = useToast();
   // @ts-ignore
   const [signTypedData, setSignTypedData] = useState<string | undefined>();
   const [sig, setSig] = useState<string | undefined>();
@@ -53,11 +56,8 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
   const signUsingEthers = async () => {
     if (provider == null) {
       toast({
+        ...toastOptions,
         title: 'Please connect wallet.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
       return;
     }
@@ -80,11 +80,8 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
       setLoading(false);
     } catch (e) {
       toast({
+        ...toastOptions,
         title: 'Provided chainId must match the active chainId in wallet',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
     }
   };

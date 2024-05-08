@@ -9,6 +9,7 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet, polygon, optimism, arbitrum, base, zora } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from '@components/theme-provider';
+import { Toaster } from '@shadcn-components/ui/toaster';
 
 const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -45,6 +46,7 @@ const MyApp = (props: AppProps) => {
           <Component {...pageProps} />
         </RainbowKitProvider>
       </WagmiConfig>
+      <Toaster />
     </ThemeProvider>
   );
 };

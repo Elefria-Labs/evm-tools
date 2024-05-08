@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
@@ -8,7 +8,7 @@ import { Label } from '@shadcn-components/ui/label';
 function StringByteConversion() {
   const [stringInput, setStringInput] = useState('');
   const [bytesInput, setBytesInput] = useState('');
-  const toast = useToast();
+  const { toast } = useToast();
   const convertToBytes = (stringValue: string) => {
     try {
       const bytesValue = ethers.utils.formatBytes32String(stringValue);

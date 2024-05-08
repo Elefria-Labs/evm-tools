@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Spinner, Text } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 
 export default function GasPrice() {
@@ -24,11 +23,8 @@ export default function GasPrice() {
     getGasFee();
   }, []);
   return (
-    <Flex>
-      {/* <InfoIcon boxSize={2} /> */}
-      <Text size="md">
-        Gas: {gasFee ? `${gasFee} Gwei` : <Spinner size="xs" />}
-      </Text>
-    </Flex>
+    <div className="flex flex-row">
+      <p>Gas: {gasFee ? `${gasFee} Gwei` : 'Loading...'}</p>
+    </div>
   );
 }

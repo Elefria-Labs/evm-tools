@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
@@ -43,7 +43,7 @@ export default function EvmAddressChecksumComponent() {
   const [checksummedAddress, setChecksummedAddress] = useState<string>('');
   const [isChecksumAddress, setIsChecksumAddress] = useState<string>('');
 
-  const toast = useToast();
+  const { toast } = useToast();
 
   const handleToChecksumAddress = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -94,7 +94,7 @@ export default function EvmAddressChecksumComponent() {
       toast({
         ...toastOptions,
         title: 'Valid checksum address!',
-        status: 'success',
+        variant: 'default',
       });
     }
   };

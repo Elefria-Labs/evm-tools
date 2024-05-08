@@ -9,8 +9,8 @@ import {
   ListIcon,
   Tag,
   TagLeftIcon,
-  useToast,
 } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { CheckCircleIcon, CopyIcon } from '@chakra-ui/icons';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
@@ -18,7 +18,7 @@ import { toastOptions } from '@components/common/toast';
 import { repoLink, zkToosLink } from '@config/constants';
 
 export default function Contribute() {
-  const toast = useToast();
+  const { toast } = useToast();
   return (
     <Main
       meta={
@@ -98,7 +98,7 @@ export default function Contribute() {
                 toast({
                   ...toastOptions,
                   title: 'Copied!',
-                  status: 'success',
+                  variant: 'default',
                 });
               }}
             >

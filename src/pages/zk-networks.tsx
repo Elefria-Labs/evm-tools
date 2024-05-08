@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useToast } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { BlockchainNetwork } from '@types';
@@ -20,7 +20,7 @@ import ToolBase from '@components/common/ToolBase';
 
 const ZkNetwork = () => {
   const [zkNetworks] = useState<Record<string, any>>(networkConfig);
-  const toast = useToast();
+  const { toast } = useToast();
   const { switchNetwork, connectWallet, disconnect, account, chainId } =
     useWalletConnect();
 

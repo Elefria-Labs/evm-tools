@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useToast, Divider } from '@chakra-ui/react';
+import { Divider } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
 import { StandardMerkleTree } from '@openzeppelin/merkle-tree';
@@ -18,7 +19,7 @@ const MerkleTreeVerifier = () => {
   const [proofAddressInput, setProofAddressInput] = useState('');
   const [addressProof, setAddressProof] = useState('');
   const [, setAddressBelongs] = useState(false);
-  const toast = useToast();
+  const { toast } = useToast();
 
   const handleAddressesInputChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -102,7 +103,7 @@ const MerkleTreeVerifier = () => {
       toast({
         ...toastOptions,
         title: 'Address is present in the merkle tree.',
-        status: 'success',
+        variant: 'default',
       });
     }
   };
@@ -125,7 +126,7 @@ const MerkleTreeVerifier = () => {
       toast({
         ...toastOptions,
         title: 'Proof generated successfully!',
-        status: 'success',
+        variant: 'default',
       });
     } catch (e) {
       toast({

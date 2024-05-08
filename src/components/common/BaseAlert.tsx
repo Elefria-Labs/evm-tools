@@ -1,34 +1,35 @@
 import {
   Alert,
-  AlertIcon,
-  Box,
-  AlertTitle,
   AlertDescription,
-  CloseButton,
-  AlertStatus,
-} from '@chakra-ui/react';
+  AlertTitle,
+} from '@shadcn-components/ui/alert';
+import { ExclamationTriangleIcon, CheckboxIcon } from '@radix-ui/react-icons';
 
 type BaseAlertPropsType = {
   open: boolean;
   title: string;
   description?: string;
-  type: AlertStatus;
+  type?: 'destructive';
   onClose: (open: boolean) => void;
 };
-export default function BaseAlert(props: BaseAlertPropsType) {
-  return props.open ? (
-    <Alert status={props.type}>
-      <AlertIcon />
-      <Box>
-        <AlertTitle>{props.title}</AlertTitle>
-        <AlertDescription>{props.description}</AlertDescription>
-      </Box>
-      <CloseButton
+{
+  /* <CloseButton
         alignSelf="flex-end"
         onClick={() => {
           props.onClose(false);
         }}
-      />
+      /> */
+}
+export default function BaseAlert(props: BaseAlertPropsType) {
+  return props.open ? (
+    <Alert variant={props?.type}>
+      {props?.type ? (
+        <ExclamationTriangleIcon className="h-4 w-4" />
+      ) : (
+        <CheckboxIcon className="h-4 w-4" />
+      )}
+      <AlertTitle>{props.title}</AlertTitle>
+      <AlertDescription>{props.description}</AlertDescription>
     </Alert>
   ) : (
     <></>

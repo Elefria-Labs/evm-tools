@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
@@ -21,7 +21,7 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const [salt, setSalt] = useState('Salt');
   const [useCreate2, setUseCreate2] = useState(false);
   const [byteCode, setByteCode] = useState('');
-  const toast = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     setAccount(address);

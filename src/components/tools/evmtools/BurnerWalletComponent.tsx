@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Progress, useToast } from '@chakra-ui/react';
+import { Progress } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { Button } from '@shadcn-components/ui/button';
 import { Input } from '@shadcn-components/ui/input';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
@@ -13,7 +14,7 @@ export default function BurnerWalletComponent() {
   const [useEntropy, setUseEntropy] = useState(false);
   const [entropy, setEntropy] = useState('');
   const [entropyLoader, setEntropyLoader] = useState(0);
-  const toast = useToast();
+  const { toast } = useToast();
   const generateKeys = (entropy?: string) => {
     const wallet = ethers.Wallet.createRandom(entropy);
     setPrivateKey(wallet.privateKey);
@@ -26,10 +27,7 @@ export default function BurnerWalletComponent() {
       generateKeys(entropy);
       toast({
         title: 'New private key generated',
-        status: 'success',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
+        variant: 'default',
       });
       setUseEntropy(false);
       setEntropyLoader(0);

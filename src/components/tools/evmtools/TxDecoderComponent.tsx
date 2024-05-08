@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import JSONInput from 'react-json-editor-ajrm';
 import { Button } from '@shadcn-components/ui/button';
@@ -11,7 +11,7 @@ import * as locale from 'react-json-editor-ajrm/locale/en';
 export default function TxDecoderComponent() {
   const [rawTx, setRawTx] = useState<string>('');
   const [decodedTx, setDecodedTx] = useState<ethers.Transaction | undefined>();
-  const toast = useToast();
+  const { toast } = useToast();
 
   const handleDecodeTx = () => {
     try {
@@ -21,10 +21,6 @@ export default function TxDecoderComponent() {
       setDecodedTx(undefined);
       toast({
         title: 'Error decoding transaction data. Please check input.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
     }
   };
