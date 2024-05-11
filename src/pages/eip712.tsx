@@ -20,10 +20,10 @@ export default function Eip712() {
       <ToolBase
         title="EIP-712 Signature"
         toolComponent={
-          <>
+          <div className="max-w-[640px] lg:max-w-[1024px]">
             <WalletConnectBase />
             <Eip712PlaygroundComponent provider={provider} address={account} />
-          </>
+          </div>
         }
       />
     </Main>

@@ -5,8 +5,20 @@ import '../styles/global.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import '@firebase/firebase-config';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, base, zora } from 'wagmi/chains';
+import { configureChains, createConfig, sepolia, WagmiConfig } from 'wagmi';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+  zora,
+  baseSepolia,
+  bsc,
+  bscTestnet,
+  polygonMumbai,
+  polygonZkEvm,
+} from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@shadcn-components/ui/toaster';
@@ -14,7 +26,20 @@ import { Toaster } from '@shadcn-components/ui/toaster';
 const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
   const { chains, publicClient } = configureChains(
-    [mainnet, polygon, optimism, arbitrum, base, zora],
+    [
+      mainnet,
+      polygon,
+      optimism,
+      arbitrum,
+      base,
+      zora,
+      sepolia,
+      baseSepolia,
+      bsc,
+      bscTestnet,
+      polygonMumbai,
+      polygonZkEvm,
+    ],
     [
       publicProvider(),
       // alchemyProvider({ apiKey: process.env.ALCHEMY_ID! }),

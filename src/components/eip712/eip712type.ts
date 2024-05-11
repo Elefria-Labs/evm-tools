@@ -198,7 +198,7 @@ export function getEip712AaveCreditDelegation(): GenericData712Type<
   Record<string, string | number>,
   Record<string, string>
 > {
-  const chainId = '11155111'; // SEPOLIA_CHAIN_ID
+  const chainId = 11155111; // SEPOLIA_CHAIN_ID
   const token = '0x978A3dE9DB0150948568941FE380603051072222'; // GHO_DEBT_TOKEN_ADDR_SEPOLIA
   const revision = '1';
   const tokenName = 'Aave Variable Debt Sepolia GHO';

@@ -21,20 +21,26 @@ import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { toastOptions } from '@components/common/toast';
+import { useAccount, useSignTypedData } from 'wagmi';
+import {
+  CheckCircledIcon,
+  CrossCircledIcon,
+  LockClosedIcon,
+} from '@radix-ui/react-icons';
 
 const locale = require('react-json-editor-ajrm/locale/en');
 
-type Eip712PlaygroundType = {
-  provider?: ethers.providers.Web3Provider;
-  address?: string;
-};
+export function Eip712PlaygroundComponent() {
+  // const { provider, address } = props;
+  const account = useAccount();
 
-export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
-  const { provider, address } = props;
   const { toast } = useToast();
-  // @ts-ignore
-  const [signTypedData, setSignTypedData] = useState<string | undefined>();
-  const [sig, setSig] = useState<string | undefined>();
+  const {
+    data: eip712Signature,
+    signTypedData,
+    error: signTypedDataError,
+  } = useSignTypedData();
+
   const [eip721Template, setEip712Template] = useState<string>('');
   const [verifySigInput, setVerifySigInput] = useState<
     SignatureLike | undefined
@@ -54,7 +60,7 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
     setData7122(getEip721DataByTemplate(eip721Template));
   }, [eip721Template]);
   const signUsingEthers = async () => {
-    if (provider == null) {
+    if (!account.isConnected) {
       toast({
         ...toastOptions,
         title: 'Please connect wallet.',
@@ -62,21 +68,18 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
       return;
     }
     setLoading(true);
-    const signer = provider.getSigner();
+
     const types = {
       [data7122.primaryType]: data7122.types[data7122.primaryType],
     } as Record<string, []>;
     try {
-      const flatSig = await signer._signTypedData(
-        data7122.domain,
-        types,
-        data7122.message,
-      );
-      setSig(flatSig);
-      const sig = splitSignature(flatSig);
-      setRsvSig(sig);
-      setVerifySigInput(flatSig);
-      setSignTypedData(flatSig);
+      signTypedData({
+        domain: data7122.domain,
+        types: types as any, // TODO
+        primaryType: data7122.primaryType,
+        message: data7122.message,
+      });
+
       setLoading(false);
     } catch (e) {
       toast({
@@ -85,30 +88,55 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
       });
     }
   };
+  useEffect(() => {
+    if (signTypedDataError == null) {
+      return;
+    }
+
+    toast({
+      ...toastOptions,
+      title:
+        'Provided chainId must match the active chainId in wallet or invalid EIP-712 msg format',
+    });
+  }, [signTypedDataError, toast]);
+  useEffect(() => {
+    if (eip712Signature == null) {
+      return;
+    }
+    const sig = splitSignature(eip712Signature);
+    setRsvSig(sig);
+    setVerifySigInput(eip712Signature);
+  }, [eip712Signature]);
 
   const verify = async () => {
     if (verifySigInput == null) {
       return;
     }
+    setRecoveredAddr('');
     setLoading(true);
     const types = {
       [data7122.primaryType]: data7122.types[data7122.primaryType],
     } as Record<string, []>;
-    const recoveredAddress = verifyTypedData(
-      data7122.domain,
-      types,
-      data7122.message,
-      verifySigInput,
-    );
-    setRecoveredAddr(recoveredAddress);
+    try {
+      const recoveredAddress = verifyTypedData(
+        data7122.domain,
+        types,
+        data7122.message,
+        verifySigInput,
+      );
+      setRecoveredAddr(recoveredAddress);
+    } catch (e) {
+      toast({ ...toastOptions, title: 'Invalid signature!' });
+    }
+
     setLoading(false);
   };
   return (
-    <div className="mt-4">
+    <div className="mt-4" style={{ border: '1px solid red' }}>
       <h4>{loading}</h4>
-      <div className="flex flex-row content-between">
-        <div className="flex flex-col">
-          <div className="flex flex-row items-center">
+      <div className="flex flex-col sm:flex-row content-between">
+        <div className="flex flex-col w-2/5 min-w-[240px] sm:max-w-full ">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center">
             <Label className="my-0">{'eth_signTypedData_v4'}</Label>
             <div className="my-4 ml-4">
               <Select
@@ -131,6 +159,7 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
           <JSONInput
             id="data7122"
             placeholder={data7122}
+            width="300px"
             height="320px"
             locale={locale}
             onChange={(event: any) => {
@@ -143,52 +172,51 @@ export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
 
           <Button onClick={signUsingEthers}>Sign</Button>
         </div>
-        <div className="ml-4 flex flex-col">
-          {sig && (
+        <div className="ml-4 flex flex-col min-w-[240px] w-3/5 mt-8 sm:mt-0">
+          {eip712Signature && (
             <div className="mt-6">
               <div>
-                <Label>Signature:</Label>
-                <Textarea
-                  className="w-96"
-                  // width="480px"
-                  contentEditable={false}
-                  value={sig}
-                />
+                <Label>
+                  <LockClosedIcon /> Signature:
+                </Label>
+                <Textarea contentEditable={false} value={eip712Signature} />
               </div>
-              <div>
-                <Label>Split Signature:</Label>
+              <div className="mt-2">
+                <Label>
+                  <LockClosedIcon /> Split Signature:
+                </Label>
                 <Textarea
-                  // width="480px"
-                  className="w-96"
                   value={JSON.stringify(rsvSig)}
                   contentEditable={false}
                 />
               </div>
-              <div>
+              <div className="mt-2">
+                <Label>Verify Signature:</Label>
                 <Input
                   placeholder="signature..."
-                  className="w-96"
-                  value={sig}
+                  value={verifySigInput as string}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setVerifySigInput(event.target.value);
                   }}
                 />
-                <Button onClick={verify}>Verify</Button>
+                <Button onClick={verify}>Verify Signature</Button>
               </div>
-              <div>
+              <div className="mt-2">
                 <Label>
-                  Signing Address: <strong>{address?.toLowerCase()}</strong>
+                  Signing Address:&nbsp;
+                  <strong>{account?.address?.toLowerCase()}</strong>
                 </Label>
               </div>
               {!!recoveredAddr && (
                 <div>
-                  {/* {recoveredAddr?.toLowerCase() == address?.toLowerCase() ? (
-                    <CheckCircleIcon color="green.500" />
-                  ) : (
-                    <CloseIcon color="red.500" />
-                  )} */}
                   <Label>
-                    Recovered Address:
+                    {recoveredAddr?.toLowerCase() ==
+                    account?.address?.toLowerCase() ? (
+                      <CheckCircledIcon />
+                    ) : (
+                      <CrossCircledIcon />
+                    )}
+                    Recovered Address:&nbsp;
                     <strong>{recoveredAddr?.toLowerCase()}</strong>
                   </Label>
                 </div>
