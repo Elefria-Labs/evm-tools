@@ -1,13 +1,11 @@
 import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { useWalletConnect } from '@hooks/useWalletConnect';
 import { Eip712PlaygroundComponent } from '@components/eip712-playground/Eip712Component';
 import WalletConnectBase from '@components/common/WalletConnectBase';
 import ToolBase from '@components/common/ToolBase';
 
 export default function Eip712() {
-  const { connectWallet, disconnect, account, provider } = useWalletConnect();
   return (
     <Main
       meta={
@@ -22,7 +20,7 @@ export default function Eip712() {
         toolComponent={
           <div className="max-w-[640px] lg:max-w-[1024px]">
             <WalletConnectBase />
-            <Eip712PlaygroundComponent provider={provider} address={account} />
+            <Eip712PlaygroundComponent />
           </div>
         }
       />

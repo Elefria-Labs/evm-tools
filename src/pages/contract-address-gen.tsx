@@ -3,12 +3,10 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import DeterministicAddress from '@components/tools/evmtools/DeterministicAddress';
-import { useWalletConnect } from '@hooks/useWalletConnect';
 import ToolBase from '@components/common/ToolBase';
 import WalletConnectBase from '@components/common/WalletConnectBase';
 
 export default function ContractAddressGen() {
-  const { connectWallet, disconnect, account, provider } = useWalletConnect();
   return (
     <Main
       meta={
@@ -24,7 +22,7 @@ export default function ContractAddressGen() {
           <>
             <WalletConnectBase />
 
-            <DeterministicAddress provider={provider} address={account} />
+            <DeterministicAddress />
           </>
         }
       />

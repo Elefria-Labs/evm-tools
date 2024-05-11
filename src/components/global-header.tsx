@@ -9,7 +9,6 @@ import {
 } from '@shadcn-components/ui/menubar';
 import { Links, evmToolsXLink } from '@config/constants';
 import Link from 'next/link';
-import { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -127,7 +126,7 @@ function DesktopMenuLinks() {
 }
 
 function MobileMenuLinks() {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
