@@ -1,4 +1,4 @@
-import { CloseButton, Image } from '@chakra-ui/react';
+import { Button, Image } from '@chakra-ui/react';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
@@ -7,9 +7,19 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@shadcn-components/ui/menubar';
-import { Links } from '@config/constants';
+import { Links, evmToolsXLink } from '@config/constants';
 import Link from 'next/link';
 import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@shadcn-components/ui/dropdown-menu';
+import { ExternalLinkIcon, MinusIcon } from '@chakra-ui/icons';
+import { TwitterIcon } from './icon/twitter';
 
 type MenuLinkProps = {
   text: string;
@@ -121,9 +131,54 @@ function MobileMenuLinks() {
 
   return (
     <>
-      <HamburgerMenuIcon color="red" onClick={() => setIsOpen(true)} />
+      {/* <HamburgerMenuIcon color="red" onClick={() => setIsOpen(true)} /> */}
 
-      {isOpen && (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">
+            <HamburgerMenuIcon />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href={Links.home}>Home</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href={Links.zkTools}>Zk Tools</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href={Links.boilerplate}>Boilerplate</Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href={Links.contribute}>Contribute</Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
+          <a href="http://evmtools.xyz?ref=ext" target="_blank">
+            <DropdownMenuItem className="cursor-pointer">
+              EVM Storage Reader
+              <span className="ml-2">
+                <ExternalLinkIcon />
+              </span>
+            </DropdownMenuItem>
+          </a>
+          <DropdownMenuItem>
+            <MinusIcon className="h-4 w-4" />
+            <span className="sr-only"> Request Feature</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+          <a href={evmToolsXLink} target="_blank">
+            <DropdownMenuItem className="cursor-pointer">
+              <p className="mr-2">Follow</p>{' '}
+              <TwitterIcon className="ml-2 h-4 w-4" />
+            </DropdownMenuItem>
+          </a>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* {isOpen && (
         <div
           className="flex flex-col content-center justify-center left-0 right-0 bottom-0 top-0 z-999"
           // left={0}
@@ -142,7 +197,7 @@ function MobileMenuLinks() {
           </Link>
           <Link href={Links.zkChains}>Zk Chains</Link>
           <Link href={Links.subscribe}>Subscribe</Link>
-          <Link href={Links.about}>About</Link>
+          
           <Link href={Links.contribute}>Contribute</Link>
           <CloseButton
             onClick={() => setIsOpen(false)}
@@ -152,14 +207,14 @@ function MobileMenuLinks() {
             size="lg"
           />
         </div>
-      )}
+      )} */}
     </>
   );
 }
 
 export function GlobalHeader() {
   return (
-    <div className="p-4 flex flex-row justify-center">
+    <div className="min-w-[375px] p-4 flex flex-row justify-center">
       <div className="flex flex-row justify-between items-center w-full md:w-[1024px] lg:w-[1024px]">
         <Link href={Links.home}>
           <div className="flex flex-row items-center">

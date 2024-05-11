@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Container } from '@chakra-ui/react';
 import { Main } from '@templates/Main';
 import { Meta } from '@layout/Meta';
+import ToolBase from '@components/common/ToolBase';
 
 export const SIGNUP_FORM_ACTION = 'https://zkblock.substack.com/';
 export const SIGNUP_EMAIL_INPUT_NAME = 'email';
@@ -29,13 +29,18 @@ export default function Subscribe() {
         />
       }
     >
-      <Box mb="60px">
-        <Container maxW={'container.md'} position="relative">
-          <Box maxWidth="400px" mx="auto" my={['30px', '30px', '80px']}>
-            <FreeSignUp />
-          </Box>
-        </Container>
-      </Box>
+      <ToolBase
+        title="Subscribe"
+        toolComponent={
+          <div className="mb-[60px]">
+            <div className="max-w-[640px] lg:max-w-[1024px]">
+              <div className="max-w-[400px] mx-auto my-[30px] md:my-[80px]">
+                <FreeSignUp />
+              </div>
+            </div>
+          </div>
+        }
+      />
     </Main>
   );
 }

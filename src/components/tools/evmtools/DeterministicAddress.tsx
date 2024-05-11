@@ -7,15 +7,14 @@ import { Button } from '@shadcn-components/ui/button';
 import { Textarea } from '@shadcn-components/ui/textarea';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
 import { Label } from '@shadcn-components/ui/label';
+import { useAccount, usePublicClient } from 'wagmi';
 
-type DeterministicAddressPropsType = {
-  provider?: ethers.providers.JsonRpcProvider;
-  address?: string;
-};
-const DeterministicAddress = (props: DeterministicAddressPropsType) => {
-  const { provider, address } = props;
+const DeterministicAddress = () => {
+  // const { provider, address } = props;
 
-  const [account, setAccount] = useState(address);
+  const account = useAccount();
+  const publicClient = usePublicClient();
+  const [addressInput, setAddressInput] = useState<string | undefined>();
   const [nonce, setNonce] = useState<number | null>(1);
   const [contractAddress, setContractAddress] = useState('');
   const [salt, setSalt] = useState('Salt');
@@ -24,46 +23,66 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    setAccount(address);
-    const getNonce = async () => {
-      if (address && provider) {
-        const nonce = await provider.getTransactionCount(address);
-        setNonce(nonce == 0 ? 1 : nonce);
-      }
-    };
-    getNonce();
-  }, [address, provider]);
-
-  const generateContractAddress = async () => {
-    if (provider == null) {
-      toast({ ...toastOptions, title: 'Please connect wallet.' });
+    if (account?.address == null || (publicClient && addressInput)) {
       return;
     }
-    if (!account || !nonce) {
+    setAddressInput(account.address);
+  }, [account, publicClient, addressInput]);
+
+  useEffect(() => {
+    const getNonce = async () => {
+      if (addressInput == null || !ethers.utils.isAddress(addressInput)) {
+        return;
+      }
+
+      const nonce = await publicClient.getTransactionCount({
+        address: addressInput as `0x${string}`,
+      });
+
+      setNonce(nonce == 0 ? 1 : nonce);
+    };
+    getNonce();
+  }, [addressInput, publicClient]);
+
+  const isValidAddress = (address?: string) => {
+    if (address == null || !ethers.utils.isAddress(address)) {
+      return false;
+    }
+    return true;
+  };
+  const generateContractAddress = async () => {
+    if (!isValidAddress(addressInput)) {
+      toast({
+        ...toastOptions,
+        title: 'Please connect wallet or provide an address.',
+      });
+      return;
+    }
+    if (!addressInput || !nonce) {
       toast({ ...toastOptions, title: 'Please check input.' });
       return;
     }
     const contractAddress = ethers.utils.getContractAddress({
-      from: account,
+      from: addressInput,
       nonce: nonce,
     });
     setContractAddress(contractAddress);
   };
 
   const generateContractAddressWithSalt = async () => {
-    if (provider == null || account == null) {
+    if (publicClient == null || !isValidAddress(addressInput)) {
       toast({
         ...toastOptions,
-        title: 'Please connect wallet or provide an address',
+        title: 'Please connect wallet and provide a valid address!',
       });
       return;
     }
-    if (!account || !salt || !byteCode) {
+    if (!addressInput || !salt || !byteCode) {
       toast({ ...toastOptions, title: 'Please provide correct input!' });
       return;
     }
     const contractAddress = ethers.utils.getCreate2Address(
-      account,
+      addressInput,
       ethers.utils.keccak256(salt),
       byteCode,
     );
@@ -81,8 +100,8 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
       <Input
         type="text"
         placeholder="0xAccountAddress.."
-        value={account}
-        onChange={(e) => setAccount(e.target.value)}
+        value={addressInput}
+        onChange={(e) => setAddressInput(e.target.value)}
       />
       {!useCreate2 && (
         <Input

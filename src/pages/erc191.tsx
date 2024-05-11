@@ -2,7 +2,8 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { PersonalSignComponent } from '@components/personal-sign/PersonalSignComponent';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import ToolBase from '@components/common/ToolBase';
+import WalletConnectBase from '@components/common/WalletConnectBase';
 
 export default function Erc191() {
   return (
@@ -14,13 +15,15 @@ export default function Erc191() {
         />
       }
     >
-      <div className="max-w-[640px] lg:max-w-[1024px]">
-        <h1 className="font-bold my-8">ERC-191 Signature</h1>
-        <div className="flex flex-row justify-end">
-          <ConnectButton />
-        </div>
-        <PersonalSignComponent />
-      </div>
+      <ToolBase
+        title="ERC-191 Signature"
+        toolComponent={
+          <div className="max-w-[640px] lg:max-w-[1024px]">
+            <WalletConnectBase />
+            <PersonalSignComponent />
+          </div>
+        }
+      />
     </Main>
   );
 }
