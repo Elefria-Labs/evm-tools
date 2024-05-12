@@ -38,6 +38,7 @@
     "@types/react-json-editor-ajrm": "^2.5.3",
     "@uniswap/sdk-core": "^4.0.9",
     "@uniswap/v3-sdk": "^3.10.0",
+    "@walletconnect/types": "^2.13.0",
     "@walletconnect/utils": "^2.13.0",
     "@walletconnect/web3wallet": "^1.12.0",
     "@web3-react/core": "^6.1.9",
