@@ -72,7 +72,7 @@ export default function EvmAddressChecksumComponent() {
   };
 
   return (
-    <div className="flex flex-col" style={{ border: '1px solid red' }}>
+    <div className="flex flex-col">
       <div className="mb-8">
         <Label className="mb-4">toChecksumAddress</Label>
         <Input
