@@ -119,46 +119,85 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <div className="pt-4 w-2/3">
-      <div>
-        {/* <NavigationLinks /> */}
-        <div className="flex flex-row w-full divide-x border-t-2">
-          <div className="mt-8 mb-8">
-            <div className="flex flex-row items-center">
-              <Link className="flex flex-row items-center" href={Links.home}>
-                <Image
-                  alt=""
-                  h="60px"
-                  w="60px"
-                  src="../assets/images/evm-tools-logo-2.svg"
-                  mr="6px"
-                />
-                evmtools
-              </Link>
-              <span className="mx-2">by</span>
-              <Link
-                className="bg-black rounded-sm text-white px-2"
-                href="https://github.com/heypran/zk-block"
-                target="_blank"
-              >
-                @heypran
-              </Link>
+    <footer className="m-4">
+      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div className="sm:flex sm:items-center sm:justify-between">
+          <Link className="flex flex-row items-center" href={Links.home}>
+            <Image
+              alt=""
+              h="60px"
+              w="60px"
+              src="../assets/images/evm-tools-logo-2.svg"
+              mr="6px"
+            />
+            evmtools
+          </Link>
+
+          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+            <li>
               <Link className="ml-4" href={twitterLink}>
                 <div className="w-[30px] h-[30px]">
-                  <TwitterIcon />
+                  <p>
+                    Follow <TwitterIcon />
+                  </p>
                 </div>
               </Link>
-            </div>
-            <p className="my-4">
+            </li>
+          </ul>
+        </div>
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          <a href="https://dev.evmtools.xyz/" className="hover:underline">
+            evmtools.xyz
+            <p>
               Tools for zero knowledge proofs, smart contracts, ethereum (& L2),
               web3 apps and cryptography.
             </p>
-            <p>
-              <span className="mr-4 mb-4">&copy; evmtools.xyz</span>
-            </p>
-          </div>
-        </div>
+          </a>
+        </span>
       </div>
-    </div>
+    </footer>
+
+    // <div className="pt-4 w-2/3">
+    //   <div>
+    //     {/* <NavigationLinks /> */}
+    //     <div className="flex flex-row w-full divide-x border-t-2">
+    //       <div className="mt-8 mb-8">
+    //         <div className="flex flex-row items-center">
+    //           <Link className="flex flex-row items-center" href={Links.home}>
+    //             <Image
+    //               alt=""
+    //               h="60px"
+    //               w="60px"
+    //               src="../assets/images/evm-tools-logo-2.svg"
+    //               mr="6px"
+    //             />
+    //             evmtools
+    //           </Link>
+    //           <span className="mx-2">by</span>
+    //           <Link
+    //             className="bg-black rounded-sm text-white px-2"
+    //             href="https://github.com/heypran/zk-block"
+    //             target="_blank"
+    //           >
+    //             @heypran
+    //           </Link>
+    //           <Link className="ml-4" href={twitterLink}>
+    //             <div className="w-[30px] h-[30px]">
+    //               <TwitterIcon />
+    //             </div>
+    //           </Link>
+    //         </div>
+    //         <p className="my-4">
+    //           Tools for zero knowledge proofs, smart contracts, ethereum (& L2),
+    //           web3 apps and cryptography.
+    //         </p>
+    //         <p>
+    //           <span className="mr-4 mb-4">&copy; evmtools.xyz</span>
+    //         </p>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }

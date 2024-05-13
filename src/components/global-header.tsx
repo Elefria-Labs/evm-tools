@@ -36,15 +36,11 @@ function MenuLink(props: MenuLinkProps) {
   );
 }
 const menuLinks = [
-  {
-    title: 'Home',
-    link: Links.home,
-  },
-  {
-    title: 'Storage Reader',
-    link: Links.evmTools,
-    newTab: true,
-  },
+  // {
+  //   title: 'Home',
+  //   link: Links.home,
+  // },
+
   // {
   //   title: 'ZK Tools',
   //   link: Links.zkTools,
@@ -52,6 +48,11 @@ const menuLinks = [
   {
     title: 'ZK Networks',
     link: Links.zkChains,
+  },
+  {
+    title: 'Storage Reader',
+    link: Links.evmTools,
+    newTab: true,
   },
   {
     title: 'Learn',
@@ -66,20 +67,29 @@ const menuLinks = [
   //   link: Links.subscribe,
   // },
 ];
+// TODO
+function DesktopMenuLink(props: {
+  link: { title: string; link: string; newTab?: boolean };
+}) {
+  const { link } = props;
+  return (
+    <MenubarMenu>
+      <Link href={link.link} target={link?.newTab ? '_blank' : '_self'}>
+        <MenubarTrigger className="cursor-pointer">{link.title}</MenubarTrigger>
+      </Link>
+    </MenubarMenu>
+  );
+}
 function DesktopMenuLinks() {
   return (
     <div className="flex flex-row items-center">
       <Menubar>
-        {menuLinks.map((m, i) => (
-          <MenubarMenu key={i}>
-            <Link href={m.link} target={m?.newTab ? '_blank' : '_self'}>
-              <MenubarTrigger className="cursor-pointer">
-                {m.title}
-              </MenubarTrigger>
-            </Link>
-          </MenubarMenu>
-        ))}
-
+        <DesktopMenuLink
+          link={{
+            title: 'Home',
+            link: Links.home,
+          }}
+        />
         <MenubarMenu>
           <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
           <MenubarContent>
@@ -109,6 +119,10 @@ function DesktopMenuLinks() {
             />
           </MenubarContent>
         </MenubarMenu>
+        {menuLinks.map((m, i) => (
+          <DesktopMenuLink key={i} link={m} />
+        ))}
+
         {/* <MenubarMenu></MenubarMenu> */}
       </Menubar>
       <Link className="ml-2" href={Links.subscribe} target={'_self'}>
@@ -176,47 +190,16 @@ function MobileMenuLinks() {
           </a>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* {isOpen && (
-        <div
-          className="flex flex-col content-center justify-center left-0 right-0 bottom-0 top-0 z-999"
-          // left={0}
-          // right={0}
-          // bottom={0}
-          // top={0}
-
-          // spacing="12px"
-          // zIndex={999}
-        >
-          <Link href={Links.home}>Home</Link>
-          <Link href={Links.zkTools}>Zk Tools</Link>
-          <Link href={Links.boilerplate}>Boilerplate</Link>
-          <Link href={Links.blog} target="_blank">
-            Learn
-          </Link>
-          <Link href={Links.zkChains}>Zk Chains</Link>
-          <Link href={Links.subscribe}>Subscribe</Link>
-          
-          <Link href={Links.contribute}>Contribute</Link>
-          <CloseButton
-            onClick={() => setIsOpen(false)}
-            pos="fixed"
-            top="40px"
-            right="15px"
-            size="lg"
-          />
-        </div>
-      )} */}
     </>
   );
 }
 
 export function GlobalHeader() {
   return (
-    <div className="min-w-[375px] p-4 flex flex-row justify-center">
-      <div className="flex flex-row justify-between items-center w-full md:w-[1024px] lg:w-[1024px]">
+    <nav>
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href={Links.home}>
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center self-start">
             <Image
               alt=""
               h="60px"
@@ -227,13 +210,49 @@ export function GlobalHeader() {
             <span>evmtools</span>
           </div>
         </Link>
-        <div className="invisible sm:visible md:visible lg:visible">
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <span className="sr-only">Open main menu</span>
+          <MobileMenuLinks />
+        </button>
+        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
           <DesktopMenuLinks />
         </div>
       </div>
-      <div className="sm:invisible md:invisible lg:invisible">
-        <MobileMenuLinks />
-      </div>
-    </div>
+    </nav>
+
+    // <div
+    //   className="min-w-[375px] flex flex-row justify-center"
+    //   style={{ border: '1px solid red' }}
+    // >
+    //   <div
+    //     className="flex flex-row p-4 min-w-[345px] sm:max-w-[1024px] lg:max-w-[1024px] justify-between align-middle"
+    //     style={{ border: '1px solid blue' }}
+    //   >
+    //     <Link href={Links.home}>
+    //       <div className="flex flex-row items-center self-start">
+    //         <Image
+    //           alt=""
+    //           h="60px"
+    //           w="60px"
+    //           src="../assets/images/evm-tools-logo-2.svg"
+    //           mr="10px"
+    //         />
+    //         <span>evmtools</span>
+    //       </div>
+    //     </Link>
+    //     <div className="sm:invisible md:invisible lg:invisible self-end">
+    //       <MobileMenuLinks />
+    //     </div>
+    //     <div className="invisible sm:max-w-[1024px] sm:visible md:visible lg:visible">
+    //       <DesktopMenuLinks />
+    //     </div>
+    //   </div>
+    // </div>
   );
 }

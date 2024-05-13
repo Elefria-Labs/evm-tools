@@ -17,8 +17,8 @@ const Main = (props: IMainProps) => {
           <GlobalHeader />
           <div className="flex flex-col content-between items-center min-h-screen">
             <div className="flex flex-col w-2/3">{props.children}</div>
-            <Footer />
           </div>
+          <Footer />
         </PageWrapper>
       </div>
     </div>

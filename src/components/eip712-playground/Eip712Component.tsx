@@ -132,7 +132,7 @@ export default function Eip712PlaygroundComponent() {
     setLoading(false);
   };
   return (
-    <div className="mt-4" style={{ border: '1px solid red' }}>
+    <div className="mt-4">
       <h4>{loading}</h4>
       <div className="flex flex-col sm:flex-row content-between">
         <div className="flex flex-col w-2/5 min-w-[240px] sm:max-w-full ">
