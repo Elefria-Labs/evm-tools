@@ -14,6 +14,7 @@ import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
 import { ethers } from 'ethers';
 import { Button } from '@shadcn-components/ui/button';
+import { usePublicClient } from 'wagmi';
 
 // https://docs.walletconnect.com/web3wallet/wallet-usage
 const core = new Core({
@@ -22,7 +23,9 @@ const core = new Core({
 
 export default function MimicWalletComponent() {
   const [wcUri, setWcUri] = useState<string>('');
+  const publicClient = usePublicClient();
   const [addressToMimic, setAddressToMimic] = useState<string | null>();
+  // const [ensAddress, setEnsAddress] = useState<string | null>();
   const [mimicStatus, setMimicStatus] = useState<string | null>();
   const [activeSession, setActiveSession] =
     useState<SessionTypes.Struct | null>();
@@ -45,7 +48,10 @@ export default function MimicWalletComponent() {
 
   const onSessionProposal = useCallback(
     async ({ id, params }: Web3WalletTypes.SessionProposal) => {
-      if (wcWeb3Wallet == null || addressToMimic == null) {
+      if (
+        wcWeb3Wallet == null ||
+        (ensAddress == null && addressToMimic == null)
+      ) {
         return;
       }
       try {
@@ -57,7 +63,7 @@ export default function MimicWalletComponent() {
               chains: ['eip155:1'], // TODO add more chains
               methods: ['eth_sendTransaction', 'personal_sign'],
               events: ['accountsChanged', 'chainChanged'],
-              accounts: [`eip155:1:${addressToMimic}`],
+              accounts: [`eip155:1:${ensAddress ?? addressToMimic}`],
             },
           },
         });
@@ -74,6 +80,7 @@ export default function MimicWalletComponent() {
           id: params.id,
           reason: getSdkError('USER_REJECTED'),
         });
+        setMimicStatus('');
         toast({
           ...toastOptions,
           title: 'Connection attempt was unsuccessful!',
@@ -141,7 +148,7 @@ export default function MimicWalletComponent() {
     setMimicStatus('Disconnected!');
   }, [wcWeb3Wallet, activeSession, toast]);
 
-  const connectSession = () => {
+  const connectSession = async () => {
     if (
       wcWeb3Wallet == null ||
       addressToMimic == null ||
@@ -156,7 +163,17 @@ export default function MimicWalletComponent() {
         ...toastOptions,
         title: 'Invalid address!',
       });
-      return;
+      // try {
+      //   const resolveEns = await publicClient.getEnsResolver(
+      //     addressToMimic as any,
+      //   );
+      //   setEnsAddress(resolveEns);
+      // } catch (e) {
+      //   toast({
+      //     ...toastOptions,
+      //     title: 'Invalid address!',
+      //   });
+      // }
     }
     setMimicStatus('Connecting....');
     // wcWeb3Wallet.on('session_proposal', onSessionProposal);
@@ -170,17 +187,24 @@ export default function MimicWalletComponent() {
         <Label htmlFor="rawTx" className="mb-4">
           Address To Mimic (EOA or Multisig)
         </Label>
+        <p className="text-xs">*Currently only supports Ethereum mainnet</p>
         <Input
-          className="w-96 sm:w-84"
+          className="sm:w-84"
           placeholder="Enter wallet address, 0x123abc"
           value={addressToMimic ?? ''}
-          onChange={(e) => setAddressToMimic(e.target.value)}
+          onChange={(e) => {
+            const addr = e.target.value;
+
+            // setEnsAddress(null);
+            setAddressToMimic(addr);
+          }}
         />
+        {/* {ensAddress && <p>{ensAddress}</p>} */}
         <Label htmlFor="rawTx" className="mb-4">
           Wallet Connect URI
         </Label>
         <Input
-          className="w-96 sm:w-84"
+          className="sm:w-84"
           placeholder="Enter wallet connect URI"
           value={wcUri}
           onChange={(e) => setWcUri(e.target.value)}

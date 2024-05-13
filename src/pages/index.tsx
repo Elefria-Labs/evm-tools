@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Divider } from '@chakra-ui/react';
 
-import Link from 'next/link';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { Links } from '@config/constants';
 import { playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
-import { Button } from '@shadcn-components/ui/button';
 
 const Index = () => {
   const [defaultView] = useState(true);
@@ -34,7 +31,7 @@ const Index = () => {
             <div className="py-8">
               <h1 className="text-lg font-bold">EVM Tools</h1>
               <p>Tools to help you develop on ethereum and other evm chains.</p>
-              <div className="flex flex-row content-center justify-end">
+              {/* <div className="flex flex-row content-center justify-end">
                 <Link
                   aria-label="Go to Playgrounds"
                   href={Links.devTools}
@@ -42,7 +39,7 @@ const Index = () => {
                 >
                   <Button>View All</Button>
                 </Link>
-              </div>
+              </div> */}
               {/* <ToolSearchComponent
                 onSelected={(toolLink: string) => {
                   if (toolLink == 'all') {
@@ -70,7 +67,7 @@ const Index = () => {
                 {defaultView && (
                   <>
                     {playgroundToolsList
-                      .filter((tool) => tool.isBeta && !tool.onChain)
+                      .filter((tool) => tool.isBeta)
                       .map((tool) => (
                         <HomeCard
                           {...tool}
@@ -79,8 +76,7 @@ const Index = () => {
                         />
                       ))}
                     {playgroundToolsList
-                      ?.filter((tool) => !tool.isBeta && !tool.onChain)
-                      .slice(2)
+                      ?.filter((tool) => !tool.isBeta)
                       .map((tool) => (
                         <HomeCard {...tool} key={tool.title} />
                       ))}

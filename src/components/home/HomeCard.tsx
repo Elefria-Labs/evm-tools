@@ -27,7 +27,7 @@ export function HomeCard(props: HomeCardPropsType) {
           <CardTitle>{props.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="min-h-[72px]">{props.description}</p>
+          <p className="min-h-[72px] font-thin">{props.description}</p>
         </CardContent>
         <CardFooter>
           <Link

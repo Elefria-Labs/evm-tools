@@ -1,4 +1,4 @@
-import { Button, Image } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
@@ -94,7 +94,7 @@ function DesktopMenuLinks() {
           <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
           <MenubarContent>
             <MenuLink text={'View all'} link={Links.devTools} />
-            <MenuLink text={'EVM Visualizer'} link={Links.evmTools} />
+
             <MenuLink text={'EIP-712'} link={`/${Links.eip712}`} />
             <MenuLink text={'ERC-191'} link={`/${Links.erc191}`} />
             <MenuLink
@@ -108,7 +108,6 @@ function DesktopMenuLinks() {
               text={'Merkle Tree Generator'}
               link={`/${Links.merkleTreeGenerator}`}
             />
-
             <MenuLink
               text={'Bytes32 Conversion'}
               link={`/${Links.byteconversion}`}
@@ -117,6 +116,7 @@ function DesktopMenuLinks() {
               text={'Deterministic Address'}
               link={`/${Links.contractAddressGen}`}
             />
+            <MenuLink text={'EVM Visualizer'} link={Links.evmTools} />
           </MenubarContent>
         </MenubarMenu>
         {menuLinks.map((m, i) => (
@@ -148,9 +148,7 @@ function MobileMenuLinks() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">
-            <HamburgerMenuIcon />
-          </Button>
+          <HamburgerMenuIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem className="cursor-pointer">

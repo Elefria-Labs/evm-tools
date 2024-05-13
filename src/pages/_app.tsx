@@ -22,7 +22,6 @@ import {
 import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@shadcn-components/ui/toaster';
-import FeedbackButton from '@components/FeedbackButton';
 
 const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -70,10 +69,10 @@ const MyApp = (props: AppProps) => {
         <RainbowKitProvider chains={chains}>
           {/* @ts-ignore */}
           <Component {...pageProps} />
+          {/* <FeedbackButton /> */}
         </RainbowKitProvider>
       </WagmiConfig>
       <Toaster />
-      <FeedbackButton />
     </ThemeProvider>
   );
 };

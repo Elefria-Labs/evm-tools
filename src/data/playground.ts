@@ -27,21 +27,22 @@ export interface Item {
 }
 
 export const playgroundToolsList: Item[] = [
-  {
-    title: 'EVM Storage Explorer',
-    description: 'Analyze EVM bytecode, slots and storage layout',
-    link: Links.evmTools,
-    isExternal: true,
-  },
+  // TODO
+  // {
+  //   title: 'EVM Storage Explorer',
+  //   description: 'Analyze EVM bytecode, slots and storage layout',
+  //   link: Links.evmTools,
+  //   isExternal: true,
+  // },
   {
     title: 'ZK Boilerplate',
-    description: 'ZK Boilerplate dapps using snarkjs and circom',
+    description: 'ZK Boilerplate dapps using snarkjs and circom.',
     link: Links.boilerplate,
     isBeta: false,
     isExternal: true,
   },
   {
-    title: 'EIP 712',
+    title: 'EIP-712',
     description:
       'EIP-712 is a protocol for hashing and signing of typed structured data instead of just bytestrings.',
     link: Links.eip712,
@@ -49,7 +50,7 @@ export const playgroundToolsList: Item[] = [
     component: Eip712Component,
   },
   {
-    title: 'ERC 191',
+    title: 'ERC-191',
     description:
       'This ERC proposes a specification about how to handle signed data in Ethereum contracts.',
     link: Links.erc191,
@@ -158,7 +159,7 @@ export const playgroundToolsList: Item[] = [
   {
     title: 'Cheatsheet',
     description:
-      'Solidity helpers such uint, int max values, zero address, etc. ',
+      'Solidity helpers such uint, int max values, zero address, etc.',
     link: Links.cheatsheet,
     isBeta: false,
     isExternal: false,
@@ -167,7 +168,7 @@ export const playgroundToolsList: Item[] = [
   },
   {
     title: 'Hex Convertor',
-    description: 'Decimal to hex, binary convertor',
+    description: 'Decimal to hex and binary convertor.',
     link: Links.hexConvertor,
     isBeta: false,
     isExternal: false,

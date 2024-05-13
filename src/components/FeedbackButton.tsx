@@ -13,14 +13,8 @@ import {
   AlertDialogTrigger,
 } from '@shadcn-components/ui/alert-dialog';
 import { Button } from '@shadcn-components/ui/button';
-
 import { createClient } from '@supabase/supabase-js';
 import { Textarea } from '@shadcn-components/ui/textarea';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SBASE_URL!,
-  process.env.NEXT_PUBLIC_SBASE_ANON_KEY!,
-);
 
 const userRating = {
   1: '😕',
@@ -47,6 +41,10 @@ const FeedbackButton: React.FC<FeedbackButtonProps> = ({
   // successMessage = 'Thanks for your feedback!',
   // errorMessage = 'Oops, something went wrong. Please try again later.',
 }) => {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SBASE_URL!,
+    process.env.NEXT_PUBLIC_SBASE_ANON_KEY!,
+  );
   const [feedbackText, setFeedbackText] = useState<string>();
   const [rating, setRating] = useState<number>();
 
