@@ -102,14 +102,14 @@ export default function MimicWalletComponent() {
       }
     };
     walletInit();
-    return () => {
-      if (wcWeb3Wallet == null) {
-        return;
-      }
-      wcWeb3Wallet.removeListener('session_proposal', onSessionProposal);
-      wcWeb3Wallet.removeListener('session_request', onSessionRequest);
-    };
-  }, [wcWeb3Wallet, onSessionProposal, onSessionRequest]);
+    // return () => {
+    //   if (wcWeb3Wallet == null) {
+    //     return;
+    //   }
+    //   // wcWeb3Wallet.removeListener('session_proposal', onSessionProposal);
+    //   // wcWeb3Wallet.removeListener('session_request', onSessionRequest);
+    // };
+  }, []);
 
   const connectToUri = useCallback(
     async (uri: string) => {
