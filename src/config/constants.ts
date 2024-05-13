@@ -12,6 +12,8 @@ export const Links = {
   zkTools: 'zk-tools',
   eip712: 'eip712',
   erc191: 'erc191',
+  mimicWallet: 'mimic-wallet',
+  hexConvertor: 'hex-convertor',
   evmChecksumAddress: 'evm-checksum-address',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',

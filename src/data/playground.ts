@@ -116,6 +116,15 @@ export const playgroundToolsList: Item[] = [
     },
   },
   {
+    title: 'Mimic Wallet',
+    description:
+      'Mimic (EOA or multisig) address connection to any dapp using wallet connect.',
+    link: Links.mimicWallet,
+    isBeta: false,
+    isExternal: false,
+    isWalletRequired: true,
+  },
+  {
     title: 'Cheatsheet',
     description:
       'Solidity helpers such uint, int max values, zero address, etc. ',
@@ -123,6 +132,14 @@ export const playgroundToolsList: Item[] = [
     isBeta: false,
     isExternal: false,
     isWalletRequired: false,
+  },
+  {
+    title: 'Hex Convertor',
+    description: 'Decimal to hex, binary convertor',
+    link: Links.hexConvertor,
+    isBeta: false,
+    isExternal: false,
+    isWalletRequired: true,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',
