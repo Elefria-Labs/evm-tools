@@ -1,7 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import {
+  CaretSortIcon,
+  CheckIcon,
+  ExternalLinkIcon,
+} from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
 import { Button } from '@shadcn-components/ui/button';
 import {
@@ -19,9 +23,13 @@ import {
 } from '@shadcn-components/ui/popover';
 import { playgroundToolsList } from '@data/playground';
 
-export function ToolSearchComponent() {
+type ToolSearchComponentProps = {
+  onSelected: (toolLink: string) => void;
+};
+
+export function ToolSearchComponent(props: ToolSearchComponentProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('all');
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -32,8 +40,8 @@ export function ToolSearchComponent() {
           aria-expanded={open}
           className="w-[240px] justify-between"
         >
-          {value
-            ? playgroundToolsList.find((tool) => tool.title.includes(value))
+          {value != 'all'
+            ? playgroundToolsList.find((tool) => tool.link.includes(value))
                 ?.title
             : 'search tools...'}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -41,24 +49,42 @@ export function ToolSearchComponent() {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder="Search tool..." className="h-9" />
+          <CommandEmpty>No tool found.</CommandEmpty>
           <CommandGroup>
             <CommandList>
+              <CommandItem
+                key={'all'}
+                value={'all'}
+                onSelect={(currentValue) => {
+                  setValue(currentValue === value ? '' : currentValue);
+                  setOpen(false);
+                  props.onSelected(currentValue);
+                }}
+              >
+                All
+                <CheckIcon
+                  className={cn(
+                    'ml-auto h-4 w-4',
+                    value === 'all' ? 'opacity-100' : 'opacity-0',
+                  )}
+                />
+              </CommandItem>
               {playgroundToolsList.map((tool) => (
                 <CommandItem
                   key={tool.link}
-                  value={tool.title}
+                  value={tool.link}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
+                    props.onSelected(currentValue);
                   }}
                 >
-                  {tool.title}
+                  {tool.title} {tool.isExternal && <ExternalLinkIcon />}
                   <CheckIcon
                     className={cn(
                       'ml-auto h-4 w-4',
-                      value === tool.title ? 'opacity-100' : 'opacity-0',
+                      value === tool.link ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>

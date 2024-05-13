@@ -1,5 +1,19 @@
 import { Links } from '@config/constants';
 
+import HexConvertorComponent from '@components/tools/evmtools/HexConvertorComponent';
+import Eip712Component from '@components/eip712-playground/Eip712Component';
+import PersonalSignComponent from '@components/personal-sign/PersonalSignComponent';
+import StringByteConversion from '@components/tools/evmtools/StringByteConversion';
+import DeterministicAddress from '@components/tools/evmtools/DeterministicAddress';
+import CheatsheetComponent from '@components/tools/evmtools/CheatsheetComponent';
+import EVMAddressChecksumComponent from '@components/tools/evmtools/EVMAddressChecksumComponent';
+import GasConvertorComponent from '@components/tools/evmtools/GasConvertorComponent';
+import HashingComponent from '@components/tools/evmtools/HashingComponent';
+import MerkleTreeVerifier from '@components/tools/evmtools/MerkleTreeVerifier';
+import MimicWalletComponent from '@components/tools/evmtools/MimicWalletComponent';
+import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
+import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
+
 export interface Item {
   title: string;
   description: string;
@@ -14,7 +28,7 @@ export interface Item {
 
 export const playgroundToolsList: Item[] = [
   {
-    title: 'EVM Storage Explorer (evmtools)',
+    title: 'EVM Storage Explorer',
     description: 'Analyze EVM bytecode, slots and storage layout',
     link: Links.evmTools,
     isExternal: true,
@@ -32,6 +46,7 @@ export const playgroundToolsList: Item[] = [
       'EIP-712 is a protocol for hashing and signing of typed structured data instead of just bytestrings.',
     link: Links.eip712,
     isBeta: false,
+    component: Eip712Component,
   },
   {
     title: 'ERC 191',
@@ -39,6 +54,7 @@ export const playgroundToolsList: Item[] = [
       'This ERC proposes a specification about how to handle signed data in Ethereum contracts.',
     link: Links.erc191,
     isBeta: false,
+    component: PersonalSignComponent,
   },
   {
     title: 'Checksum Address',
@@ -46,7 +62,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.evmChecksumAddress,
     isBeta: false,
     isWalletRequired: false,
-    // component: EvmAddressChecksumComponent,
+    component: EVMAddressChecksumComponent,
   },
   // {
   //   title: 'Uniswap V3 (beta)',
@@ -72,6 +88,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.txDecoder,
     isBeta: false,
     isWalletRequired: false,
+    component: TxDecoderComponent,
   },
   {
     title: 'Hashing Utils',
@@ -79,6 +96,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.hashing,
     isBeta: false,
     isWalletRequired: false,
+    component: HashingComponent,
   },
   {
     title: 'Merkle Tree Generator',
@@ -87,6 +105,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.merkleTreeGenerator,
     isBeta: false,
     isWalletRequired: false,
+    component: MerkleTreeVerifier,
   },
   {
     title: 'Gas Convertor',
@@ -95,6 +114,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.gasConverter,
     isBeta: false,
     isWalletRequired: false,
+    component: GasConvertorComponent,
   },
   {
     title: 'Bytes & String Convertor',
@@ -102,6 +122,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.byteconversion,
     isBeta: false,
     isWalletRequired: false,
+    component: StringByteConversion,
   },
   {
     title: 'Burner Wallet',
@@ -109,6 +130,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.burnerWallet,
     isBeta: false,
     isWalletRequired: false,
+    component: BurnerWalletComponent,
   },
   {
     title: 'Deterministic Contracts',
@@ -121,6 +143,7 @@ export const playgroundToolsList: Item[] = [
       description:
         'Generate the next deployment contract address from an account',
     },
+    component: DeterministicAddress,
   },
   {
     title: 'Mimic Wallet',
@@ -130,6 +153,7 @@ export const playgroundToolsList: Item[] = [
     isBeta: false,
     isExternal: false,
     isWalletRequired: true,
+    component: MimicWalletComponent,
   },
   {
     title: 'Cheatsheet',
@@ -139,6 +163,7 @@ export const playgroundToolsList: Item[] = [
     isBeta: false,
     isExternal: false,
     isWalletRequired: false,
+    component: CheatsheetComponent,
   },
   {
     title: 'Hex Convertor',
@@ -147,6 +172,7 @@ export const playgroundToolsList: Item[] = [
     isBeta: false,
     isExternal: false,
     isWalletRequired: true,
+    component: HexConvertorComponent,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',

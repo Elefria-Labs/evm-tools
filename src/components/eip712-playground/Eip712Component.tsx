@@ -30,7 +30,7 @@ import {
 
 const locale = require('react-json-editor-ajrm/locale/en');
 
-export function Eip712PlaygroundComponent() {
+export default function Eip712PlaygroundComponent() {
   // const { provider, address } = props;
   const account = useAccount();
 

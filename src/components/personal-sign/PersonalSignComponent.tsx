@@ -15,7 +15,9 @@ type PersonalSignComponentPropsType = {};
 
 const defaultMsg: string = 'Hello Ethereum!';
 
-export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
+export default function PersonalSignComponent(
+  _: PersonalSignComponentPropsType,
+) {
   // const { provider } = props;
   const account = useAccount();
   const { data: signMessageData, signMessage } = useSignMessage();

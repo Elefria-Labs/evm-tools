@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Divider } from '@chakra-ui/react';
 
 import Link from 'next/link';
@@ -7,14 +7,24 @@ import { Main } from '@templates/Main';
 import { Links } from '@config/constants';
 import { playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
+import { Button } from '@shadcn-components/ui/button';
 
 const Index = () => {
+  const [defaultView] = useState(true);
+  const [selectedTool] = useState<string | null>();
+
+  const getToolComponent = (toolLink: string) => {
+    const Component = playgroundToolsList.find(
+      (tool) => tool.link == toolLink,
+    )?.component;
+    return <Component />;
+  };
   return (
     <Main
       meta={
         <Meta
-          title="Zk Block | Boilerplate for ZK Dapps"
-          description="Boilerplate for ZK Dapps | Zero Knowledge Proofs"
+          title="Evm Tools | Tools for web3, evm and zk"
+          description="Tools for web3, evm and zero knowledge proofs"
         />
       }
     >
@@ -30,23 +40,53 @@ const Index = () => {
                   href={Links.devTools}
                   passHref
                 >
-                  View All
+                  <Button>View All</Button>
                 </Link>
               </div>
-              {/* <ToolSearchComponent /> */}
+              {/* <ToolSearchComponent
+                onSelected={(toolLink: string) => {
+                  if (toolLink == 'all') {
+                    setDefaultView(true);
+                    setSelectedTool(null);
+                    return;
+                  }
+                  if (
+                    playgroundToolsList
+                      .filter((t) => t.isExternal)
+                      .find((t) => t.link == toolLink)
+                  ) {
+                    setDefaultView(true);
+                    setSelectedTool(null);
+                    window.open(toolLink, '_blank', 'rel=noopener noreferrer');
+                    return;
+                  }
+
+                  setDefaultView(false);
+                  setSelectedTool(toolLink);
+                }}
+              /> */}
               <Divider my="16px" />
               <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
-                {playgroundToolsList
-                  .filter((tool) => tool.isBeta && !tool.onChain)
-                  .map((tool) => (
-                    <HomeCard {...tool} key={tool.title} glow={tool.isBeta} />
-                  ))}
-                {playgroundToolsList
-                  ?.filter((tool) => !tool.isBeta && !tool.onChain)
-                  .slice(2)
-                  .map((tool) => (
-                    <HomeCard {...tool} key={tool.title} />
-                  ))}
+                {defaultView && (
+                  <>
+                    {playgroundToolsList
+                      .filter((tool) => tool.isBeta && !tool.onChain)
+                      .map((tool) => (
+                        <HomeCard
+                          {...tool}
+                          key={tool.title}
+                          glow={tool.isBeta}
+                        />
+                      ))}
+                    {playgroundToolsList
+                      ?.filter((tool) => !tool.isBeta && !tool.onChain)
+                      .slice(2)
+                      .map((tool) => (
+                        <HomeCard {...tool} key={tool.title} />
+                      ))}
+                  </>
+                )}
+                {selectedTool && getToolComponent(selectedTool)}
               </div>
             </div>
           </div>
