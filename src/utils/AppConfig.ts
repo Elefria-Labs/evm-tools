@@ -1,7 +1,7 @@
 export const AppConfig = {
-  site_name: 'Zk Block',
-  title: 'Zk Block - Tools for developing Zk Dapps',
-  description: 'Tools and Boilerplate for Zk Dapps | Zero Knowledge Proofs',
+  site_name: 'Evm Tools',
+  title: 'Evm Tools - Tools for developing web3 apps',
+  description: 'Tools and Boilerplate for zk, solidity and evm tools',
   locale: 'en',
 };
 

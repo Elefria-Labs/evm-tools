@@ -33,7 +33,7 @@ const Index = () => {
           <div>
             <div className="py-8">
               <h1 className="text-lg font-bold">EVM Tools</h1>
-              <p>Tools to help you develop on ethereum and evm chains.</p>
+              <p>Tools to help you develop on ethereum and other evm chains.</p>
               <div className="flex flex-row content-center justify-end">
                 <Link
                   aria-label="Go to Playgrounds"
