@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { Eip712PlaygroundComponent } from '@components/eip712-playground/Eip712Component';
+import Eip712PlaygroundComponent from '@components/eip712-playground/Eip712Component';
 import WalletConnectBase from '@components/common/WalletConnectBase';
 import ToolBase from '@components/common/ToolBase';
 

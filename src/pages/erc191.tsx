@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { PersonalSignComponent } from '@components/personal-sign/PersonalSignComponent';
+import PersonalSignComponent from '@components/personal-sign/PersonalSignComponent';
 import ToolBase from '@components/common/ToolBase';
 import WalletConnectBase from '@components/common/WalletConnectBase';
 

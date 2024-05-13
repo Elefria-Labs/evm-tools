@@ -31,25 +31,17 @@ export default function MimicWalletComponent() {
   const [wcWeb3Wallet, setWcWeb3Wallet] = useState<IWeb3Wallet | undefined>(
     undefined,
   );
-  useEffect(() => {
-    const walletInit = async () => {
-      const wallet = await Web3Wallet.init({
-        core, // <- pass the shared `core` instance
-        metadata: {
-          name: 'EVM Tools',
-          description: 'Tools for web3',
-          url: 'www.evmtools.xyz',
-          icons: [
-            'https://evmtools-dev.web.app/assets/images/evm-tools-logo-2.svg',
-          ],
-        },
-      });
-      if (wallet) {
-        setWcWeb3Wallet(wallet);
+
+  const onSessionRequest = useCallback(
+    async (sessionRequest: Web3WalletTypes.SessionRequest) => {
+      if (wcWeb3Wallet == null || addressToMimic == null) {
+        return;
       }
-    };
-    walletInit();
-  }, []);
+
+      console.log('session request', sessionRequest);
+    },
+    [wcWeb3Wallet, addressToMimic],
+  );
 
   const onSessionProposal = useCallback(
     async ({ id, params }: Web3WalletTypes.SessionProposal) => {
@@ -62,7 +54,7 @@ export default function MimicWalletComponent() {
           proposal: params,
           supportedNamespaces: {
             eip155: {
-              chains: ['eip155:1'],
+              chains: ['eip155:1'], // TODO add more chains
               methods: ['eth_sendTransaction', 'personal_sign'],
               events: ['accountsChanged', 'chainChanged'],
               accounts: [`eip155:1:${addressToMimic}`],
@@ -92,16 +84,33 @@ export default function MimicWalletComponent() {
     [toast, wcWeb3Wallet, addressToMimic],
   );
 
-  const onSessionRequest = useCallback(
-    async (sessionRequest: Web3WalletTypes.SessionRequest) => {
-      if (wcWeb3Wallet == null || addressToMimic == null) {
+  useEffect(() => {
+    const walletInit = async () => {
+      const wallet = await Web3Wallet.init({
+        core, // <- pass the shared `core` instance
+        metadata: {
+          name: 'EVM Tools',
+          description: 'Tools for web3',
+          url: 'www.evmtools.xyz',
+          icons: [
+            'https://evmtools-dev.web.app/assets/images/evm-tools-logo-2.svg',
+          ],
+        },
+      });
+      if (wallet) {
+        setWcWeb3Wallet(wallet);
+      }
+    };
+    walletInit();
+    return () => {
+      if (wcWeb3Wallet == null) {
         return;
       }
+      wcWeb3Wallet.removeListener('session_proposal', onSessionProposal);
+      wcWeb3Wallet.removeListener('session_request', onSessionRequest);
+    };
+  }, [wcWeb3Wallet, onSessionProposal, onSessionRequest]);
 
-      console.log('session request', sessionRequest);
-    },
-    [wcWeb3Wallet, addressToMimic],
-  );
   const connectToUri = useCallback(
     async (uri: string) => {
       if (wcWeb3Wallet == null || activeSession != null) {
