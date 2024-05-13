@@ -15,6 +15,7 @@ import { CopyIcon } from '@chakra-ui/icons';
 import { handleCopyClick } from '@utils/wallet';
 import { ethers } from 'ethers';
 import InputBaseCopy from '@components/common/BaseInputCopy';
+import EtherUnitsTable from './Cheatsheet/EtherUnitsTable';
 
 export default function CheatsheetComponent() {
   const [minMaxValue, setMinMaxValue] = useState<{
@@ -105,6 +106,9 @@ export default function CheatsheetComponent() {
           value={ethers.constants.AddressZero}
           disabled
         />
+      </div>
+      <div>
+        <EtherUnitsTable />
       </div>
     </div>
   );
