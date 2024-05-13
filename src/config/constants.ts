@@ -14,6 +14,7 @@ export const Links = {
   erc191: 'erc191',
   mimicWallet: 'mimic-wallet',
   hexConvertor: 'hex-convertor',
+  hashing: 'hashing',
   evmChecksumAddress: 'evm-checksum-address',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',

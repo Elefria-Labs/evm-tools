@@ -74,6 +74,13 @@ export const playgroundToolsList: Item[] = [
     isWalletRequired: false,
   },
   {
+    title: 'Hashing Utils',
+    description: 'Derive hashes from text such as keccak256, sha256, sha512.',
+    link: Links.hashing,
+    isBeta: false,
+    isWalletRequired: false,
+  },
+  {
     title: 'Merkle Tree Generator',
     description:
       'Construct merkle trees and verify proofs using openzeppelin library.',

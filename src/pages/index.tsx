@@ -23,9 +23,7 @@ const Index = () => {
           <div>
             <div className="py-8">
               <h1 className="text-lg font-bold">EVM Tools</h1>
-              <p>
-                List of tools to help you develop on ethereum and evm chains.
-              </p>
+              <p>Tools to help you develop on ethereum and evm chains.</p>
               <div className="flex flex-row content-center justify-end">
                 <Link
                   aria-label="Go to Playgrounds"
@@ -35,6 +33,7 @@ const Index = () => {
                   View All
                 </Link>
               </div>
+              {/* <ToolSearchComponent /> */}
               <Divider my="16px" />
               <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
                 {playgroundToolsList
