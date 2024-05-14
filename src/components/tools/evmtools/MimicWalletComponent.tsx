@@ -14,7 +14,6 @@ import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
 import { ethers } from 'ethers';
 import { Button } from '@shadcn-components/ui/button';
-import { usePublicClient } from 'wagmi';
 
 // https://docs.walletconnect.com/web3wallet/wallet-usage
 const core = new Core({
@@ -23,7 +22,7 @@ const core = new Core({
 
 export default function MimicWalletComponent() {
   const [wcUri, setWcUri] = useState<string>('');
-  const publicClient = usePublicClient();
+
   const [addressToMimic, setAddressToMimic] = useState<string | null>();
   // const [ensAddress, setEnsAddress] = useState<string | null>();
   const [mimicStatus, setMimicStatus] = useState<string | null>();
@@ -48,10 +47,7 @@ export default function MimicWalletComponent() {
 
   const onSessionProposal = useCallback(
     async ({ id, params }: Web3WalletTypes.SessionProposal) => {
-      if (
-        wcWeb3Wallet == null ||
-        (ensAddress == null && addressToMimic == null)
-      ) {
+      if (wcWeb3Wallet == null || addressToMimic == null) {
         return;
       }
       try {
@@ -63,7 +59,7 @@ export default function MimicWalletComponent() {
               chains: ['eip155:1'], // TODO add more chains
               methods: ['eth_sendTransaction', 'personal_sign'],
               events: ['accountsChanged', 'chainChanged'],
-              accounts: [`eip155:1:${ensAddress ?? addressToMimic}`],
+              accounts: [`eip155:1:${addressToMimic}`],
             },
           },
         });

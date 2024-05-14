@@ -1,5 +1,5 @@
 import { Image } from '@chakra-ui/react';
-import { Links, twitterLink } from '@config/constants';
+import { Links, evmToolsXLink } from '@config/constants';
 import { TwitterIcon } from './icon/twitter';
 import Link from 'next/link';
 
@@ -135,7 +135,7 @@ export function Footer() {
 
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
-              <Link className="ml-4" href={twitterLink}>
+              <Link className="ml-4" href={evmToolsXLink}>
                 <div className="w-[30px] h-[30px]">
                   <p>
                     Follow <TwitterIcon />

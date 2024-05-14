@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shadcn-components/ui/dropdown-menu';
-import { ExternalLinkIcon, MinusIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { TwitterIcon } from './icon/twitter';
 
 type MenuLinkProps = {
@@ -154,9 +154,9 @@ function MobileMenuLinks() {
           <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.home}>Home</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          {/* <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.zkTools}>Zk Tools</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.boilerplate}>Boilerplate</Link>
           </DropdownMenuItem>
@@ -165,24 +165,22 @@ function MobileMenuLinks() {
             <Link href={Links.contribute}>Contribute</Link>
           </DropdownMenuItem>
 
-          <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
-          <a href="http://evmtools.xyz?ref=ext" target="_blank">
-            <DropdownMenuItem className="cursor-pointer">
-              EVM Storage Reader
-              <span className="ml-2">
-                <ExternalLinkIcon />
-              </span>
-            </DropdownMenuItem>
-          </a>
           <DropdownMenuItem>
-            <MinusIcon className="h-4 w-4" />
-            <span className="sr-only"> Request Feature</span>
+            <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
+            <a href="http://evmtools.xyz?ref=ext" target="_blank">
+              <DropdownMenuItem className="cursor-pointer">
+                EVM Storage Reader
+                <span className="ml-2">
+                  <ExternalLinkIcon />
+                </span>
+              </DropdownMenuItem>
+            </a>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
           <a href={evmToolsXLink} target="_blank">
             <DropdownMenuItem className="cursor-pointer">
-              <p className="mr-2">Follow</p>{' '}
+              <p className="mr-2">Follow</p>
               <TwitterIcon className="ml-2 h-4 w-4" />
             </DropdownMenuItem>
           </a>
