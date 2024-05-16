@@ -46,7 +46,7 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
             {value != 'all'
               ? playgroundToolsList.find((tool) => tool.link.includes(value))
                   ?.title
-              : 'hex convertor...'}
+              : 'All'}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>

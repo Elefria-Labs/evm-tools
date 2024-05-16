@@ -10,6 +10,11 @@ const Index = () => {
   const [defaultView, setDefaultView] = useState(true);
   const [selectedTool, setSelectedTool] = useState<string | null>();
 
+  // TODO Optimize
+  const getToolName = (toolLink: string) => {
+    return playgroundToolsList.find((tool) => tool.link == toolLink)?.title;
+  };
+
   const getToolComponent = (toolLink: string) => {
     const Component = playgroundToolsList.find(
       (tool) => tool.link == toolLink,
@@ -85,7 +90,15 @@ const Index = () => {
                   </>
                 </div>
               )}
-              {selectedTool && getToolComponent(selectedTool)}
+              {selectedTool && (
+                <div>
+                  <p className="font-bold text-lg mb-8">
+                    {getToolName(selectedTool)}
+                  </p>
+
+                  {getToolComponent(selectedTool)}
+                </div>
+              )}
             </div>
           </div>
         </div>
