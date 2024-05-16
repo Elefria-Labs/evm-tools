@@ -11,7 +11,7 @@ export default function DevTools() {
       meta={
         <Meta
           title="Evm Tools"
-          description="Playground for EVM chains | Zk Block"
+          description="Playground for EVM chains | EVM Tools"
         />
       }
     >

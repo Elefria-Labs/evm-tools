@@ -35,11 +35,13 @@ export function HomeCard(props: HomeCardPropsType) {
             aria-label={props.title}
             href={props.isExternal ? `${props.link}` : `/${props.link}`}
             style={{ textDecoration: 'none' }}
-            target="_blank"
+            target={props?.isExternal ? '_blank' : ''}
           >
             <Button className="w-full">
               Open &nbsp;
-              <OpenInNewWindowIcon className="mr-2 h-4 w-4" />
+              {props?.isExternal && (
+                <OpenInNewWindowIcon className="mr-2 h-4 w-4" />
+              )}
             </Button>
           </Link>
         </CardFooter>

@@ -35,13 +35,6 @@ export const playgroundToolsList: Item[] = [
   //   isExternal: true,
   // },
   {
-    title: 'ZK Boilerplate',
-    description: 'ZK Boilerplate dapps using snarkjs and circom.',
-    link: Links.boilerplate,
-    isBeta: false,
-    isExternal: true,
-  },
-  {
     title: 'EIP-712',
     description:
       'EIP-712 is a protocol for hashing and signing of typed structured data instead of just bytestrings.',
@@ -64,6 +57,13 @@ export const playgroundToolsList: Item[] = [
     isBeta: false,
     isWalletRequired: false,
     component: EVMAddressChecksumComponent,
+  },
+  {
+    title: 'ZK Boilerplate',
+    description: 'ZK Boilerplate dapps using snarkjs and circom.',
+    link: Links.boilerplate,
+    isBeta: false,
+    isExternal: true,
   },
   // {
   //   title: 'Uniswap V3 (beta)',
