@@ -1,42 +1,35 @@
 import React from 'react';
-import {
-  Card,
-  CardBody,
-  Flex,
-  IconButton,
-  useDisclosure,
-  Button,
-} from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { Card, CardContent } from '@shadcn-components/ui/card';
 import GasPrice from './GasPrice';
 import ToolExtMenuDrawer from './ToolExtMenuDrawer';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from '@shadcn-components/ui/dropdown-menu';
+import { Button } from '@chakra-ui/react';
 
 export default function ToolExtHeader() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef(null);
   return (
-    <Flex alignItems="center">
-      <Card w="100%" roundedTop={0}>
-        <CardBody p={4} py={2}>
-          <Flex justifyContent="flex-end" alignItems="center">
-            <GasPrice />
-            <Button
-              ml={8}
-              as={IconButton}
-              aria-label="Options"
-              icon={<HamburgerIcon />}
-              variant="outline"
-              ref={btnRef}
-              onClick={onOpen}
-            />
-            <ToolExtMenuDrawer
-              onClose={onClose}
-              isOpen={isOpen}
-              btnRef={btnRef}
-            />
-          </Flex>
-        </CardBody>
+    <div>
+      <Card className="w-full rounded-none">
+        <CardContent
+          className="flex justify-items-end py-3"
+          style={{ border: '1px solid red' }}
+        >
+          <GasPrice />
+          <div className="ml-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <HamburgerMenuIcon />
+                </Button>
+              </DropdownMenuTrigger>
+              <ToolExtMenuDrawer />
+            </DropdownMenu>
+          </div>
+        </CardContent>
       </Card>
-    </Flex>
+    </div>
   );
 }
