@@ -59,7 +59,7 @@ export default function CheatsheetComponent() {
             setDataType(value);
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] mt-2">
             <SelectValue placeholder="Select integer type" />
           </SelectTrigger>
           <SelectContent>

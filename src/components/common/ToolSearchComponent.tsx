@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
 } from '@shadcn-components/ui/popover';
 import { playgroundToolsList } from '@data/playground';
+import { Label } from '@shadcn-components/ui/label';
 
 type ToolSearchComponentProps = {
   onSelected: (toolLink: string) => void;
@@ -32,67 +33,70 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
   const [value, setValue] = useState('all');
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[240px] justify-between"
-        >
-          {value != 'all'
-            ? playgroundToolsList.find((tool) => tool.link.includes(value))
-                ?.title
-            : 'search tools...'}
-          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search tool..." className="h-9" />
-          <CommandEmpty>No tool found.</CommandEmpty>
-          <CommandGroup>
-            <CommandList>
-              <CommandItem
-                key={'all'}
-                value={'all'}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? '' : currentValue);
-                  setOpen(false);
-                  props.onSelected(currentValue);
-                }}
-              >
-                All
-                <CheckIcon
-                  className={cn(
-                    'ml-auto h-4 w-4',
-                    value === 'all' ? 'opacity-100' : 'opacity-0',
-                  )}
-                />
-              </CommandItem>
-              {playgroundToolsList.map((tool) => (
+    <div>
+      <Label className="mr-4">Search Tool:</Label>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-[240px] justify-between"
+          >
+            {value != 'all'
+              ? playgroundToolsList.find((tool) => tool.link.includes(value))
+                  ?.title
+              : 'hex convertor...'}
+            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[200px] p-0">
+          <Command>
+            <CommandInput placeholder="Search tool..." className="h-9" />
+            <CommandEmpty>No tool found.</CommandEmpty>
+            <CommandGroup>
+              <CommandList>
                 <CommandItem
-                  key={tool.link}
-                  value={tool.link}
+                  key={'all'}
+                  value={'all'}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
                     props.onSelected(currentValue);
                   }}
                 >
-                  {tool.title} {tool.isExternal && <ExternalLinkIcon />}
+                  All
                   <CheckIcon
                     className={cn(
                       'ml-auto h-4 w-4',
-                      value === tool.link ? 'opacity-100' : 'opacity-0',
+                      value === 'all' ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>
-              ))}
-            </CommandList>
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+                {playgroundToolsList.map((tool) => (
+                  <CommandItem
+                    key={tool.link}
+                    value={tool.link}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? '' : currentValue);
+                      setOpen(false);
+                      props.onSelected(currentValue);
+                    }}
+                  >
+                    {tool.title} {tool.isExternal && <ExternalLinkIcon />}
+                    <CheckIcon
+                      className={cn(
+                        'ml-auto h-4 w-4',
+                        value === tool.link ? 'opacity-100' : 'opacity-0',
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </CommandGroup>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

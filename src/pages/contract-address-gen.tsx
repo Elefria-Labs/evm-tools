@@ -4,7 +4,6 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import DeterministicAddress from '@components/tools/evmtools/DeterministicAddress';
 import ToolBase from '@components/common/ToolBase';
-import WalletConnectBase from '@components/common/WalletConnectBase';
 
 export default function ContractAddressGen() {
   return (
@@ -18,13 +17,7 @@ export default function ContractAddressGen() {
     >
       <ToolBase
         title="Deterministic Contract Address"
-        toolComponent={
-          <>
-            <WalletConnectBase />
-
-            <DeterministicAddress />
-          </>
-        }
+        toolComponent={<DeterministicAddress />}
       />
     </Main>
   );

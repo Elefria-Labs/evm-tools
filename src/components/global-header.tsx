@@ -19,6 +19,7 @@ import {
 } from '@shadcn-components/ui/dropdown-menu';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { TwitterIcon } from './icon/twitter';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 type MenuLinkProps = {
   text: string;
@@ -82,7 +83,7 @@ function DesktopMenuLink(props: {
 }
 function DesktopMenuLinks() {
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center align-middle">
       <Menubar>
         <DesktopMenuLink
           link={{
@@ -125,8 +126,9 @@ function DesktopMenuLinks() {
 
         {/* <MenubarMenu></MenubarMenu> */}
       </Menubar>
+
       <Link className="ml-2" href={Links.subscribe} target={'_self'}>
-        <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+        <button className="relative inline-flex items-center justify-center p-0.5 me-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
           <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
             Subscribe
           </span>
@@ -135,6 +137,16 @@ function DesktopMenuLinks() {
                 {m.title}
               </MenubarTrigger> */}
       </Link>
+      <div className="ml-[2px]">
+        <ConnectButton
+          chainStatus="icon"
+          showBalance={false}
+          accountStatus={{
+            smallScreen: 'avatar',
+            largeScreen: 'full',
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -157,6 +169,16 @@ function MobileMenuLinks() {
           {/* <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.zkTools}>Zk Tools</Link>
           </DropdownMenuItem> */}
+          <DropdownMenuItem>
+            <ConnectButton
+              chainStatus="icon"
+              showBalance={false}
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+            />
+          </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.boilerplate}>Boilerplate</Link>
           </DropdownMenuItem>

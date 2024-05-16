@@ -133,11 +133,10 @@ export default function Eip712PlaygroundComponent() {
   };
   return (
     <div className="mt-4">
-      <h4>{loading}</h4>
       <div className="flex flex-col sm:flex-row content-between">
         <div className="flex flex-col w-2/5 min-w-[240px] sm:max-w-full ">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center">
-            <Label className="my-0">{'eth_signTypedData_v4'}</Label>
+          <div className="flex flex-col sm:flex-row  sm:justify-center">
+            {/* <Label className="my-0">{'eth_signTypedData_v4'}</Label> */}
             <div className="my-4 ml-4">
               <Select
                 onValueChange={(value) => {

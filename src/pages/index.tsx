@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Divider } from '@chakra-ui/react';
 
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
+import { ToolSearchComponent } from '@components/common/ToolSearchComponent';
 
 const Index = () => {
-  const [defaultView] = useState(true);
-  const [selectedTool] = useState<string | null>();
+  const [defaultView, setDefaultView] = useState(true);
+  const [selectedTool, setSelectedTool] = useState<string | null>();
 
   const getToolComponent = (toolLink: string) => {
     const Component = playgroundToolsList.find(
@@ -30,7 +30,9 @@ const Index = () => {
           <div>
             <div className="py-8">
               <h1 className="text-lg font-bold">EVM Tools</h1>
-              <p>Tools to help you develop on ethereum and other evm chains.</p>
+              <p className="mb-2">
+                Tools to help you develop on ethereum and other evm chains.
+              </p>
               {/* <div className="flex flex-row content-center justify-end">
                 <Link
                   aria-label="Go to Playgrounds"
@@ -40,7 +42,7 @@ const Index = () => {
                   <Button>View All</Button>
                 </Link>
               </div> */}
-              {/* <ToolSearchComponent
+              <ToolSearchComponent
                 onSelected={(toolLink: string) => {
                   if (toolLink == 'all') {
                     setDefaultView(true);
@@ -61,10 +63,10 @@ const Index = () => {
                   setDefaultView(false);
                   setSelectedTool(toolLink);
                 }}
-              /> */}
-              <Divider my="16px" />
-              <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
-                {defaultView && (
+              />
+              <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
+              {defaultView && (
+                <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
                   <>
                     {playgroundToolsList
                       .filter((tool) => tool.isBeta)
@@ -81,9 +83,9 @@ const Index = () => {
                         <HomeCard {...tool} key={tool.title} />
                       ))}
                   </>
-                )}
-                {selectedTool && getToolComponent(selectedTool)}
-              </div>
+                </div>
+              )}
+              {selectedTool && getToolComponent(selectedTool)}
             </div>
           </div>
         </div>
