@@ -7,15 +7,8 @@ import { BlockchainNetwork } from '@types';
 import { networkConfig } from '@config/network';
 import { ZkNetworkCard } from '@components/zk-network-card';
 import { useWalletConnect } from '@hooks/useWalletConnect';
-import { toHex, truncateAddress } from '@utils/wallet';
 import { toastOptions } from '@components/common/toast';
-import {
-  CardTitle,
-  CardContent,
-  Card,
-  CardHeader,
-} from '@shadcn-components/ui/card';
-import { Button } from '@shadcn-components/ui/button';
+
 import ToolBase from '@components/common/ToolBase';
 
 const ZkNetwork = () => {
@@ -46,7 +39,7 @@ const ZkNetwork = () => {
         title="Zk Networks"
         toolComponent={
           <>
-            <div className="flex flex-row content-center justify-between">
+            {/* <div className="flex flex-row content-center justify-between">
               <div className="flex flex-row content-center ">
                 {account && (
                   <Card>
@@ -76,8 +69,8 @@ const ZkNetwork = () => {
                   <Button onClick={disconnect}>Disconnect</Button>
                 )}
               </div>
-            </div>
-            <div className="my-8 grid grid-cols-3 gap-4">
+            </div> */}
+            <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
               {Object.values(zkNetworks)
                 .filter((nt: BlockchainNetwork) => nt.isZk)
                 .map((network: BlockchainNetwork) => (

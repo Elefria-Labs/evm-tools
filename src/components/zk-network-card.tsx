@@ -16,11 +16,11 @@ type ZkNetworkCardType = {
 export function ZkNetworkCard(props: ZkNetworkCardType) {
   const { onClickAdd, blockchainNetwork } = props;
   return (
-    <Card>
+    <Card className="h-[254px] min-w-[325px]">
       <CardHeader>
         <CardTitle> {blockchainNetwork.name}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="font-thin min-h-[72px]">
         <p>{`Name: ${blockchainNetwork.name}`}</p>
         <p>{`Chain Id: ${blockchainNetwork.chainId}`}</p>
         <p>{`Currency: ${blockchainNetwork.nativeCurrency?.name} (${blockchainNetwork.nativeCurrency?.symbol})`}</p>
