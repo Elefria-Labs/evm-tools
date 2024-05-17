@@ -31,7 +31,7 @@ export default function FeedbackButton({
   buttonText = 'Feedback',
   feedbackLabel = 'Tell us how we are doing?',
   submitButtonLabel = 'Submit',
-  successMessage = 'Thank you for your feedback! Follow us on X @@evmtools_xyz',
+  successMessage = 'Thank you for your feedback! Follow us on X @evmtools_xyz',
 }) {
   const [feedbackText, setFeedbackText] = useState<string>();
   const [rating, setRating] = useState<number>();
