@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { ToastAction } from '@shadcn-components/ui/toast';
 import {
@@ -21,34 +21,32 @@ const userRating = {
   2: '😐',
   3: '😀',
 };
-interface FeedbackButtonProps {
-  // Optional custom text to display on the button
-  buttonText?: string;
-  // Optional custom text to display in the feedback modal
-  feedbackLabel?: string;
-  // Optional custom text to display in the submit button
-  submitButtonLabel?: string;
-  // Optional custom text to display in the success toast message
-  successMessage?: string;
-  // Optional custom text to display in the error toast message
-  errorMessage?: string;
-}
 
-const FeedbackButton: React.FC<FeedbackButtonProps> = ({
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SBASE_URL!,
+  process.env.NEXT_PUBLIC_SBASE_ANON_KEY!,
+);
+
+export default function FeedbackButton({
   buttonText = 'Feedback',
   feedbackLabel = 'Tell us how we are doing?',
   submitButtonLabel = 'Submit',
-  // successMessage = 'Thanks for your feedback!',
-  // errorMessage = 'Oops, something went wrong. Please try again later.',
-}) => {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SBASE_URL!,
-    process.env.NEXT_PUBLIC_SBASE_ANON_KEY!,
-  );
+  successMessage = 'Thank you for your feedback! Follow us on X @@evmtools_xyz',
+}) {
   const [feedbackText, setFeedbackText] = useState<string>();
   const [rating, setRating] = useState<number>();
 
   const { toast } = useToast();
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <></>;
+  }
 
   const handleSubmit = async () => {
     if (!feedbackText || feedbackText.trim().length < 3) {
@@ -67,7 +65,7 @@ const FeedbackButton: React.FC<FeedbackButtonProps> = ({
     }
 
     toast({
-      title: 'Thank you for your feedback.',
+      title: successMessage,
       variant: 'default',
     });
   };
@@ -123,6 +121,4 @@ const FeedbackButton: React.FC<FeedbackButtonProps> = ({
       </AlertDialog>
     </>
   );
-};
-
-export default FeedbackButton;
+}
