@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, VStack } from '@chakra-ui/react';
+
 import { ethers } from 'ethers';
 import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
 import { useGetBaseFee } from '@hooks/useGetBaseFee';
@@ -81,38 +81,37 @@ export default function GasConvertorComponent() {
   }, []);
 
   return (
-    <Flex justifyContent="space-between">
-      <VStack spacing={8}>
+    <div className="flex flex-col">
+      <div>
+        <Label htmlFor="wei-input">{'Wei'}</Label>
         <div>
-          <Label htmlFor="wei-input">{'Wei'}</Label>
-          <div>
-            <InputBaseCopy
-              value={weiValue}
-              onClick={() => handleCopyClick(weiValue)}
-              onChange={handleWeiChange}
-            />
-          </div>
+          <InputBaseCopy
+            value={weiValue}
+            onClick={() => handleCopyClick(weiValue)}
+            onChange={handleWeiChange}
+          />
         </div>
+      </div>
 
+      <div>
+        <Label htmlFor="gwei-input">{'Gwei'}</Label>
         <div>
-          <Label htmlFor="gwei-input">{'Gwei'}</Label>
-          <div>
-            <InputBaseCopy
-              value={gweiValue}
-              onClick={() => handleCopyClick(gweiValue)}
-              onChange={handleGweiChange}
-            />
-          </div>
+          <InputBaseCopy
+            value={gweiValue}
+            onClick={() => handleCopyClick(gweiValue)}
+            onChange={handleGweiChange}
+          />
         </div>
+      </div>
+      <div>
+        <Label htmlFor="eth-input">{'Eth'}</Label>
         <div>
-          <Label htmlFor="eth-input">{'Eth'}</Label>
-          <div>
-            <InputBaseCopy
-              value={ethValue}
-              onClick={() => handleCopyClick(ethValue)}
-              onChange={handleEthChange}
-            />
-            {/* <Input
+          <InputBaseCopy
+            value={ethValue}
+            onClick={() => handleCopyClick(ethValue)}
+            onChange={handleEthChange}
+          />
+          {/* <Input
               type="text"
               placeholder="ETH"
               className="w-48"
@@ -127,60 +126,59 @@ export default function GasConvertorComponent() {
                 onClick={() => handleCopyClick(ethValue)}
               />
             </InputRightElement> */}
+        </div>
+      </div>
+      {!!ethPrice?.[0] && (
+        <div>
+          <Label htmlFor="eth-input">{'Eth Price'}</Label>
+          <div>
+            <InputBaseCopy
+              value={ethPrice[0]?.data.amount}
+              disabled
+              onClick={() =>
+                handleCopyClick(ethPrice[0]?.data.amount.toString()!)
+              }
+            />
           </div>
         </div>
-        {!!ethPrice?.[0] && (
+      )}
+      {!!gasDetails && (
+        <div>
+          <Label htmlFor="eth-input">{'Suggested Base Fee'}</Label>
           <div>
-            <Label htmlFor="eth-input">{'Eth Price'}</Label>
-            <div>
-              <InputBaseCopy
-                value={ethPrice[0]?.data.amount}
-                disabled
-                onClick={() =>
-                  handleCopyClick(ethPrice[0]?.data.amount.toString()!)
-                }
-              />
-            </div>
+            <InputBaseCopy
+              value={ethers.utils
+                .formatUnits(gasDetails.gasPrice.toString(), 'gwei')
+                .toString()
+                .substring(0, 4)}
+              disabled
+              onClick={() => handleCopyClick(ethValue)}
+            />
           </div>
-        )}
-        {!!gasDetails && (
+        </div>
+      )}
+      {!!gasDetails && ethValue && (
+        <div>
+          <Label htmlFor="eth-input">{'Total Gas Cost'}</Label>
           <div>
-            <Label htmlFor="eth-input">{'Suggested Base Fee'}</Label>
-            <div>
-              <InputBaseCopy
-                value={ethers.utils
-                  .formatUnits(gasDetails.gasPrice.toString(), 'gwei')
-                  .toString()
-                  .substring(0, 4)}
-                disabled
-                onClick={() => handleCopyClick(ethValue)}
-              />
-            </div>
+            <InputBaseCopy
+              value={calculateValue(
+                ethValue.toString(),
+                gasDetails.gasPrice.toString(),
+              )}
+              disabled
+              onClick={() =>
+                handleCopyClick(
+                  calculateValue(
+                    ethValue.toString(),
+                    gasDetails.gasPrice.toString(),
+                  ),
+                )
+              }
+            />
           </div>
-        )}
-        {!!gasDetails && ethValue && (
-          <div>
-            <Label htmlFor="eth-input">{'Total Gas Cost'}</Label>
-            <div>
-              <InputBaseCopy
-                value={calculateValue(
-                  ethValue.toString(),
-                  gasDetails.gasPrice.toString(),
-                )}
-                disabled
-                onClick={() =>
-                  handleCopyClick(
-                    calculateValue(
-                      ethValue.toString(),
-                      gasDetails.gasPrice.toString(),
-                    ),
-                  )
-                }
-              />
-            </div>
-          </div>
-        )}
-      </VStack>
-    </Flex>
+        </div>
+      )}
+    </div>
   );
 }

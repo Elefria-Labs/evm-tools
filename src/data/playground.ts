@@ -23,7 +23,8 @@ export interface Item {
   onChain?: boolean;
   metadata?: { title: string; description: string };
   isWalletRequired?: boolean;
-  component?: any;
+  component: any;
+  isOnlyWeb?: boolean;
 }
 
 export const playgroundToolsList: Item[] = [
@@ -39,22 +40,21 @@ export const playgroundToolsList: Item[] = [
     description:
       'EIP-712 is a protocol for hashing and signing of typed structured data instead of just bytestrings.',
     link: Links.eip712,
-    isBeta: false,
     component: Eip712Component,
+    isOnlyWeb: true,
   },
   {
     title: 'ERC-191',
     description:
       'This ERC proposes a specification about how to handle signed data in Ethereum contracts.',
     link: Links.erc191,
-    isBeta: false,
     component: PersonalSignComponent,
+    isOnlyWeb: true,
   },
   {
     title: 'Checksum Address',
     description: 'Convert EVM addresses to checksum format.',
     link: Links.evmChecksumAddress,
-    isBeta: false,
     isWalletRequired: false,
     component: EVMAddressChecksumComponent,
   },
@@ -62,8 +62,9 @@ export const playgroundToolsList: Item[] = [
     title: 'ZK Boilerplate',
     description: 'ZK Boilerplate dapps using snarkjs and circom.',
     link: Links.boilerplate,
-    isBeta: false,
     isExternal: true,
+    isOnlyWeb: true,
+    component: null,
   },
   // {
   //   title: 'Uniswap V3 (beta)',
@@ -87,7 +88,6 @@ export const playgroundToolsList: Item[] = [
     description:
       'Analyze and decode EVM transactions aiding in transaction analysis and debugging.',
     link: Links.txDecoder,
-    isBeta: false,
     isWalletRequired: false,
     component: TxDecoderComponent,
   },
@@ -95,7 +95,6 @@ export const playgroundToolsList: Item[] = [
     title: 'Hashing Utils',
     description: 'Derive hashes from text such as keccak256, sha256, sha512.',
     link: Links.hashing,
-    isBeta: false,
     isWalletRequired: false,
     component: HashingComponent,
   },
@@ -104,7 +103,6 @@ export const playgroundToolsList: Item[] = [
     description:
       'Construct merkle trees and verify proofs using openzeppelin library.',
     link: Links.merkleTreeGenerator,
-    isBeta: false,
     isWalletRequired: false,
     component: MerkleTreeVerifier,
   },
@@ -113,7 +111,6 @@ export const playgroundToolsList: Item[] = [
     description:
       'Convert between various gas units (wei, gwei, eth) for smart contracts on the EVM networks.',
     link: Links.gasConverter,
-    isBeta: false,
     isWalletRequired: false,
     component: GasConvertorComponent,
   },
@@ -121,7 +118,6 @@ export const playgroundToolsList: Item[] = [
     title: 'Bytes & String Convertor',
     description: 'Convert between strings and bytes.',
     link: Links.byteconversion,
-    isBeta: false,
     isWalletRequired: false,
     component: StringByteConversion,
   },
@@ -129,7 +125,6 @@ export const playgroundToolsList: Item[] = [
     title: 'Burner Wallet',
     description: 'Generate random private and public key pairs for EVM chains.',
     link: Links.burnerWallet,
-    isBeta: false,
     isWalletRequired: false,
     component: BurnerWalletComponent,
   },
@@ -138,22 +133,21 @@ export const playgroundToolsList: Item[] = [
     description:
       'Generate contract address for next contract deployment from an address.',
     link: Links.contractAddressGen,
-    isBeta: false,
     metadata: {
       title: 'Deterministic Contract Address | Zk block',
       description:
         'Generate the next deployment contract address from an account',
     },
     component: DeterministicAddress,
+    isOnlyWeb: true,
   },
   {
     title: 'Mimic Wallet',
     description:
       'Mimic (EOA or multisig) address connection to any dapp using wallet connect.',
     link: Links.mimicWallet,
-    isBeta: false,
     isExternal: false,
-    isWalletRequired: true,
+    isWalletRequired: false,
     component: MimicWalletComponent,
   },
   {
@@ -161,8 +155,6 @@ export const playgroundToolsList: Item[] = [
     description:
       'Solidity helpers such uint, int max values, zero address, etc.',
     link: Links.cheatsheet,
-    isBeta: false,
-    isExternal: false,
     isWalletRequired: false,
     component: CheatsheetComponent,
   },
@@ -170,9 +162,6 @@ export const playgroundToolsList: Item[] = [
     title: 'Hex Convertor',
     description: 'Decimal to hex and binary convertor.',
     link: Links.hexConvertor,
-    isBeta: false,
-    isExternal: false,
-    isWalletRequired: true,
     component: HexConvertorComponent,
   },
   // {

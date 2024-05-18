@@ -48,8 +48,8 @@ const Index = () => {
                 </Link>
               </div> */}
               <ToolSearchComponent
-                onSelected={(toolLink: string) => {
-                  if (toolLink == 'all') {
+                onSelected={(selectedTool) => {
+                  if (selectedTool.toolLink == 'all') {
                     setDefaultView(true);
                     setSelectedTool(null);
                     return;
@@ -57,16 +57,20 @@ const Index = () => {
                   if (
                     playgroundToolsList
                       .filter((t) => t.isExternal)
-                      .find((t) => t.link == toolLink)
+                      .find((t) => t.link == selectedTool.toolLink)
                   ) {
                     setDefaultView(true);
                     setSelectedTool(null);
-                    window.open(toolLink, '_blank', 'rel=noopener noreferrer');
+                    window.open(
+                      selectedTool.toolLink,
+                      '_blank',
+                      'rel=noopener noreferrer',
+                    );
                     return;
                   }
 
                   setDefaultView(false);
-                  setSelectedTool(toolLink);
+                  setSelectedTool(selectedTool.toolLink);
                 }}
               />
               <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />

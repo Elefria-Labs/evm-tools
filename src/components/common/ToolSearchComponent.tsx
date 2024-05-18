@@ -25,7 +25,12 @@ import { playgroundToolsList } from '@data/playground';
 import { Label } from '@shadcn-components/ui/label';
 
 type ToolSearchComponentProps = {
-  onSelected: (toolLink: string) => void;
+  onSelected: (selectedTool: {
+    toolLink: string;
+    isOnlyWeb?: boolean;
+    isExternal?: boolean;
+  }) => void;
+  isInExtension?: boolean;
 };
 
 export function ToolSearchComponent(props: ToolSearchComponentProps) {
@@ -62,7 +67,7 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
-                    props.onSelected(currentValue);
+                    props.onSelected({ toolLink: currentValue });
                   }}
                 >
                   All
@@ -80,10 +85,18 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? '' : currentValue);
                       setOpen(false);
-                      props.onSelected(currentValue);
+                      props.onSelected({
+                        toolLink: currentValue,
+                        isOnlyWeb: tool?.isOnlyWeb,
+                        isExternal: tool?.isExternal,
+                      });
                     }}
                   >
-                    {tool.title} {tool.isExternal && <ExternalLinkIcon />}
+                    {tool.title}
+                    {(tool.isExternal ||
+                      (props.isInExtension && tool.isOnlyWeb)) && (
+                      <ExternalLinkIcon className="ml-2" />
+                    )}
                     <CheckIcon
                       className={cn(
                         'ml-auto h-4 w-4',

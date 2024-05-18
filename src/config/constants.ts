@@ -3,6 +3,7 @@ export const twitterLink = 'https://twitter.com/zk_block';
 export const evmToolsXLink = 'https://twitter.com/evmtools_xyz';
 
 export const Links = {
+  base: 'https://www.evmtools.xyz',
   home: '/',
   boilerplate: 'https://boilerplate.zkblock.app/',
   blog: 'https://blog.zkblock.app/',

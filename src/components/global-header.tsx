@@ -1,5 +1,5 @@
-import { Image } from '@chakra-ui/react';
-import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import Image from 'next/image';
+import { HamburgerMenuIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
   MenubarContent,
@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shadcn-components/ui/dropdown-menu';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
@@ -221,10 +221,10 @@ export function GlobalHeader() {
           <div className="flex flex-row items-center self-start">
             <Image
               alt=""
-              h="60px"
-              w="60px"
+              height="60"
+              width="60"
               src="../assets/images/evm-tools-logo-2.svg"
-              mr="10px"
+              style={{ marginRight: '10px' }}
             />
             <span>evmtools</span>
           </div>

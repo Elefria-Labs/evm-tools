@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { playgroundToolsList } from '@data/playground';
 import {
   Tabs,
@@ -7,24 +7,40 @@ import {
   TabsTrigger,
 } from '@shadcn-components/ui/tabs';
 
-export default function ToolTabs() {
+type ToolTabsProps = {
+  selectTab?: string;
+};
+export default function ToolTabs(props: ToolTabsProps) {
+  const { selectTab } = props;
+  const [selectedTab, setSelectedTab] = useState<string>(
+    selectTab ?? 'hashing',
+  );
+  useEffect(() => {
+    setSelectedTab(selectTab ?? 'hashing');
+  }, [selectTab]);
   const [toolTabs] = useState(
-    playgroundToolsList.filter((t) => t?.isWalletRequired == false),
+    playgroundToolsList.filter((t) => t?.isOnlyWeb != true),
   );
 
   const getToolComponent = (toolLink: string) => {
     const Component = playgroundToolsList.find(
       (tool) => tool.link == toolLink,
     )?.component;
+
     return <Component />;
   };
 
   return (
-    <div className="flex flex-col overflow-x-hidden">
-      <Tabs defaultValue="account">
-        <TabsList className="w-[464px] overflow-x-scroll">
+    <div className="flex flex-col overflow-y-auto">
+      <Tabs defaultValue={selectedTab} value={selectedTab}>
+        {/* https://github.com/shadcn-ui/ui/issues/2740 */}
+        <TabsList className="w-[464px] overflow-x-auto items-center justify-start">
           {toolTabs.map((t) => (
-            <TabsTrigger key={t.link} value={t.link}>
+            <TabsTrigger
+              key={t.link}
+              value={t.link}
+              onClick={() => setSelectedTab(t.link)}
+            >
               {t.title}
             </TabsTrigger>
           ))}
@@ -33,9 +49,9 @@ export default function ToolTabs() {
         <div>
           {toolTabs.map((t) => (
             <TabsContent
-              value={t.link}
-              className=" h-[472px] pb-4 overflow-y-auto overflow-x-hidden"
               key={t.link}
+              value={t.link}
+              className=" h-[472px] pb-12 overflow-y-auto overflow-x-hidden"
             >
               {getToolComponent(t.link)}
             </TabsContent>
