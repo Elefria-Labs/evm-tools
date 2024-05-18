@@ -31,10 +31,10 @@ export default function ToolTabs(props: ToolTabsProps) {
   };
 
   return (
-    <div className="flex flex-col overflow-y-auto">
+    <div className="flex flex-col overflow-y-auto px-0.5 align-middle">
       <Tabs defaultValue={selectedTab} value={selectedTab}>
         {/* https://github.com/shadcn-ui/ui/issues/2740 */}
-        <TabsList className="w-[464px] overflow-x-auto items-center justify-start">
+        <TabsList className="w-[474px] overflow-x-auto items-center justify-start">
           {toolTabs.map((t) => (
             <TabsTrigger
               key={t.link}
@@ -51,7 +51,7 @@ export default function ToolTabs(props: ToolTabsProps) {
             <TabsContent
               key={t.link}
               value={t.link}
-              className=" h-[472px] pb-12 overflow-y-auto overflow-x-hidden"
+              className=" h-[472px] pb-12 px-2 overflow-y-auto overflow-x-hidden"
             >
               {getToolComponent(t.link)}
             </TabsContent>

@@ -15,6 +15,7 @@ const nextConfig = {
   resolveSymlinks: false,
   basePath: '',
   poweredByHeader: false,
+  images: { unoptimized: true },
 };
 module.exports = withPlugins(
   [

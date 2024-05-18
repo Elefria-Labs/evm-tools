@@ -6,7 +6,7 @@ import {
   CheckIcon,
   ExternalLinkIcon,
 } from '@radix-ui/react-icons';
-import { cn } from '@/lib/utils';
+import { cn } from '@lib/utils';
 import { Button } from '@shadcn-components/ui/button';
 import {
   Command,

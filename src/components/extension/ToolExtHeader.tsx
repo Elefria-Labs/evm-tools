@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { Card, CardContent } from '@shadcn-components/ui/card';
 import GasPrice from './GasPrice';
@@ -8,22 +8,21 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@shadcn-components/ui/dropdown-menu';
-import { Button, Link } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { Links } from '@config/constants';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ToolExtHeader() {
   return (
     <div>
       <Card className="w-full rounded-none">
-        <CardContent
-          className="flex flex-row justify-between align-middle items-center py-1"
-          style={{ border: '1px solid red' }}
-        >
+        <CardContent className="flex flex-row justify-between align-middle items-center py-1">
           {/* TODO component  */}
-          <Link href={Links.home}>
+          <Link href={Links.base}>
             <div className="flex flex-row items-center self-start">
               <Image
-                alt=""
+                alt="evmtools.xyz"
                 height="36"
                 width="36"
                 src="../assets/images/evm-tools-logo-2.svg"

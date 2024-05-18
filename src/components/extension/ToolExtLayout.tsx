@@ -9,31 +9,29 @@ export default function ToolExtLayout() {
     string | undefined
   >();
   return (
-    <div className="h-[600px] overflow-y-hidden">
+    <div className="w-[480px] h-[600px] overflow-y-hidden ">
       {/* 56px */}
       <ToolExtHeader />
-      <ToolSearchComponent
-        isInExtension
-        onSelected={(selectedTool) => {
-          if (selectedTool.isExternal) {
-            window.open(selectedTool.toolLink, '_blank');
-            return;
-          }
-          if (selectedTool.isOnlyWeb) {
-            window.open(`${Links.base}/${selectedTool.toolLink}`, '_blank');
-            return;
-          }
-          if (selectedTool.toolLink == 'all') {
-            return;
-          }
-          setSearchSelectedTool(selectedTool.toolLink);
-        }}
-      />
-      <div
-        style={{
-          padding: '0 8px 8px 8px',
-        }}
-      >
+      <div className="px-2">
+        <ToolSearchComponent
+          isInExtension
+          onSelected={(selectedTool) => {
+            if (selectedTool.isExternal) {
+              window.open(selectedTool.toolLink, '_blank');
+              return;
+            }
+            if (selectedTool.isOnlyWeb) {
+              window.open(`${Links.base}/${selectedTool.toolLink}`, '_blank');
+              return;
+            }
+            if (selectedTool.toolLink == 'all') {
+              return;
+            }
+            setSearchSelectedTool(selectedTool.toolLink);
+          }}
+        />
+      </div>
+      <div className="pb-4">
         {/* <ToolSearchInput /> */}
         <ToolTabs selectTab={searchSelectedTool} />
       </div>
