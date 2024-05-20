@@ -158,15 +158,22 @@ export default function Eip712PlaygroundComponent() {
           <JSONInput
             id="data7122"
             placeholder={data7122}
-            width="300px"
+            width="100%"
             height="320px"
             locale={locale}
-            onChange={(event: any) => {
+            onBlur={(event: any) => {
               if (event == null) {
                 return;
               }
               setData7122(event.jsObject);
             }}
+            // onChange={(event: any) => {
+            //   if (event == null) {
+            //     return;
+            //   }
+            //   console.log('event.jsObject', event.jsObject);
+            //   setData7122(event.jsObject);
+            // }}
           />
 
           <Button onClick={signUsingEthers}>Sign</Button>
