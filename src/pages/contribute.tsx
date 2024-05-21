@@ -1,21 +1,11 @@
 import React from 'react';
-import {
-  Container,
-  Heading,
-  Text,
-  Link,
-  List,
-  ListItem,
-  ListIcon,
-  Tag,
-  TagLeftIcon,
-} from '@chakra-ui/react';
 import { useToast } from '@shadcn-components/ui/use-toast';
-import { CheckCircleIcon, CopyIcon } from '@chakra-ui/icons';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { toastOptions } from '@components/common/toast';
 import { repoLink, zkToosLink } from '@config/constants';
+import Link from 'next/link';
+import { CheckCircledIcon } from '@radix-ui/react-icons';
 
 export default function Contribute() {
   const { toast } = useToast();
@@ -23,74 +13,58 @@ export default function Contribute() {
     <Main
       meta={
         <Meta
-          title="Zk Block | Boilerplate for ZK Dapps"
-          description="Boilerplate for ZK Dapps | Zero Knowledge Proofs"
+          title="EVM Tools | Tools for web3 and evm developers"
+          description="Tools for zero knowledge proofs, smart contracts, ethereum (& L2), web3 apps and cryptography."
         />
       }
     >
-      <Container maxW={'container.lg'} position="relative">
-        <Heading
-          as="h1"
-          color="black"
-          fontSize={['35px', '35px', '40px']}
-          fontWeight={700}
-          mb="20px"
-          mt="20px"
-        >
-          Contribute ❤️
-        </Heading>
-        <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
-          The source code of the boilerplate can be found on Github (links
-          below):
-        </Text>
-        <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
+      <div className="max-w-1024px w-[100%]">
+        <h1 className="font-bold text-lg my-4">Contribute ❤️</h1>
+        <p className="mb-4">Github links below:</p>
+
+        <p className="mb-4">
           <Link
-            alignItems="center"
-            fontWeight={600}
-            _hover={{ textDecoration: 'none', color: 'grey' }}
+            className="font-bold text-md hover:bg-gray-100 hover:text-blue-700"
             href={repoLink}
           >
             zk-block boilerplate
           </Link>
-        </Text>
-        <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
+        </p>
+
+        <p className="mb-4">
           <Link
-            alignItems="center"
-            fontWeight={600}
-            _hover={{ textDecoration: 'none', color: 'grey' }}
+            className="font-bold text-md hover:bg-gray-100 hover:text-blue-700"
             href={zkToosLink}
           >
             evm-tools
           </Link>
-        </Text>
-        <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
-          You can contribute by:
-        </Text>
-        <List spacing={3}>
+        </p>
+        <p className="mb-4">You can contribute by:</p>
+
+        <ul className="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           {[
             'Improving the documentation',
             'Creating an issue if something is broken',
-            'Writing tests for the contracts or circuits',
-            'Adding sample circuits and the correspoding UI',
+            'Writing tests',
             'Suggestion to improve the setup',
-            'Add support for Vue.js',
-            'Create a UI to explain how ZKP works',
-            'Fixing grammar mistakes, typos on the website or the content',
-            'Writing a Guide Updating an existing guide',
+            'Fixing grammar mistakes, typos on the website or in the content',
           ].map((list) => {
             return (
-              <ListItem key={list}>
-                <ListIcon as={CheckCircleIcon} color="green.500" />
+              <li
+                key={list}
+                className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+              >
+                <CheckCircledIcon className="mr-2" />
                 {list}
-              </ListItem>
+              </li>
             );
           })}
-          <ListItem key={'donate'}>
-            <Tag
-              size={'lg'}
-              variant="solid"
-              colorScheme="teal"
-              cursor="pointer"
+          <li
+            key={'donate'}
+            className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600"
+          >
+            <div
+              className="cursor-pointer flex flex-row items-center text-black dark:text-white"
               onClick={() => {
                 navigator.clipboard.writeText(
                   `0xD5141c47DEE803D0dD9793fcD5703daF4f750148`,
@@ -103,11 +77,10 @@ export default function Contribute() {
               }}
             >
               {`Donation Address: ${'0xD5141c47DEE803D0dD9793fcD5703daF4f750148'}`}
-              <TagLeftIcon boxSize="12px" as={CopyIcon} ml={2} />
-            </Tag>
-          </ListItem>
-        </List>
-      </Container>
+            </div>
+          </li>
+        </ul>
+      </div>
     </Main>
   );
 }
