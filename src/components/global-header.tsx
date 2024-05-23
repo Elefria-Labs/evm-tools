@@ -20,11 +20,19 @@ import {
 
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Badge } from '@shadcn-components/ui/badge';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@shadcn-components/ui/tooltip';
 
 type MenuLinkProps = {
   text: string;
   link: string;
   newTab?: boolean;
+  badgeText?: string;
 };
 
 function MenuLink(props: MenuLinkProps) {
@@ -54,6 +62,7 @@ const menuLinks = [
     title: 'Storage Reader',
     link: Links.evmTools,
     newTab: true,
+    disabled: true,
   },
   {
     title: 'Learn',
@@ -70,14 +79,47 @@ const menuLinks = [
 ];
 // TODO
 function DesktopMenuLink(props: {
-  link: { title: string; link: string; newTab?: boolean };
+  link: {
+    title: string;
+    link: string;
+    newTab?: boolean;
+    badgeText?: string;
+    disabled?: boolean;
+  };
 }) {
   const { link } = props;
   return (
     <MenubarMenu>
-      <Link href={link.link} target={link?.newTab ? '_blank' : '_self'}>
-        <MenubarTrigger className="cursor-pointer">{link.title}</MenubarTrigger>
-      </Link>
+      {link?.disabled ? (
+        <MenubarTrigger
+          disabled={link?.disabled}
+          className="cursor-pointer text-gray-400"
+        >
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                onClick={(event) => {
+                  const target = event.currentTarget;
+                  target.blur();
+                  target.focus();
+                }}
+              >
+                {link.title}
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Coming Soon</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </MenubarTrigger>
+      ) : (
+        <Link href={link.link} target={link?.newTab ? '_blank' : '_self'}>
+          <MenubarTrigger disabled={link?.disabled} className="cursor-pointer">
+            {link.title}
+          </MenubarTrigger>
+          {link?.badgeText && <Badge>{link?.badgeText}</Badge>}
+        </Link>
+      )}
     </MenubarMenu>
   );
 }
