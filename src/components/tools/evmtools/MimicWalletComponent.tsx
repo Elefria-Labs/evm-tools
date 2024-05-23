@@ -14,6 +14,7 @@ import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
 import { ethers } from 'ethers';
 import { Button } from '@shadcn-components/ui/button';
+import BaseInputAddressBook from '@components/common/BaseInputAddressBook';
 
 // https://docs.walletconnect.com/web3wallet/wallet-usage
 const core = new Core({
@@ -184,7 +185,19 @@ export default function MimicWalletComponent() {
           Address To Mimic (EOA or Multisig)
         </Label>
         <p className="text-xs">*Currently only supports Ethereum mainnet</p>
-        <Input
+        {/* <Input
+          className="sm:w-84"
+          placeholder="Enter wallet address, 0x123abc"
+          value={addressToMimic ?? ''}
+          onChange={(e) => {
+            const addr = e.target.value;
+
+            // setEnsAddress(null);
+            setAddressToMimic(addr);
+          }}
+        /> */}
+
+        <BaseInputAddressBook
           className="sm:w-84"
           placeholder="Enter wallet address, 0x123abc"
           value={addressToMimic ?? ''}

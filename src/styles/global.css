@@ -66,8 +66,7 @@ body {
 
 .box {
   position: relative;
-  height: 180px;
-  width: 280px;
+  border-radius: 10px;
   display: block;
   /* border-width: 4px; */
   background: linear-gradient(0deg, black, #444444);
