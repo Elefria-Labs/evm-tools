@@ -21,12 +21,6 @@ import {
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Badge } from '@shadcn-components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@shadcn-components/ui/tooltip';
 
 type MenuLinkProps = {
   text: string;
@@ -95,7 +89,9 @@ function DesktopMenuLink(props: {
           disabled={link?.disabled}
           className="cursor-pointer text-gray-400"
         >
-          <TooltipProvider>
+          {link.title}
+          {/* TODO FIX */}
+          {/* <TooltipProvider>
             <Tooltip>
               <TooltipTrigger
                 onClick={(event) => {
@@ -110,7 +106,7 @@ function DesktopMenuLink(props: {
                 <p>Coming Soon</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
+          </TooltipProvider> */}
         </MenubarTrigger>
       ) : (
         <Link href={link.link} target={link?.newTab ? '_blank' : '_self'}>
