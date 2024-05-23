@@ -13,6 +13,7 @@ import MerkleTreeVerifier from '@components/tools/evmtools/MerkleTreeVerifier';
 import MimicWalletComponent from '@components/tools/evmtools/MimicWalletComponent';
 import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
 import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
+import ShamirSecretSharingComponent from '@components/tools/evmtools/ShamirSecretSharingComponent';
 
 export interface Item {
   title: string;
@@ -163,6 +164,22 @@ export const playgroundToolsList: Item[] = [
     description: 'Decimal to hex and binary convertor.',
     link: Links.hexConvertor,
     component: HexConvertorComponent,
+  },
+  {
+    title: 'Shamir Secret Demo',
+    description:
+      'Shares can be used to reconstruct the secret when a threshold of shares are combined.',
+    link: Links.shamirsSecret,
+    component: ShamirSecretSharingComponent,
+    isBeta: true,
+  },
+  {
+    title: 'Address Book',
+    description:
+      'Store your favorite EVM address in local storage for easy access.',
+    link: Links.shamirsSecret,
+    component: ShamirSecretSharingComponent,
+    isBeta: true,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',

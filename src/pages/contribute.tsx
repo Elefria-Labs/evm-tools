@@ -52,9 +52,9 @@ export default function Contribute() {
             return (
               <li
                 key={list}
-                className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                className="flex flex-row items-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600"
               >
-                <CheckCircledIcon className="mr-2" />
+                <CheckCircledIcon className="mr-2 content-around" />
                 {list}
               </li>
             );

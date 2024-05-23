@@ -8,6 +8,7 @@ import {
 } from '@shadcn-components/ui/card';
 import { Button } from '@shadcn-components/ui/button';
 import Link from 'next/link';
+import { Badge } from '@shadcn-components/ui/badge';
 
 export type HomeCardPropsType = {
   title: string;
@@ -21,15 +22,22 @@ export type HomeCardPropsType = {
 
 export function HomeCard(props: HomeCardPropsType) {
   return (
-    <div className={props.glow ? 'box glowing' : ''}>
+    <div
+      className={`h-[254px] min-w-[325px] ${props.glow ? 'box glowing' : ''}`}
+    >
       <Card className="h-[254px] min-w-[325px]">
         <CardHeader>
-          <CardTitle>{props.title}</CardTitle>
+          <CardTitle>
+            {props.title}
+            <span>
+              {props?.glow && <Badge className="ml-2 py-0.4">New</Badge>}
+            </span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="min-h-[72px] font-thin">{props.description}</p>
         </CardContent>
-        <CardFooter>
+        <CardFooter className={`w-full`}>
           <Link
             className="w-full"
             aria-label={props.title}
@@ -37,7 +45,7 @@ export function HomeCard(props: HomeCardPropsType) {
             style={{ textDecoration: 'none' }}
             target={props?.isExternal ? '_blank' : ''}
           >
-            <Button className="w-full">
+            <Button className={`w-full`}>
               Open &nbsp;
               {props?.isExternal && (
                 <OpenInNewWindowIcon className="mr-2 h-4 w-4" />

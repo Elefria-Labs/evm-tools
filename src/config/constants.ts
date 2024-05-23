@@ -16,6 +16,7 @@ export const Links = {
   mimicWallet: 'mimic-wallet',
   hexConvertor: 'hex-convertor',
   hashing: 'hashing',
+  shamirsSecret: 'shamirs-secret',
   evmChecksumAddress: 'evm-checksum-address',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',
