@@ -233,14 +233,69 @@ export function getEip712AaveCreditDelegation(): GenericData712Type<
     },
   };
 }
+
+export function getPermit2Template(): GenericData712Type<
+  Record<string, string | number>,
+  Record<string, string | number>
+> {
+  return {
+    types: {
+      EIP712Domain: [
+        {
+          name: 'name',
+          type: 'string',
+        },
+        {
+          name: 'version',
+          type: 'string',
+        },
+        {
+          name: 'chainId',
+          type: 'uint256',
+        },
+        {
+          name: 'verifyingContract',
+          type: 'address',
+        },
+      ],
+      Permit: [
+        { name: 'owner', type: 'address' },
+        { name: 'spender', type: 'address' },
+        { name: 'value', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'deadline', type: 'uint256' },
+      ],
+    },
+    primaryType: 'Permit',
+    domain: {
+      name: 'MyToken',
+      version: '1',
+      chainId: 1,
+      verifyingContract: ethers.constants.AddressZero, // Replace with your token contract address
+    },
+    message: {
+      owner: ethers.constants.AddressZero, // Replace with the owner address
+      spender: ethers.constants.AddressZero, // Replace with the spender address
+      value: 1000, // Amount to be allowed
+      nonce: 0, // Nonce for the permit
+      deadline: Math.floor(Date.now() / 1000) + 3600, // Current time + 1 hour in seconds
+    },
+  };
+}
+
 export function getEip721DataByTemplate(
   eip721Template: string,
-): GenericData712Type<Record<string, string | number>, Record<string, string>> {
+): GenericData712Type<
+  Record<string, string | number>,
+  Record<string, string | number>
+> {
   switch (eip721Template) {
     case 'meta-tx':
       return getEip721MetaTx(eip712MetaTxMessage);
     case 'aave-delegate-credit':
       return getEip712AaveCreditDelegation();
+    case 'permit2':
+      return getPermit2Template();
     default:
       return { types: {}, domain: {}, primaryType: '', message: {} };
   }

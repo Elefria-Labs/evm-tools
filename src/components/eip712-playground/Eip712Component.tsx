@@ -47,7 +47,10 @@ export default function Eip712PlaygroundComponent() {
   >();
   const [rsvSig, setRsvSig] = useState<ethers.Signature | undefined>();
   const [data7122, setData7122] = useState<
-    GenericData712Type<Record<string, string | number>, Record<string, string>>
+    GenericData712Type<
+      Record<string, string | number>,
+      Record<string, string | number>
+    >
   >(getEip721DataByTemplate('default'));
   const [recoveredAddr, setRecoveredAddr] = useState<string | undefined>();
   const [_, setLoading] = useState<boolean>(false);
@@ -136,7 +139,6 @@ export default function Eip712PlaygroundComponent() {
       <div className="flex flex-col sm:flex-row content-between">
         <div className="flex flex-col w-2/5 min-w-[240px] sm:max-w-full ">
           <div className="flex flex-col sm:flex-row  sm:justify-center">
-            {/* <Label className="my-0">{'eth_signTypedData_v4'}</Label> */}
             <div className="my-4 ml-4">
               <Select
                 onValueChange={(value) => {
@@ -151,6 +153,7 @@ export default function Eip712PlaygroundComponent() {
                   <SelectItem value="aave-delegate-credit">
                     Aave Credit Delegation (Sepolia)
                   </SelectItem>
+                  <SelectItem value="permit2">Permit2 Approval</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -175,7 +178,14 @@ export default function Eip712PlaygroundComponent() {
             //   setData7122(event.jsObject);
             // }}
           />
-
+          <a
+            href="https://github.com/Elefria-Labs/evm-tools/issues/new"
+            target="_blank"
+          >
+            <p className="text-xs hover:underline-offset-4 underline decoration-sky-500 italic">
+              {'I want to submit a template.'}
+            </p>
+          </a>
           <Button onClick={signUsingEthers}>Sign</Button>
         </div>
         <div className="ml-4 flex flex-col min-w-[240px] w-3/5 mt-8 sm:mt-0">
