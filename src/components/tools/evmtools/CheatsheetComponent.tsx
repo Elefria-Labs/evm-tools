@@ -51,64 +51,66 @@ export default function CheatsheetComponent() {
   }, [dataType, getMaxMinValue]);
 
   return (
-    <div>
-      <div className="mb-4">
-        <Label>Integer Type</Label>
-        <Select
-          onValueChange={(value) => {
-            setDataType(value);
-          }}
-        >
-          <SelectTrigger className="w-[180px] mt-2">
-            <SelectValue placeholder="Select integer type" />
-          </SelectTrigger>
-          <SelectContent>
-            {integerList.map((o) => (
-              <SelectItem key={o.option} value={o.value}>
-                {o.option}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div>
-        {minMaxValue?.min && (
-          <>
-            <Label>Min Value</Label>
-            <InputGroup>
-              <Input type="text" value={minMaxValue?.min} disabled />
-              <InputRightElement>
-                <IconButton
-                  aria-label="Copy int value"
-                  icon={<CopyIcon />}
-                  onClick={() => handleCopyClick(minMaxValue.min)}
-                />
-              </InputRightElement>
-            </InputGroup>
-          </>
-        )}
-        {minMaxValue?.max && (
-          <>
-            <Label>Max Value</Label>
-            <InputBaseCopy
-              onClick={() => handleCopyClick(minMaxValue.max)}
-              value={minMaxValue?.max}
-              disabled
-            />
-          </>
-        )}
-      </div>
+    <div className="flex flex-row justify-center">
+      <div className="max-w-[480px] w-[100%]">
+        <div className="mb-4">
+          <Label>Integer Type</Label>
+          <Select
+            onValueChange={(value) => {
+              setDataType(value);
+            }}
+          >
+            <SelectTrigger className="mt-2">
+              <SelectValue placeholder="Select integer type" />
+            </SelectTrigger>
+            <SelectContent>
+              {integerList.map((o) => (
+                <SelectItem key={o.option} value={o.value}>
+                  {o.option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          {minMaxValue?.min && (
+            <>
+              <Label>Min Value</Label>
+              <InputGroup>
+                <Input type="text" value={minMaxValue?.min} disabled />
+                <InputRightElement>
+                  <IconButton
+                    aria-label="Copy int value"
+                    icon={<CopyIcon />}
+                    onClick={() => handleCopyClick(minMaxValue.min)}
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </>
+          )}
+          {minMaxValue?.max && (
+            <>
+              <Label>Max Value</Label>
+              <InputBaseCopy
+                onClick={() => handleCopyClick(minMaxValue.max)}
+                value={minMaxValue?.max}
+                disabled
+              />
+            </>
+          )}
+        </div>
 
-      <div>
-        <Label>Zero Address</Label>
-        <InputBaseCopy
-          onClick={() => handleCopyClick(ethers.constants.AddressZero)}
-          value={ethers.constants.AddressZero}
-          disabled
-        />
-      </div>
-      <div>
-        <EtherUnitsTable />
+        <div className="mt-4">
+          <Label>Zero Address</Label>
+          <InputBaseCopy
+            onClick={() => handleCopyClick(ethers.constants.AddressZero)}
+            value={ethers.constants.AddressZero}
+            disabled
+          />
+        </div>
+        <div>
+          <EtherUnitsTable />
+        </div>
       </div>
     </div>
   );

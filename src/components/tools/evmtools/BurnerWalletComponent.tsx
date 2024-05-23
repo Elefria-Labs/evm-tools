@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { Button } from '@shadcn-components/ui/button';
-import { Input } from '@shadcn-components/ui/input';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
 import { Label } from '@shadcn-components/ui/label';
 import { ethers } from 'ethers';
+import InputBaseCopy from '@components/common/BaseInputCopy';
 
 export default function BurnerWalletComponent() {
   const [privateKey, setPrivateKey] = useState('');
@@ -48,9 +48,13 @@ export default function BurnerWalletComponent() {
   return (
     <div>
       <div>
-        <h3 className="mb-4 font-bold ">Generate Random Private Key Pair</h3>
+        <h3 className="mb-4 font-bold">Generate Random Private Key Pair</h3>
 
-        <Button onClick={() => generateKeys()} disabled={useEntropy}>
+        <Button
+          className="w-full"
+          onClick={() => generateKeys()}
+          disabled={useEntropy}
+        >
           Generate Keys
         </Button>
         <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
@@ -80,15 +84,15 @@ export default function BurnerWalletComponent() {
       </div>
       <div className="mt-4">
         <Label>Private Key</Label>
-        <Input value={privateKey} disabled />
+        <InputBaseCopy value={privateKey} disabled />
       </div>
       <div className="mt-4">
         <Label>Public Key</Label>
-        <Input value={publicKey} disabled />
+        <InputBaseCopy value={publicKey} disabled />
       </div>
       <div className="mt-4">
         <Label>Public Address</Label>
-        <Input value={publicAddress} disabled />
+        <InputBaseCopy value={publicAddress} disabled />
       </div>
     </div>
   );

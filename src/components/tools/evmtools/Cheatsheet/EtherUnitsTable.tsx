@@ -42,9 +42,9 @@ const etherUnits = [
 ];
 export default function EtherUnitsTable() {
   return (
-    <div>
+    <div className="mt-4">
       <Label>Ether Units</Label>
-      <Table className="max-w-[240px]">
+      <Table className="max-w-[460px]">
         <TableCaption>
           1 ether in wei, has 18 decimal places (i.e. 1 ether represents 10^18
           wei)

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input } from '@shadcn-components/ui/input';
+import { handleCopyClick } from '@utils/wallet';
 
 function SuccessCustomIcon() {
   return (
@@ -35,7 +36,7 @@ function CopyCustomIcon() {
   );
 }
 export default function InputBaseCopy(props: {
-  onClick: (value: any) => void;
+  onClick?: (value: any) => void;
   onChange?: (value: any) => void;
   value: string;
   disabled?: boolean;
@@ -54,7 +55,13 @@ export default function InputBaseCopy(props: {
           data-copy-to-clipboard-target="npm-install-copy-button"
           data-tooltip-target="tooltip-copy-npm-install-copy-button"
           className="absolute end-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 inline-flex items-center justify-center"
-          onClick={props.onClick}
+          onClick={(value) => {
+            if (props?.onClick) {
+              props.onClick(value);
+              return;
+            }
+            handleCopyClick(props?.value ?? '');
+          }}
         >
           <span id="default-icon">
             <CopyCustomIcon />

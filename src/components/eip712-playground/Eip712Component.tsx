@@ -137,7 +137,7 @@ export default function Eip712PlaygroundComponent() {
   return (
     <div className="mt-4">
       <div className="flex flex-col sm:flex-row content-between">
-        <div className="flex flex-col w-2/5 min-w-[240px] sm:max-w-full ">
+        <div className="flex flex-col w-2/5 min-w-[240px] sm:max-w-full">
           <div className="flex flex-col sm:flex-row  sm:justify-center">
             <div className="my-4 ml-4">
               <Select

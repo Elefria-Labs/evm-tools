@@ -139,6 +139,7 @@ const DeterministicAddress = () => {
       )}
 
       <Button
+        className="w-full"
         onClick={
           useCreate2 ? generateContractAddressWithSalt : generateContractAddress
         }

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
-import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 import { Textarea } from '@shadcn-components/ui/textarea';
+import InputBaseCopy from '@components/common/BaseInputCopy';
 
 function HashingComponent() {
   const [inputText, setInputText] = useState('');
@@ -39,17 +39,17 @@ function HashingComponent() {
         <div className="mt-4">
           <Label>Keccak256</Label>
           <p>(keccak256(toUtf8Bytes(text)))</p>
-          <Input type="text" value={keccak256Hash} disabled />
+          <InputBaseCopy value={keccak256Hash} disabled />
         </div>
-        <div>
+        <div className="mt-4">
           <Label>Sha256</Label>
           <p>(sha256(toUtf8Bytes(text)))</p>
-          <Input type="text" value={sha256Hash} disabled />
+          <InputBaseCopy value={sha256Hash} disabled />
         </div>
-        <div>
+        <div className="mt-4">
           <Label>Sha512</Label>
           <p>(sha512(toUtf8Bytes(text)))</p>
-          <Input type="text" value={sha512Hash} disabled />
+          <InputBaseCopy value={sha512Hash} disabled />
         </div>
       </div>
     </div>

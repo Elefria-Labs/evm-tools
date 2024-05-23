@@ -13,6 +13,21 @@ export default function EvmAddressChecksumComponent() {
 
   const { toast } = useToast();
 
+  // const isChecksumAddressFn = (address: string) => {
+  //   if (!ethers.utils.isAddress(address)) {
+  //     toast({
+  //       ...toastOptions,
+  //       title: 'Invalid address',
+  //     });
+  //     return;
+  //   }
+  // };
+  // const debFn = debounce(isChecksumAddressFn, 1000);
+
+  const handleCopyClick = (value: string) => {
+    navigator.clipboard.writeText(value);
+  };
+
   const handleToChecksumAddress = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -65,10 +80,6 @@ export default function EvmAddressChecksumComponent() {
         variant: 'default',
       });
     }
-  };
-
-  const handleCopyClick = (value: string) => {
-    navigator.clipboard.writeText(value);
   };
 
   return (

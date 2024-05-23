@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
-import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
+import InputBaseCopy from '@components/common/BaseInputCopy';
 
 function StringByteConversion() {
   const [stringInput, setStringInput] = useState('');
@@ -38,8 +38,7 @@ function StringByteConversion() {
       <div>
         <div>
           <Label>String Input</Label>
-          <Input
-            type="text"
+          <InputBaseCopy
             value={stringInput}
             onChange={(e) => {
               setStringInput(e.target.value);
@@ -49,8 +48,8 @@ function StringByteConversion() {
         </div>
         <div>
           <Label>Bytes32 Input</Label>
-          <Input
-            type="text"
+
+          <InputBaseCopy
             value={bytesInput}
             onChange={(e) => {
               setBytesInput(e.target.value);

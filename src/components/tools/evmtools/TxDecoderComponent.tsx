@@ -31,7 +31,7 @@ export default function TxDecoderComponent() {
         flexDirection={['column', 'column', 'row']}
         justifyContent="space-between"
       > */}
-      <div className="sm:mt-4 w-96">
+      <div className="flex flex-col w-full">
         <Label htmlFor="rawTx" className="mb-4">
           Raw Transaction Data
         </Label>
@@ -39,7 +39,8 @@ export default function TxDecoderComponent() {
           id="rawTx"
           // minW={[380, 380, 600]}
           // minH={[320, 320, 480]}
-          className="w-96 sm:w-84 sm:h-380 h-96"
+          rows={10}
+          className="w-full sm:w-84"
           placeholder="Enter raw transaction data"
           value={rawTx}
           onChange={(e) => setRawTx(e.target.value)}

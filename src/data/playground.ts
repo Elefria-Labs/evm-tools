@@ -14,6 +14,7 @@ import MimicWalletComponent from '@components/tools/evmtools/MimicWalletComponen
 import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
 import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
 import ShamirSecretSharingComponent from '@components/tools/evmtools/ShamirSecretSharingComponent';
+import AddressBookComponent from '@components/tools/evmtools/AddressBookComponent';
 
 export interface Item {
   title: string;
@@ -177,9 +178,8 @@ export const playgroundToolsList: Item[] = [
     title: 'Address Book',
     description:
       'Store your favorite EVM address in local storage for easy access.',
-    link: Links.shamirsSecret,
-    component: ShamirSecretSharingComponent,
-    isBeta: true,
+    link: Links.addressBook,
+    component: AddressBookComponent,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',

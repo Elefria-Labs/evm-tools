@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Divider } from '@chakra-ui/react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
@@ -8,6 +7,7 @@ import { Label } from '@shadcn-components/ui/label';
 import { Textarea } from '@shadcn-components/ui/textarea';
 import { Button } from '@shadcn-components/ui/button';
 import { Input } from '@shadcn-components/ui/input';
+import { Separator } from '@shadcn-components/ui/separator';
 
 const defaultInput =
   '0xd8da6bf26964af9d7eed9e03e53415d37aa96045\n0xeee718c1e522ecb4b609265db7a83ab48ea0b06f\n0x14536667cd30e52c0b458baaccb9fada7046e056';
@@ -137,7 +137,7 @@ const MerkleTreeVerifier = () => {
   };
 
   return (
-    <div className="p-4">
+    <div>
       <Label className="mb-4">Enter addresses (one per line):</Label>
       <Textarea
         placeholder="Enter addresses, one per line"
@@ -147,29 +147,35 @@ const MerkleTreeVerifier = () => {
         value={addressesInput}
         onChange={handleAddressesInputChange}
       />
-      <Button onClick={handleCreateMerkleRoot}>Create Merkle Root</Button>
+      <Button className="w-full" onClick={handleCreateMerkleRoot}>
+        Create Merkle Root
+      </Button>
       {merkleRoot && (
         <div className="mt-4">
           <h4>Merkle Root: {merkleRoot}</h4>
         </div>
       )}
-      <Divider my={4} />
+      <Separator className="my-2" />
       <Label>Generate merkle proof</Label>
       <Input
         placeholder="Address"
         value={proofAddressInput}
         onChange={handleProofAddressInput}
       />
-      <Button onClick={handleGenerateProof}>Generate Proof</Button>
+      <Button className="w-full" onClick={handleGenerateProof}>
+        Generate Proof
+      </Button>
       {addressProof && <Textarea rows={6} value={addressProof} disabled />}
-      <Divider my={4} />
+      <Separator className="my-2" />
       <Label>Verify if an address belongs to the Merkle tree:</Label>
       <Input
         placeholder="Address to Verify"
         value={verifyAddress}
         onChange={handleVerifyAddressChange}
       />
-      <Button onClick={handleVerifyAddress}>Verify Address</Button>
+      <Button className="w-full" onClick={handleVerifyAddress}>
+        Verify Address
+      </Button>
     </div>
   );
 };

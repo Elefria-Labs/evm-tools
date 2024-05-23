@@ -179,8 +179,8 @@ export default function MimicWalletComponent() {
   };
 
   return (
-    <div className="flex sm:flex-col flex-row">
-      <div className="sm:mt-4 w-96">
+    <div className="flex flex-row justify-center">
+      <div className="max-w-[480px] w-[100%]">
         <Label htmlFor="rawTx" className="mb-4">
           Address To Mimic (EOA or Multisig)
         </Label>

@@ -17,6 +17,7 @@ export const Links = {
   hexConvertor: 'hex-convertor',
   hashing: 'hashing',
   shamirsSecret: 'shamirs-secret',
+  addressBook: 'address-book',
   evmChecksumAddress: 'evm-checksum-address',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',
