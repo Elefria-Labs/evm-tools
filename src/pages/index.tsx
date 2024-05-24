@@ -75,7 +75,7 @@ const Index = () => {
               />
               <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
               {defaultView && (
-                <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <>
                     {playgroundToolsList
                       .filter((tool) => tool.isBeta)

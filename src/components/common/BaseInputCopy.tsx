@@ -46,7 +46,7 @@ export default function InputBaseCopy(props: {
       <div className="relative">
         <Input
           type="string"
-          className="min-w-96 mt-4"
+          className="mt-4"
           value={props.value}
           onChange={props?.onChange}
           disabled={props?.disabled}

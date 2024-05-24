@@ -16,7 +16,9 @@ const Main = (props: IMainProps) => {
         <PageWrapper>
           <GlobalHeader />
           <div className="flex flex-col content-between items-center min-h-screen">
-            <div className="flex flex-col w-2/3">{props.children}</div>
+            <div className="flex flex-col max-w-[1024px] w-11/12">
+              {props.children}
+            </div>
           </div>
           <Footer />
         </PageWrapper>
