@@ -6,15 +6,15 @@ import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 
 function HexConvertorComponent() {
-  const [decimals, setDecimals] = useState<number>(0);
+  const [decimals, setDecimals] = useState<BigInt>(BigInt(0));
   const [hexadecimals, setHexadecimals] = useState('');
   const [binary, setBinary] = useState('');
   const { toast } = useToast();
-  const convertDecToHex = (dec: number) => {
+  const convertDecToHex = (dec: BigInt) => {
     try {
       const hex = dec.toString(16);
       setHexadecimals(`0x${hex}`);
-      setBinary(Number(dec).toString(2));
+      setBinary(dec.toString(2));
     } catch (error) {
       toast({
         ...toastOptions,
@@ -28,7 +28,7 @@ function HexConvertorComponent() {
       return;
     }
     try {
-      const dec = parseInt(hexValue, 16);
+      const dec = ethers.BigNumber.from(hexValue).toBigInt();
       setDecimals(dec);
       setBinary(dec.toString(2));
     } catch (error) {
@@ -46,10 +46,10 @@ function HexConvertorComponent() {
           <Label>Decimal</Label>
           <Input
             type="number"
-            value={decimals}
+            value={decimals.toString()}
             onChange={(e) => {
-              setDecimals(Number(e.target.value));
-              convertDecToHex(Number(e.target.value));
+              setDecimals(BigInt(e.target.value));
+              convertDecToHex(BigInt(e.target.value));
             }}
           />
         </div>
@@ -81,8 +81,10 @@ function HexConvertorComponent() {
               if (!binaryPattern.test(e.target.value)) {
                 return;
               }
-              setDecimals(parseInt(e.target.value, 2));
-              setHexadecimals(`0x${parseInt(e.target.value, 2).toString(16)}`);
+              setDecimals(BigInt('0b' + e.target.value));
+              setHexadecimals(
+                `0x${BigInt('0b' + e.target.value).toString(16)}`,
+              );
             }}
           />
         </div>
