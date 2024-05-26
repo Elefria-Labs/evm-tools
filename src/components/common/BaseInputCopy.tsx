@@ -40,6 +40,7 @@ export default function InputBaseCopy(props: {
   onChange?: (value: any) => void;
   value: string;
   disabled?: boolean;
+  placeholder?: string;
 }) {
   return (
     <div className="w-full">
@@ -50,6 +51,7 @@ export default function InputBaseCopy(props: {
           value={props.value}
           onChange={props?.onChange}
           disabled={props?.disabled}
+          placeholder={props?.placeholder}
         />
         <button
           data-copy-to-clipboard-target="npm-install-copy-button"
