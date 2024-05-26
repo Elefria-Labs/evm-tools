@@ -119,7 +119,11 @@ function DesktopMenuLink(props: {
     </MenubarMenu>
   );
 }
-function DesktopMenuLinks() {
+function DesktopMenuLinks({
+  showConnectWallet = true,
+}: {
+  showConnectWallet?: boolean;
+}) {
   return (
     <div className="flex flex-row items-center align-middle">
       <Menubar>
@@ -176,21 +180,27 @@ function DesktopMenuLinks() {
                 {m.title}
               </MenubarTrigger> */}
       </Link>
-      <div className="ml-[2px]">
-        <ConnectButton
-          chainStatus="icon"
-          showBalance={false}
-          accountStatus={{
-            smallScreen: 'avatar',
-            largeScreen: 'full',
-          }}
-        />
-      </div>
+      {showConnectWallet && (
+        <div className="ml-[2px]">
+          <ConnectButton
+            chainStatus="icon"
+            showBalance={false}
+            accountStatus={{
+              smallScreen: 'avatar',
+              largeScreen: 'full',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
 
-function MobileMenuLinks() {
+function MobileMenuLinks({
+  showConnectWallet = true,
+}: {
+  showConnectWallet?: boolean;
+}) {
   // const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -208,16 +218,18 @@ function MobileMenuLinks() {
           {/* <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.zkTools}>Zk Tools</Link>
           </DropdownMenuItem> */}
-          <DropdownMenuItem>
-            <ConnectButton
-              chainStatus="icon"
-              showBalance={false}
-              accountStatus={{
-                smallScreen: 'avatar',
-                largeScreen: 'full',
-              }}
-            />
-          </DropdownMenuItem>
+          {showConnectWallet && (
+            <DropdownMenuItem>
+              <ConnectButton
+                chainStatus="icon"
+                showBalance={false}
+                accountStatus={{
+                  smallScreen: 'avatar',
+                  largeScreen: 'full',
+                }}
+              />
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.boilerplate}>Boilerplate</Link>
           </DropdownMenuItem>
@@ -251,7 +263,7 @@ function MobileMenuLinks() {
   );
 }
 
-export function GlobalHeader() {
+export function GlobalHeader(props: { showConnectWallet?: boolean }) {
   return (
     <nav>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -275,10 +287,10 @@ export function GlobalHeader() {
           aria-expanded="false"
         >
           <span className="sr-only">Open main menu</span>
-          <MobileMenuLinks />
+          <MobileMenuLinks showConnectWallet={props?.showConnectWallet} />
         </button>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <DesktopMenuLinks />
+          <DesktopMenuLinks showConnectWallet={props?.showConnectWallet} />
         </div>
       </div>
     </nav>

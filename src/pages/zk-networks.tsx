@@ -41,6 +41,7 @@ const ZkNetwork = () => {
           description="Boilerplate for ZK Dapps | Zero Knowledge Proofs"
         />
       }
+      showConnectWallet={false}
     >
       <ToolBase
         title="Zk Networks"
