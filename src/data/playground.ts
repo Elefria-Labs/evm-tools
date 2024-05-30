@@ -7,7 +7,6 @@ import StringByteConversion from '@components/tools/evmtools/StringByteConversio
 import DeterministicAddress from '@components/tools/evmtools/DeterministicAddress';
 import CheatsheetComponent from '@components/tools/evmtools/CheatsheetComponent';
 import EVMAddressChecksumComponent from '@components/tools/evmtools/EVMAddressChecksumComponent';
-import GasConvertorComponent from '@components/tools/evmtools/GasConvertorComponent';
 import HashingComponent from '@components/tools/evmtools/HashingComponent';
 import MerkleTreeVerifier from '@components/tools/evmtools/MerkleTreeVerifier';
 import MimicWalletComponent from '@components/tools/evmtools/MimicWalletComponent';
@@ -15,6 +14,8 @@ import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
 import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
 import ShamirSecretSharingComponent from '@components/tools/evmtools/ShamirSecretSharingComponent';
 import AddressBookComponent from '@components/tools/evmtools/AddressBookComponent';
+import GasConverterComponent from '@components/tools/evmtools/GasConvertorComponent';
+import UniswapV4ToolComponent from '@components/tools/evmtools/UniswapV4Tools';
 
 export interface Item {
   title: string;
@@ -68,6 +69,13 @@ export const playgroundToolsList: Item[] = [
     isOnlyWeb: true,
     component: null,
   },
+  {
+    title: 'Uniswap Utils',
+    description: 'Derive token price from tick or sqrtX96.',
+    link: Links.uniswapV4Tools,
+    isExternal: false,
+    component: UniswapV4ToolComponent,
+  },
   // {
   //   title: 'Uniswap V3 (beta)',
   //   description:
@@ -109,15 +117,15 @@ export const playgroundToolsList: Item[] = [
     component: MerkleTreeVerifier,
   },
   {
-    title: 'Gas Convertor',
+    title: 'Gas Converter',
     description:
       'Convert between various gas units (wei, gwei, eth) for smart contracts on the EVM networks.',
     link: Links.gasConverter,
     isWalletRequired: false,
-    component: GasConvertorComponent,
+    component: GasConverterComponent,
   },
   {
-    title: 'Bytes & String Convertor',
+    title: 'Bytes & String Converter',
     description: 'Convert between strings and bytes.',
     link: Links.byteconversion,
     isWalletRequired: false,
@@ -162,7 +170,7 @@ export const playgroundToolsList: Item[] = [
   },
   {
     title: 'Hex Convertor',
-    description: 'Decimal to hex and binary convertor.',
+    description: 'Decimal to hex and binary converter.',
     link: Links.hexConvertor,
     component: HexConvertorComponent,
   },

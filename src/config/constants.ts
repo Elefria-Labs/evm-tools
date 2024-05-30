@@ -19,6 +19,7 @@ export const Links = {
   shamirsSecret: 'shamirs-secret',
   addressBook: 'address-book',
   evmChecksumAddress: 'evm-checksum-address',
+  uniswapV4Tools: 'uniswap-v4-tools',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',
   txDecoder: 'txdecoder',
@@ -37,6 +38,8 @@ export const Links = {
 
 export const repoLink = 'https://github.com/heypran/zk-block';
 export const zkToosLink = 'https://github.com/heypran/zk-tools';
+export const extensionLink =
+  'https://chromewebstore.google.com/detail/evm-tools/aibinghcdfagfoaajjiojfhkmnjmjmem';
 
 export const SendAllContractPolygon =
   '0x1C7915edd185303a374fB7C332478C7dD599501b';

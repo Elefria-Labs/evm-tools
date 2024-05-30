@@ -13,7 +13,7 @@ function calculateValue(ethAmount: string, gasPrice: string): string {
   return ethers.utils.formatUnits(value, 18 * 2); // Convert the value to a human-readable format
 }
 
-export default function GasConvertorComponent() {
+export default function GasConverterComponent() {
   const [weiValue, setWeiValue] = useState<string>('');
   const [gweiValue, setGweiValue] = useState<string>('');
   const [ethValue, setEthValue] = useState<string>('');
