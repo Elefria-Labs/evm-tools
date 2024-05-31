@@ -79,7 +79,7 @@ const CoinTable: React.FC<CoinTableProps> = ({
                     <FaRegStar onClick={() => onToggleWatchlist(coin.id)} />
                   )}
                 </TableCell>
-                <TableCell className="flex items-center w-auto">
+                <TableCell className="flex items-center min-w-[140px]">
                   <img
                     src={coin.image}
                     alt={coin.name}
@@ -166,41 +166,46 @@ const MarketData: React.FC = () => {
   );
 
   return (
-    <div className="p-4">
+    <div>
       <Input
         placeholder="Search coin..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-4"
       />
-      <Tabs>
-        <TabsList>
-          {['Market', 'Watchlist'].map((t) => (
-            <TabsTrigger key={t} value={t.toLowerCase()}>
-              {t}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <div className="overflow-y-scroll" style={{ border: '1px solid red' }}>
+        <Tabs defaultValue="market">
+          <TabsList className="flex flex-row justify-center">
+            {['Market', 'Watchlist'].map((t) => (
+              <TabsTrigger key={t} value={t.toLowerCase()}>
+                {t}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        <TabsContent value="market">
-          <CoinTable
-            coins={filteredCoins}
-            watchlist={watchlist}
-            onToggleWatchlist={handleToggleWatchlist}
-          />
-          <div className="text-center mt-4">
-            <Button onClick={() => setPage(page + 1)}>Load More</Button>
-          </div>
-        </TabsContent>
+          <TabsContent value="market" className="overflow-y-scroll h-[322px]">
+            <CoinTable
+              coins={filteredCoins}
+              watchlist={watchlist}
+              onToggleWatchlist={handleToggleWatchlist}
+            />
+            <div className="text-center mt-4">
+              <Button onClick={() => setPage(page + 1)}>Load More</Button>
+            </div>
+          </TabsContent>
 
-        <TabsContent value="watchlist">
-          <CoinTable
-            coins={filteredWatchlistCoins}
-            watchlist={watchlist}
-            onToggleWatchlist={handleToggleWatchlist}
-          />
-        </TabsContent>
-      </Tabs>
+          <TabsContent
+            value="watchlist"
+            className="overflow-y-scroll h-[322px]"
+          >
+            <CoinTable
+              coins={filteredWatchlistCoins}
+              watchlist={watchlist}
+              onToggleWatchlist={handleToggleWatchlist}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
