@@ -173,7 +173,7 @@ const MarketData: React.FC = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-4"
       />
-      <div className="overflow-y-scroll" style={{ border: '1px solid red' }}>
+      <div className="overflow-y-scroll">
         <Tabs defaultValue="market">
           <TabsList className="flex flex-row justify-center">
             {['Market', 'Watchlist'].map((t) => (
