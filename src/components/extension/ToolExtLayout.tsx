@@ -9,7 +9,7 @@ export default function ToolExtLayout() {
     string | undefined
   >();
   return (
-    <div className="w-[480px] h-[600px] overflow-y-hidden ">
+    <div className="w-[480px] h-[600px] overflow-y-hidden">
       {/* 56px */}
       <ToolExtHeader />
       <div className="px-2">

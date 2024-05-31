@@ -1,19 +1,17 @@
 import { create } from 'zustand';
-import { createChecksumAddressSlice, createMimicWalletSlice } from './slices';
+import {
+  createChecksumAddressSlice,
+  createMimicWalletSlice,
+  createExtensionSettingsSlice,
+} from './slices';
 import { createSelectors } from './selectors';
 import { GlobalState } from './state';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-// export const useGlobalStore = create(
-//   persist(createChecksumAddressSlice(...a), {
-//     name: 'food-storage', // name of the item in the storage (must be unique)
-//     storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
-//   }),
-// );
-
 const useGlobalStoreBase = create<GlobalState>((...a) => ({
   ...createChecksumAddressSlice(...a),
   ...createMimicWalletSlice(...a),
+  ...createExtensionSettingsSlice(...a),
 }));
 
 const usePersistGlobalStoreBase = create<GlobalState>()(
@@ -21,10 +19,11 @@ const usePersistGlobalStoreBase = create<GlobalState>()(
     (...a) => ({
       ...createChecksumAddressSlice(...a),
       ...createMimicWalletSlice(...a),
+      ...createExtensionSettingsSlice(...a),
     }),
     {
       name: 'evm-tools', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
     },
   ),
 );

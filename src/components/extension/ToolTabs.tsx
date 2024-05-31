@@ -6,21 +6,25 @@ import {
   TabsList,
   TabsTrigger,
 } from '@shadcn-components/ui/tabs';
+import { useGlobalStore } from '@store/global-store';
 
 type ToolTabsProps = {
   selectTab?: string;
 };
 export default function ToolTabs(props: ToolTabsProps) {
   const { selectTab } = props;
-  const [selectedTab, setSelectedTab] = useState<string>(
-    selectTab ?? 'hashing',
-  );
-  useEffect(() => {
-    setSelectedTab(selectTab ?? 'hashing');
-  }, [selectTab]);
+  const lastOpenTab = useGlobalStore.use.lastOpenTab();
+  const setLastOpenTab = useGlobalStore.use.setLastOpenTab();
+
   const [toolTabs] = useState(
     playgroundToolsList.filter((t) => t?.isOnlyWeb != true),
   );
+
+  useEffect(() => {
+    if (selectTab != null && selectTab.length > 0) {
+      setLastOpenTab(selectTab);
+    }
+  }, [selectTab, lastOpenTab, setLastOpenTab]);
 
   const getToolComponent = (toolLink: string) => {
     const Component = playgroundToolsList.find(
@@ -32,14 +36,16 @@ export default function ToolTabs(props: ToolTabsProps) {
 
   return (
     <div className="flex flex-col overflow-y-auto px-0.5 align-middle">
-      <Tabs defaultValue={selectedTab} value={selectedTab}>
+      <Tabs defaultValue={lastOpenTab} value={lastOpenTab}>
         {/* https://github.com/shadcn-ui/ui/issues/2740 */}
         <TabsList className="w-[474px] overflow-x-auto items-center justify-start">
           {toolTabs.map((t) => (
             <TabsTrigger
               key={t.link}
               value={t.link}
-              onClick={() => setSelectedTab(t.link)}
+              onClick={() => {
+                setLastOpenTab(t.link);
+              }}
             >
               {t.title}
             </TabsTrigger>
