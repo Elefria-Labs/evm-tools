@@ -46,4 +46,6 @@ export const createExtensionSettingsSlice = (
   lastOpenTab: '',
   setLastOpenTab: (lastOpenTab: string) =>
     set(() => ({ lastOpenTab: lastOpenTab })),
+  pinnedTabs: [],
+  setPinnedTabs: (tabs: string[]) => set({ pinnedTabs: tabs }),
 });

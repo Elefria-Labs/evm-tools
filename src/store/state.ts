@@ -5,6 +5,10 @@ export interface GlobalState {
   setAddressToMimic: (address: string) => void;
   wcUri: string;
   setWcUri: (wcUri: string) => void;
+
+  // Ext
   lastOpenTab: string;
   setLastOpenTab: (lastOpenTab: string) => void;
+  pinnedTabs: string[];
+  setPinnedTabs: (tabs: string[]) => void;
 }
