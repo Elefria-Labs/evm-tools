@@ -72,7 +72,11 @@
         "@typescript-eslint/dot-notation": "off",
         "import/prefer-default-export": "off", // Named export is easier to refactor automatically
         "class-methods-use-this": "off", // _document.tsx use render method without `this` keyword
-        "@typescript-eslint/no-unused-vars": "off",
+        // "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+        ],
         "unused-imports/no-unused-imports": "warn",
         "no-empty": "warn",
         "unused-imports/no-unused-vars": [

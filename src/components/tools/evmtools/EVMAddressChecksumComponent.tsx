@@ -5,9 +5,13 @@ import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 import InputBaseCopy from '@components/common/BaseInputCopy';
+import { useGlobalStore } from '@store/global-store';
 
 export default function EvmAddressChecksumComponent() {
-  const [toChecksumAddress, setToChecksumAddress] = useState<string>('');
+  const toChecksumAddress = useGlobalStore.use.toChecksumAddress();
+  const setToChecksumAddress = useGlobalStore.use.setToChecksumAddress();
+
+  // const [toChecksumAddress, setToChecksumAddress] = useState<string>(address);
   const [checksummedAddress, setChecksummedAddress] = useState<string>('');
   const [isChecksumAddress, setIsChecksumAddress] = useState<string>('');
 
@@ -32,7 +36,9 @@ export default function EvmAddressChecksumComponent() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const addressInput = event.target.value;
+
     setToChecksumAddress(addressInput);
+    // setToChecksumAddress(addressInput);
     if (!ethers.utils.isAddress(addressInput)) {
       toast({
         ...toastOptions,

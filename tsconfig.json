@@ -14,8 +14,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
     "outDir": "out",

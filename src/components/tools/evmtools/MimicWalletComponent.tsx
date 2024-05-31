@@ -15,6 +15,7 @@ import { Input } from '@shadcn-components/ui/input';
 import { ethers } from 'ethers';
 import { Button } from '@shadcn-components/ui/button';
 import BaseInputAddressBook from '@components/common/BaseInputAddressBook';
+import { useGlobalStore } from '@store/global-store';
 
 // https://docs.walletconnect.com/web3wallet/wallet-usage
 const core = new Core({
@@ -22,9 +23,13 @@ const core = new Core({
 });
 
 export default function MimicWalletComponent() {
-  const [wcUri, setWcUri] = useState<string>('');
+  const addressToMimic = useGlobalStore.use.addressToMimic();
+  const setAddressToMimic = useGlobalStore.use.setAddressToMimic();
+  const wcUri = useGlobalStore.use.wcUri();
+  const setWcUri = useGlobalStore.use.setWcUri();
 
-  const [addressToMimic, setAddressToMimic] = useState<string | null>();
+  // const [wcUri, setWcUri] = useState<string>('');
+  // const [addressToMimic, setAddressToMimic] = useState<string | null>();
   // const [ensAddress, setEnsAddress] = useState<string | null>();
   const [mimicStatus, setMimicStatus] = useState<string | null>();
   const [activeSession, setActiveSession] =
@@ -143,7 +148,7 @@ export default function MimicWalletComponent() {
       variant: 'default',
     });
     setMimicStatus('Disconnected!');
-  }, [wcWeb3Wallet, activeSession, toast]);
+  }, [wcWeb3Wallet, activeSession, toast, setWcUri]);
 
   const connectSession = async () => {
     if (
