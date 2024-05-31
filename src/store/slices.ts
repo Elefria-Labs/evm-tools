@@ -2,18 +2,26 @@ import { StoreApi } from 'zustand';
 import { GlobalState } from './state';
 
 export const createChecksumAddressSlice = (
-  set: (partial: Partial<GlobalState>, replace?: boolean | undefined) => void,
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
   _get: () => unknown,
   // eslint-disable-next-line @typescript-eslint/no-redeclare
   _: StoreApi<unknown>,
 ) => ({
   toChecksumAddress: '',
   setToChecksumAddress: (address: string) =>
-    set(() => ({ toChecksumAddress: address })),
+    set((state) => ({ ...state, toChecksumAddress: address })),
 });
 
 export const createMimicWalletSlice = (
-  set: (partial: Partial<GlobalState>, replace?: boolean | undefined) => void,
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
   _get: () => unknown,
   // eslint-disable-next-line @typescript-eslint/no-redeclare
   _: StoreApi<unknown>,
@@ -26,7 +34,11 @@ export const createMimicWalletSlice = (
 });
 
 export const createExtensionSettingsSlice = (
-  set: (partial: Partial<GlobalState>, replace?: boolean | undefined) => void,
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
   _get: () => unknown,
   // eslint-disable-next-line @typescript-eslint/no-redeclare
   _: StoreApi<unknown>,
