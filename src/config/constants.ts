@@ -20,6 +20,7 @@ export const Links = {
   addressBook: 'address-book',
   evmChecksumAddress: 'evm-checksum-address',
   uniswapV4Tools: 'uniswap-v4-tools',
+  marketData: 'market-data',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',
   txDecoder: 'txdecoder',

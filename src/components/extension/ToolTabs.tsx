@@ -17,7 +17,9 @@ export default function ToolTabs(props: ToolTabsProps) {
   const setLastOpenTab = useGlobalStore.use.setLastOpenTab();
 
   const [toolTabs] = useState(
-    playgroundToolsList.filter((t) => t?.isOnlyWeb != true),
+    playgroundToolsList.filter(
+      (t) => t?.isOnlyWeb != true || t?.isOnlyExtension == true,
+    ),
   );
 
   useEffect(() => {

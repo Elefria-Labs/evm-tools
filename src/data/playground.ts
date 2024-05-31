@@ -16,6 +16,7 @@ import ShamirSecretSharingComponent from '@components/tools/evmtools/ShamirSecre
 import AddressBookComponent from '@components/tools/evmtools/AddressBookComponent';
 import GasConverterComponent from '@components/tools/evmtools/GasConvertorComponent';
 import UniswapV4ToolComponent from '@components/tools/evmtools/UniswapV4Tools';
+import MarketData from '@components/tools/market/MarketDetails';
 
 export interface Item {
   title: string;
@@ -28,6 +29,7 @@ export interface Item {
   isWalletRequired?: boolean;
   component: any;
   isOnlyWeb?: boolean;
+  isOnlyExtension?: boolean;
 }
 
 export const playgroundToolsList: Item[] = [
@@ -188,6 +190,13 @@ export const playgroundToolsList: Item[] = [
       'Store your favorite EVM address in local storage for easy access.',
     link: Links.addressBook,
     component: AddressBookComponent,
+  },
+  {
+    title: 'Market Data',
+    description: 'Check crypto prices, market cap and save your watchlist.',
+    link: Links.marketData,
+    component: MarketData,
+    isOnlyExtension: true,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',
