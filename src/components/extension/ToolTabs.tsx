@@ -63,9 +63,10 @@ export default function ToolTabs(props: ToolTabsProps) {
           {sortedToolTabs.map((t) => (
             <TabsTrigger
               key={t?.link}
-              value={t?.link}
+              // TODO fix
+              value={t?.link!}
               onClick={() => {
-                setLastOpenTab(t?.link);
+                setLastOpenTab(t?.link!);
               }}
             >
               <div className="relative flex items-center">
@@ -77,12 +78,12 @@ export default function ToolTabs(props: ToolTabsProps) {
                     right: '-16px',
                     transform: 'translateY(-50%)',
                     cursor: 'pointer',
-                    color: pinnedTabs.includes(t?.link) ? 'gold' : 'gray',
+                    color: pinnedTabs.includes(t?.link!) ? 'gold' : 'gray',
                   }}
                   className="rotate-12 w-4 h-4"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handlePinTab(t?.link);
+                    handlePinTab(t?.link!);
                   }}
                 />
               </div>
@@ -93,10 +94,10 @@ export default function ToolTabs(props: ToolTabsProps) {
           {sortedToolTabs.map((t) => (
             <TabsContent
               key={t?.link}
-              value={t?.link}
+              value={t?.link!}
               className="h-[472px] pb-12 px-2 overflow-y-auto overflow-x-hidden"
             >
-              {getToolComponent(t?.link)}
+              {getToolComponent(t?.link!)}
             </TabsContent>
           ))}
         </div>

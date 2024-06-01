@@ -87,7 +87,9 @@ const Index = () => {
                         />
                       ))}
                     {playgroundToolsList
-                      ?.filter((tool) => !tool.isBeta)
+                      ?.filter(
+                        (tool) => tool?.isOnlyExtension != true && !tool.isBeta,
+                      )
                       .map((tool) => (
                         <HomeCard {...tool} key={tool.title} />
                       ))}

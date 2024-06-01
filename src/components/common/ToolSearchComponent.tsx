@@ -78,33 +78,35 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
                     )}
                   />
                 </CommandItem>
-                {playgroundToolsList.map((tool) => (
-                  <CommandItem
-                    key={tool.link}
-                    value={tool.link}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue);
-                      setOpen(false);
-                      props.onSelected({
-                        toolLink: currentValue,
-                        isOnlyWeb: tool?.isOnlyWeb,
-                        isExternal: tool?.isExternal,
-                      });
-                    }}
-                  >
-                    {tool.title}
-                    {(tool.isExternal ||
-                      (props.isInExtension && tool.isOnlyWeb)) && (
-                      <ExternalLinkIcon className="ml-2" />
-                    )}
-                    <CheckIcon
-                      className={cn(
-                        'ml-auto h-4 w-4',
-                        value === tool.link ? 'opacity-100' : 'opacity-0',
+                {playgroundToolsList
+                  .filter((t) => t?.isOnlyExtension != true)
+                  .map((tool) => (
+                    <CommandItem
+                      key={tool.link}
+                      value={tool.link}
+                      onSelect={(currentValue) => {
+                        setValue(currentValue === value ? '' : currentValue);
+                        setOpen(false);
+                        props.onSelected({
+                          toolLink: currentValue,
+                          isOnlyWeb: tool?.isOnlyWeb,
+                          isExternal: tool?.isExternal,
+                        });
+                      }}
+                    >
+                      {tool.title}
+                      {(tool.isExternal ||
+                        (props.isInExtension && tool.isOnlyWeb)) && (
+                        <ExternalLinkIcon className="ml-2" />
                       )}
-                    />
-                  </CommandItem>
-                ))}
+                      <CheckIcon
+                        className={cn(
+                          'ml-auto h-4 w-4',
+                          value === tool.link ? 'opacity-100' : 'opacity-0',
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
               </CommandList>
             </CommandGroup>
           </Command>

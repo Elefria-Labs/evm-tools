@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { HamburgerMenuIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
   MenubarContent,
@@ -231,26 +231,19 @@ function MobileMenuLinks({
               />
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem className="cursor-pointer">
-            <Link href={Links.boilerplate}>Boilerplate</Link>
+          <DropdownMenuItem>
+            <Link href={`/${Links.devTools}`}>
+              <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
+            </Link>
           </DropdownMenuItem>
-
+          <DropdownMenuItem>
+            <a href={Links.blog} target="_blank">
+              <DropdownMenuLabel>Learn</DropdownMenuLabel>
+            </a>
+          </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.contribute}>Contribute</Link>
           </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
-            <a href="http://evmtools.xyz?ref=ext" target="_blank">
-              <DropdownMenuItem className="cursor-pointer">
-                EVM Storage Reader
-                <span className="ml-2">
-                  <ExternalLinkIcon />
-                </span>
-              </DropdownMenuItem>
-            </a>
-          </DropdownMenuItem>
-
           <DropdownMenuSeparator />
           <a href={evmToolsXLink} target="_blank">
             <DropdownMenuItem className="cursor-pointer">
