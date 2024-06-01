@@ -25,11 +25,8 @@ export default function ToolExtMenuDrawer() {
         EVM Storage Reader (coming soon)
       </DropdownMenuItem>
 
-      {/* <DropdownMenuItem>
-        <MinusIcon className="h-4 w-4" />
-        <span className="sr-only">Request Feature</span>
-      </DropdownMenuItem>
-      <DropdownMenuItem>Team</DropdownMenuItem> */}
+      {/* <FeedbackButton isFloating={false} /> */}
+
       <DropdownMenuSeparator />
       <a href={evmToolsXLink} target="_blank">
         <DropdownMenuItem className="cursor-pointer">

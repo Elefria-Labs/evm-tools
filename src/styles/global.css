@@ -58,6 +58,18 @@
   }
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  max-width: 2px;
+  max-height: 2px;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4ea8df;
+  border-radius: 1px;
+}
+
 body {
   margin: 0;
   padding: 0;
