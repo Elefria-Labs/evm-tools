@@ -21,6 +21,7 @@ import {
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Badge } from '@shadcn-components/ui/badge';
+import ClosableAlert from './common/ExtensionAlert';
 
 type MenuLinkProps = {
   text: string;
@@ -265,63 +266,39 @@ function MobileMenuLinks({
 
 export function GlobalHeader(props: { showConnectWallet?: boolean }) {
   return (
-    <nav>
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link href={Links.home}>
-          <div className="flex flex-row items-center self-start">
-            <Image
-              alt=""
-              height="60"
-              width="60"
-              src="../assets/images/evm-tools-logo-2.svg"
-              style={{ marginRight: '10px' }}
-            />
-            <span>evmtools</span>
+    <div>
+      <nav>
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <Link href={Links.home}>
+            <div className="flex flex-row items-center self-start">
+              <Image
+                alt=""
+                height="60"
+                width="60"
+                src="../assets/images/evm-tools-logo-2.svg"
+                style={{ marginRight: '10px' }}
+              />
+              <span>evmtools</span>
+            </div>
+          </Link>
+          <button
+            data-collapse-toggle="navbar-default"
+            type="button"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="navbar-default"
+            aria-expanded="false"
+          >
+            <span className="sr-only">Open main menu</span>
+            <MobileMenuLinks showConnectWallet={props?.showConnectWallet} />
+          </button>
+          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+            <DesktopMenuLinks showConnectWallet={props?.showConnectWallet} />
           </div>
-        </Link>
-        <button
-          data-collapse-toggle="navbar-default"
-          type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-default"
-          aria-expanded="false"
-        >
-          <span className="sr-only">Open main menu</span>
-          <MobileMenuLinks showConnectWallet={props?.showConnectWallet} />
-        </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <DesktopMenuLinks showConnectWallet={props?.showConnectWallet} />
         </div>
+      </nav>
+      <div className="flex-row flex justify-center">
+        <ClosableAlert />
       </div>
-    </nav>
-
-    // <div
-    //   className="min-w-[375px] flex flex-row justify-center"
-    //   style={{ border: '1px solid red' }}
-    // >
-    //   <div
-    //     className="flex flex-row p-4 min-w-[345px] sm:max-w-[1024px] lg:max-w-[1024px] justify-between align-middle"
-    //     style={{ border: '1px solid blue' }}
-    //   >
-    //     <Link href={Links.home}>
-    //       <div className="flex flex-row items-center self-start">
-    //         <Image
-    //           alt=""
-    //           h="60px"
-    //           w="60px"
-    //           src="../assets/images/evm-tools-logo-2.svg"
-    //           mr="10px"
-    //         />
-    //         <span>evmtools</span>
-    //       </div>
-    //     </Link>
-    //     <div className="sm:invisible md:invisible lg:invisible self-end">
-    //       <MobileMenuLinks />
-    //     </div>
-    //     <div className="invisible sm:max-w-[1024px] sm:visible md:visible lg:visible">
-    //       <DesktopMenuLinks />
-    //     </div>
-    //   </div>
-    // </div>
+    </div>
   );
 }
