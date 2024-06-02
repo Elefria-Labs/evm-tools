@@ -6,40 +6,23 @@ import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 import InputBaseCopy from '@components/common/BaseInputCopy';
 import { useGlobalStore } from '@store/global-store';
+import { Button } from '@shadcn-components/ui/button';
 
 export default function EvmAddressChecksumComponent() {
   const toChecksumAddress = useGlobalStore.use.toChecksumAddress();
   const setToChecksumAddress = useGlobalStore.use.setToChecksumAddress();
 
-  // const [toChecksumAddress, setToChecksumAddress] = useState<string>(address);
   const [checksummedAddress, setChecksummedAddress] = useState<string>('');
   const [isChecksumAddress, setIsChecksumAddress] = useState<string>('');
 
   const { toast } = useToast();
 
-  // const isChecksumAddressFn = (address: string) => {
-  //   if (!ethers.utils.isAddress(address)) {
-  //     toast({
-  //       ...toastOptions,
-  //       title: 'Invalid address',
-  //     });
-  //     return;
-  //   }
-  // };
-  // const debFn = debounce(isChecksumAddressFn, 1000);
-
   const handleCopyClick = (value: string) => {
     navigator.clipboard.writeText(value);
   };
 
-  const handleToChecksumAddress = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const addressInput = event.target.value;
-
-    setToChecksumAddress(addressInput);
-    // setToChecksumAddress(addressInput);
-    if (!ethers.utils.isAddress(addressInput)) {
+  const handleToChecksumAddress = () => {
+    if (!ethers.utils.isAddress(toChecksumAddress)) {
       toast({
         ...toastOptions,
         title: 'Invalid address',
@@ -47,7 +30,7 @@ export default function EvmAddressChecksumComponent() {
       return;
     }
 
-    setChecksummedAddress(ethers.utils.getAddress(addressInput));
+    setChecksummedAddress(ethers.utils.getAddress(toChecksumAddress));
   };
 
   const handleIsChecksumAddress = (
@@ -89,37 +72,50 @@ export default function EvmAddressChecksumComponent() {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="mb-8">
-        <Label className="mb-4">toChecksumAddress</Label>
-        <Input
-          type="string"
-          placeholder="address"
-          value={toChecksumAddress}
-          onChange={handleToChecksumAddress}
-        />
-        {checksummedAddress && (
-          <InputBaseCopy
-            value={checksummedAddress}
-            disabled
-            onClick={() => {
-              if (toChecksumAddress == null || toChecksumAddress.length == 0) {
-                return;
-              }
-              handleCopyClick(ethers.utils.getAddress(toChecksumAddress));
+    <div className="flex flex-row justify-center">
+      <div className="max-w-[480px] w-[100%]">
+        <div className="mb-8">
+          <Label className="mb-4">toChecksumAddress</Label>
+          <Input
+            type="string"
+            placeholder="address"
+            value={toChecksumAddress}
+            onChange={(event) => {
+              setToChecksumAddress(event.target.value);
             }}
           />
-        )}
-      </div>
-      <div className="w-full">
-        <Label className="mb-4">isChecksumAddress</Label>
-        <Input
-          type="email"
-          className="min-w-28"
-          placeholder="address"
-          value={isChecksumAddress}
-          onChange={handleIsChecksumAddress}
-        />
+          <Button className="w-full" onClick={handleToChecksumAddress}>
+            Convert
+          </Button>
+          {checksummedAddress && (
+            <>
+              <Label className="mb-4">Checksummed Address</Label>
+              <InputBaseCopy
+                value={checksummedAddress}
+                disabled
+                onClick={() => {
+                  if (
+                    toChecksumAddress == null ||
+                    toChecksumAddress.length == 0
+                  ) {
+                    return;
+                  }
+                  handleCopyClick(ethers.utils.getAddress(toChecksumAddress));
+                }}
+              />
+            </>
+          )}
+        </div>
+        <div className="w-full">
+          <Label className="mb-4">isChecksumAddress</Label>
+          <Input
+            type="email"
+            className="min-w-28"
+            placeholder="address"
+            value={isChecksumAddress}
+            onChange={handleIsChecksumAddress}
+          />
+        </div>
       </div>
     </div>
   );
