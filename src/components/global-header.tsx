@@ -205,55 +205,51 @@ function MobileMenuLinks({
   // const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
-      {/* <HamburgerMenuIcon color="red" onClick={() => setIsOpen(true)} /> */}
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <HamburgerMenuIcon />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem className="cursor-pointer">
-            <Link href={Links.home}>Home</Link>
-          </DropdownMenuItem>
-          {/* <DropdownMenuItem className="cursor-pointer">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild className="p-0">
+        <HamburgerMenuIcon className="w-12 h-12" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem className="cursor-pointer">
+          <Link href={Links.home}>Home</Link>
+        </DropdownMenuItem>
+        {/* <DropdownMenuItem className="cursor-pointer">
             <Link href={Links.zkTools}>Zk Tools</Link>
           </DropdownMenuItem> */}
-          {showConnectWallet && (
-            <DropdownMenuItem>
-              <ConnectButton
-                chainStatus="icon"
-                showBalance={false}
-                accountStatus={{
-                  smallScreen: 'avatar',
-                  largeScreen: 'full',
-                }}
-              />
-            </DropdownMenuItem>
-          )}
+        {showConnectWallet && (
           <DropdownMenuItem>
-            <Link href={`/${Links.devTools}`}>
-              <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
-            </Link>
+            <ConnectButton
+              chainStatus="icon"
+              showBalance={false}
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+            />
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <a href={Links.blog} target="_blank">
-              <DropdownMenuLabel>Learn</DropdownMenuLabel>
-            </a>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            <Link href={Links.contribute}>Contribute</Link>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <a href={evmToolsXLink} target="_blank">
-            <DropdownMenuItem className="cursor-pointer">
-              <p className="mr-2">Follow</p>
-              <TwitterIcon className="ml-2 h-4 w-4" />
-            </DropdownMenuItem>
+        )}
+        <DropdownMenuItem>
+          <Link href={`/${Links.devTools}`}>
+            <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <a href={Links.blog} target="_blank">
+            <DropdownMenuLabel>Learn</DropdownMenuLabel>
           </a>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          <Link href={Links.contribute}>Contribute</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <a href={evmToolsXLink} target="_blank">
+          <DropdownMenuItem className="cursor-pointer">
+            <p className="mr-2">Follow</p>
+            <TwitterIcon className="ml-2 h-4 w-4" />
+          </DropdownMenuItem>
+        </a>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
