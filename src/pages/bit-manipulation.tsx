@@ -10,7 +10,7 @@ export default function BitManipulation() {
       meta={
         <Meta
           title="Bit Manipulation | EVM Tools"
-          description="Manipulate bits, bit masking, left or right shift bits"
+          description="Perform bit manipulation, apply mask for upto 256 bit integers"
         />
       }
     >

@@ -17,6 +17,7 @@ import AddressBookComponent from '@components/tools/evmtools/AddressBookComponen
 import GasConverterComponent from '@components/tools/evmtools/GasConvertorComponent';
 import UniswapV4ToolComponent from '@components/tools/evmtools/UniswapV4Tools';
 import MarketData from '@components/tools/market/MarketDetails';
+import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
 
 export interface Item {
   title: string;
@@ -182,7 +183,6 @@ export const playgroundToolsList: Item[] = [
       'Shares can be used to reconstruct the secret when a threshold of shares are combined.',
     link: Links.shamirsSecret,
     component: ShamirSecretSharingComponent,
-    isBeta: true,
   },
   {
     title: 'Address Book',
@@ -197,6 +197,14 @@ export const playgroundToolsList: Item[] = [
     link: Links.marketData,
     component: MarketData,
     isOnlyExtension: true,
+  },
+  {
+    title: 'Bit Manipulation',
+    description:
+      'Perform bit manipulation, apply mask for upto 256 bit integers.',
+    link: Links.bitManipulation,
+    component: BitMaskingComponent,
+    isBeta: true,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',

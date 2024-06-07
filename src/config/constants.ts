@@ -21,6 +21,7 @@ export const Links = {
   evmChecksumAddress: 'evm-checksum-address',
   uniswapV4Tools: 'uniswap-v4-tools',
   marketData: 'market-data',
+  bitManipulation: 'bit-manipulation',
   // pools: 'pools',
   // balanceTracker: 'balance-tracker',
   txDecoder: 'txdecoder',

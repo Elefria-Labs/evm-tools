@@ -67,7 +67,7 @@ export default function Contribute() {
               className="cursor-pointer flex flex-row items-center text-black dark:text-white"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `0xD5141c47DEE803D0dD9793fcD5703daF4f750148`,
+                  `0xA5DCfF342D095ED3dB42542E1A04d105a9f9CAA2`,
                 );
                 toast({
                   ...toastOptions,
@@ -76,7 +76,7 @@ export default function Contribute() {
                 });
               }}
             >
-              {`Donation Address: ${'0xD5141c47DEE803D0dD9793fcD5703daF4f750148'}`}
+              {`Donation Address: ${'0xA5DCfF342D095ED3dB42542E1A04d105a9f9CAA2'}`}
             </div>
           </li>
         </ul>

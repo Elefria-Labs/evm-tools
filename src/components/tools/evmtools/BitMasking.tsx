@@ -79,7 +79,15 @@ function BitMaskingComponent() {
           </div>
         </div>
 
-        <Label className="mb-2">Shift Operation</Label>
+        <Label className="mb-2">
+          Shift Operation
+          <p
+            className="text-xs hover:underline-offset-4 underline cursor-pointer decoration-sky-500 italic"
+            onClick={() => setShiftedValue(binaryValue)}
+          >
+            {'Reset'}
+          </p>
+        </Label>
         <div className="flex flex-row items-center  mb-8">
           <Button onClick={handleShiftLeft} style={{ marginRight: '8px' }}>
             &nbsp;
