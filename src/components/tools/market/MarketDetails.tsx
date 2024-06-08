@@ -173,7 +173,7 @@ const MarketData: React.FC = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-4"
       />
-      <div className="overflow-y-scroll">
+      <div className="overflow-y-scroll custom-scrollbar">
         <Tabs defaultValue="market">
           <TabsList className="flex flex-row justify-center">
             {['Market', 'Watchlist'].map((t) => (
@@ -183,7 +183,10 @@ const MarketData: React.FC = () => {
             ))}
           </TabsList>
 
-          <TabsContent value="market" className="overflow-y-scroll h-[322px]">
+          <TabsContent
+            value="market"
+            className="overflow-y-scroll h-[322px] custom-scrollbar"
+          >
             <CoinTable
               coins={filteredCoins}
               watchlist={watchlist}
@@ -196,7 +199,7 @@ const MarketData: React.FC = () => {
 
           <TabsContent
             value="watchlist"
-            className="overflow-y-scroll h-[322px]"
+            className="overflow-y-scroll h-[322px] custom-scrollbar"
           >
             <CoinTable
               coins={filteredWatchlistCoins}
