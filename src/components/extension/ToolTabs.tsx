@@ -15,6 +15,7 @@ type ToolTabsProps = {
 
 export default function ToolTabs(props: ToolTabsProps) {
   const { selectTab } = props;
+  const [tabHover, setTabHover] = useState<number | null>();
   const lastOpenTab = useGlobalStore.use.lastOpenTab();
   const setLastOpenTab = useGlobalStore.use.setLastOpenTab();
   const pinnedTabs = useGlobalStore.use.pinnedTabs();
@@ -60,7 +61,7 @@ export default function ToolTabs(props: ToolTabsProps) {
       <Tabs defaultValue={lastOpenTab} value={lastOpenTab}>
         {/* https://github.com/shadcn-ui/ui/issues/2740 */}
         <TabsList className="w-[474px] h-[36px] custom-scrollbar overflow-x-auto overflow-y-hidden items-center justify-start ">
-          {sortedToolTabs.map((t) => (
+          {sortedToolTabs.map((t, i) => (
             <TabsTrigger
               key={t?.link}
               // TODO fix
@@ -68,6 +69,10 @@ export default function ToolTabs(props: ToolTabsProps) {
               onClick={() => {
                 setLastOpenTab(t?.link!);
               }}
+              onMouseEnter={() => {
+                setTabHover(i);
+              }}
+              onMouseLeave={() => setTabHover(null)}
             >
               <div className="relative flex items-center">
                 <span>{t?.title}</span>
@@ -79,6 +84,10 @@ export default function ToolTabs(props: ToolTabsProps) {
                     transform: 'translateY(-50%)',
                     cursor: 'pointer',
                     color: pinnedTabs.includes(t?.link!) ? 'gold' : 'gray',
+                    display:
+                      pinnedTabs.includes(t?.link!) || tabHover == i
+                        ? 'block'
+                        : 'none',
                   }}
                   className="rotate-12 w-4 h-4"
                   onClick={(e) => {
