@@ -57,7 +57,7 @@ export default function ToolTabs(props: ToolTabsProps) {
   ];
 
   return (
-    <div className="flex flex-col overflow-y-auto px-0.5 align-middle">
+    <div className="flex flex-col overflow-y-auto px-0.5 align-middle custom-scrollbar">
       <Tabs defaultValue={lastOpenTab} value={lastOpenTab}>
         {/* https://github.com/shadcn-ui/ui/issues/2740 */}
         <TabsList className="w-[474px] h-[36px] custom-scrollbar overflow-x-auto overflow-y-hidden items-center justify-start ">
@@ -104,7 +104,7 @@ export default function ToolTabs(props: ToolTabsProps) {
             <TabsContent
               key={t?.link}
               value={t?.link!}
-              className="h-[472px] pb-12 px-2 overflow-y-auto overflow-x-hidden"
+              className="h-[472px] pb-12 px-2 overflow-y-auto overflow-x-hidden custom-scrollbar"
             >
               {getToolComponent(t?.link!)}
             </TabsContent>
