@@ -49,3 +49,31 @@ export const createExtensionSettingsSlice = (
   pinnedTabs: [],
   setPinnedTabs: (tabs: string[]) => set({ pinnedTabs: tabs }),
 });
+
+export const createBitManipulationSlice = (
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
+  _get: () => unknown,
+  _: StoreApi<unknown>,
+) => ({
+  bitManipulation: {
+    binaryValue: '',
+    maskValue: '',
+    shiftedValue: '',
+  },
+  setBinaryValue: (binaryValue: string) =>
+    set((state) => ({
+      bitManipulation: { ...state.bitManipulation, binaryValue },
+    })),
+  setMaskValue: (maskValue: string) =>
+    set((state) => ({
+      bitManipulation: { ...state.bitManipulation, maskValue },
+    })),
+  setShiftedValue: (shiftedValue: string) =>
+    set((state) => ({
+      bitManipulation: { ...state.bitManipulation, shiftedValue },
+    })),
+});

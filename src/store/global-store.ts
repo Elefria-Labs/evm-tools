@@ -3,6 +3,7 @@ import {
   createChecksumAddressSlice,
   createMimicWalletSlice,
   createExtensionSettingsSlice,
+  createBitManipulationSlice,
 } from './slices';
 import { createSelectors } from './selectors';
 import { GlobalState } from './state';
@@ -12,6 +13,7 @@ const useGlobalStoreBase = create<GlobalState>((...a) => ({
   ...createChecksumAddressSlice(...a),
   ...createMimicWalletSlice(...a),
   ...createExtensionSettingsSlice(...a),
+  ...createBitManipulationSlice(...a),
 }));
 
 const usePersistGlobalStoreBase = create<GlobalState>()(
@@ -20,6 +22,7 @@ const usePersistGlobalStoreBase = create<GlobalState>()(
       ...createChecksumAddressSlice(...a),
       ...createMimicWalletSlice(...a),
       ...createExtensionSettingsSlice(...a),
+      ...createBitManipulationSlice(...a),
     }),
     {
       name: 'evm-tools', // name of the item in the storage (must be unique)

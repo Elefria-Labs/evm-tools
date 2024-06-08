@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { Input } from '@shadcn-components/ui/input';
 import { Button } from '@shadcn-components/ui/button';
-
 import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
 import { Label } from '@shadcn-components/ui/label';
 import InputBaseCopy from '@components/common/BaseInputCopy';
+import { useGlobalStore } from '@store/global-store';
 
 function BitMaskingComponent() {
-  const [binaryValue, setBinaryValue] = useState<string>('0');
-  const [maskValue, setMaskValue] = useState<string>('0');
-  const [shiftedValue, setShiftedValue] = useState<string>(binaryValue);
+  const bitManipulationState = useGlobalStore.use.bitManipulation();
+
+  const binaryValue = bitManipulationState.binaryValue;
+  const setBinaryValue = useGlobalStore.use.setBinaryValue();
+  const maskValue = bitManipulationState.maskValue;
+  const setMaskValue = useGlobalStore.use.setMaskValue();
+  const shiftedValue = bitManipulationState.shiftedValue;
+  const setShiftedValue = useGlobalStore.use.setShiftedValue();
+  //const [binaryValue, setBinaryValue] = useState<string>('0');
+  // const [maskValue, setMaskValue] = useState<string>('0');
+  // const [shiftedValue, setShiftedValue] = useState<string>(binaryValue);
 
   const binaryToDecimal = (binary: string) => {
     if (binary == null || binary.length == 0) {
@@ -22,11 +30,11 @@ function BitMaskingComponent() {
   };
 
   const handleShiftLeft = () => {
-    setShiftedValue((prev) => (prev + '0').slice(-prev.length));
+    setShiftedValue((shiftedValue + '0').slice(-shiftedValue.length));
   };
 
   const handleShiftRight = () => {
-    setShiftedValue((prev) => ('0' + prev).slice(0, prev.length));
+    setShiftedValue(('0' + shiftedValue).slice(0, shiftedValue.length));
   };
 
   const handleBinaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +91,9 @@ function BitMaskingComponent() {
           Shift Operation
           <p
             className="text-xs hover:underline-offset-4 underline cursor-pointer decoration-sky-500 italic"
-            onClick={() => setShiftedValue(binaryValue)}
+            onClick={() => {
+              setShiftedValue(binaryValue);
+            }}
           >
             {'Reset'}
           </p>
