@@ -18,6 +18,7 @@ import GasConverterComponent from '@components/tools/evmtools/GasConvertorCompon
 import UniswapV4ToolComponent from '@components/tools/evmtools/UniswapV4Tools';
 import MarketData from '@components/tools/market/MarketDetails';
 import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
+import EpochConverterComponent from '@components/tools/evmtools/EpochConverterComponent';
 
 export interface Item {
   title: string;
@@ -205,6 +206,13 @@ export const playgroundToolsList: Item[] = [
     link: Links.bitManipulation,
     component: BitMaskingComponent,
     isBeta: true,
+  },
+  {
+    title: 'Epoch Converter',
+    description:
+      'Time helpers, seconds converter, convert between unix timestamp and readable date format.',
+    link: Links.epochConverter,
+    component: EpochConverterComponent,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',
