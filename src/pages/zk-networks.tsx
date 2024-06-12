@@ -17,6 +17,7 @@ import {
 } from '@shadcn-components/ui/card';
 import { Button } from '@shadcn-components/ui/button';
 import ToolBase from '@components/common/ToolBase';
+import { pageMeta } from '@config/constants';
 
 const ZkNetwork = () => {
   const [zkNetworks] = useState<Record<string, any>>(networkConfig);
@@ -37,8 +38,8 @@ const ZkNetwork = () => {
     <Main
       meta={
         <Meta
-          title="Zk Block | Boilerplate for ZK Dapps"
-          description="Boilerplate for ZK Dapps | Zero Knowledge Proofs"
+          title={`Zk Block | ${pageMeta.appName}`}
+          description="Add RPC Networks to metamask | Zero Knowledge Proofs"
         />
       }
       showConnectWallet={false}

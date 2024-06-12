@@ -4,13 +4,14 @@ import { Main } from '@templates/Main';
 import MimicWalletComponent from '@components/tools/evmtools/MimicWalletComponent';
 import ToolBase from '@components/common/ToolBase';
 import WalletConnectBase from '@components/common/WalletConnectBase';
+import { pageMeta } from '@config/constants';
 
 export default function MimicWallet() {
   return (
     <Main
       meta={
         <Meta
-          title="Mimic Wallet | EVM Tools"
+          title={`Mimic Wallet | ${pageMeta.appName}`}
           description="Mimic wallet connection to a dapp using WalletConnect"
         />
       }

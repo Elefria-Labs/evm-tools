@@ -3,13 +3,14 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
+import { pageMeta } from '@config/constants';
 
 export default function TxDecoder() {
   return (
     <Main
       meta={
         <Meta
-          title="Evm Transaction Decoder | Zk block"
+          title={`Transaction Decoder | ${pageMeta.appName}`}
           description="Decode raw evm transaction"
         />
       }

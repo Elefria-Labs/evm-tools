@@ -3,13 +3,14 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import PersonalSignComponent from '@components/personal-sign/PersonalSignComponent';
 import ToolBase from '@components/common/ToolBase';
+import { pageMeta } from '@config/constants';
 
 export default function Erc191() {
   return (
     <Main
       meta={
         <Meta
-          title="ERC 191 Signing | Zk block"
+          title={`ERC 191 Signing | ${pageMeta.appName}`}
           description="Sign typed data using ERC-191 | Personal message signing"
         />
       }

@@ -1,6 +1,6 @@
 import { Links } from '@config/constants';
 
-import HexConvertorComponent from '@components/tools/evmtools/HexConvertorComponent';
+import HexConverterComponent from '@components/tools/evmtools/HexConverterComponent';
 import Eip712Component from '@components/eip712-playground/Eip712Component';
 import PersonalSignComponent from '@components/personal-sign/PersonalSignComponent';
 import StringByteConversion from '@components/tools/evmtools/StringByteConversion';
@@ -176,7 +176,7 @@ export const playgroundToolsList: Item[] = [
     title: 'Hex Convertor',
     description: 'Decimal to hex and binary converter.',
     link: Links.hexConvertor,
-    component: HexConvertorComponent,
+    component: HexConverterComponent,
   },
   {
     title: 'Shamir Secret Demo',

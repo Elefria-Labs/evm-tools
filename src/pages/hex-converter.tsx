@@ -2,23 +2,24 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
-import HexConvertorComponent from '@components/tools/evmtools/HexConvertorComponent';
+import HexConverterComponent from '@components/tools/evmtools/HexConverterComponent';
+import { pageMeta } from '@config/constants';
 
-export default function HexConvertor() {
+export default function HexConverter() {
   return (
     <Main
       meta={
         <Meta
-          title="Hex Convertor | EVM Tools"
+          title={`Hex Converter | ${pageMeta.appName}`}
           description="Convert between hexadecimals, decimals and binary"
         />
       }
     >
       <ToolBase
-        title="Hex Convertor"
+        title="Hex Converter"
         toolComponent={
           <div className="max-w-[640px] lg:max-w-[1024px]">
-            <HexConvertorComponent />
+            <HexConverterComponent />
           </div>
         }
       />

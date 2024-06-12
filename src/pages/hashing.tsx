@@ -3,13 +3,14 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import HashingComponent from '@components/tools/evmtools/HashingComponent';
+import { pageMeta } from '@config/constants';
 
 export default function Hashing() {
   return (
     <Main
       meta={
         <Meta
-          title="Hashing Utils | EVM Tools"
+          title={`Hashing Utils | ${pageMeta.appName}`}
           description="Derive keccack256, Sha256 hashes"
         />
       }

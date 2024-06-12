@@ -5,7 +5,7 @@ import { toastOptions } from '@components/common/toast';
 import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 
-function HexConvertorComponent() {
+function HexConverterComponent() {
   const [decimals, setDecimals] = useState<BigInt>(BigInt(0));
   const [hexadecimals, setHexadecimals] = useState('');
   const [binary, setBinary] = useState('');
@@ -93,4 +93,4 @@ function HexConvertorComponent() {
   );
 }
 
-export default HexConvertorComponent;
+export default HexConverterComponent;

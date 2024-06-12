@@ -4,13 +4,14 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import GasConvertorComponent from '@components/tools/evmtools/GasConvertorComponent';
+import { pageMeta } from '@config/constants';
 
 export default function GasConvertor() {
   return (
     <Main
       meta={
         <Meta
-          title="Eth Gas Converter | Zk block"
+          title={`Eth Gas Converter | ${pageMeta.appName}`}
           description="Convert between wei, gwei and eth"
         />
       }

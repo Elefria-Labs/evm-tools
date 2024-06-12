@@ -3,13 +3,14 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import UniswapV4ToolComponent from '@components/tools/evmtools/UniswapV4Tools';
+import { pageMeta } from '@config/constants';
 
 export default function UniswapV4Tools() {
   return (
     <Main
       meta={
         <Meta
-          title="Uniswap V4 Tools | EVM Tools"
+          title={`Uniswap V4 Tools | ${pageMeta.appName}`}
           description="Derive price from sqrtPrice or tick"
         />
       }

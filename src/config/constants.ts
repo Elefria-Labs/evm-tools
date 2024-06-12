@@ -17,6 +17,7 @@ export const Links = {
   hexConvertor: 'hex-convertor',
   hashing: 'hashing',
   shamirsSecret: 'shamirs-secret',
+  epochConverter: 'epoch-converter',
   addressBook: 'address-book',
   evmChecksumAddress: 'evm-checksum-address',
   uniswapV4Tools: 'uniswap-v4-tools',
@@ -45,3 +46,7 @@ export const extensionLink =
 
 export const SendAllContractPolygon =
   '0x1C7915edd185303a374fB7C332478C7dD599501b';
+
+export const pageMeta = {
+  appName: 'EVM Tools',
+};

@@ -3,13 +3,14 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import Eip712PlaygroundComponent from '@components/eip712-playground/Eip712Component';
 import ToolBase from '@components/common/ToolBase';
+import { pageMeta } from '@config/constants';
 
 export default function Eip712() {
   return (
     <Main
       meta={
         <Meta
-          title="EIP 712 Signing | Zk block"
+          title={`EIP 712 Signing | ${pageMeta.appName}`}
           description="Sign typed data using EIP-712"
         />
       }
