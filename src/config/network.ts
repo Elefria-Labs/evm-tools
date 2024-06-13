@@ -263,52 +263,7 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     isZk: true,
     layer: 2,
   },
-  '0x66eeb': {
-    name: 'Arbitrum Rinkeby Testnet',
-    chainName: 'Arbitrum Rinkeby',
-    rpcUrls: ['https://rinkeby.arbitrum.io/rpc'],
-    faucets: [''],
-    nativeCurrency: {
-      name: 'RinkebyETH',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    infoURL: 'https://developer.offchainlabs.com/public-chains',
-    shortName: 'arbitrum',
-    chainId: 421611,
-    networkId: 421611,
-    blockExplorerUrls: [
-      {
-        name: 'Arbitrum Rinkeby Explorer',
-        url: 'https://rinkeby-explorer.arbitrum.io/',
-      },
-    ],
-    isZk: true,
-    layer: 2,
-  },
-  '0x66eed': {
-    name: 'Arbitrum Nitro Rollup Testnet',
-    chainName: 'Arbitrum Görli',
-    rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
-    faucets: [''],
-    nativeCurrency: {
-      name: 'GoerliETH',
-      symbol: 'AGOR',
-      decimals: 18,
-    },
-    infoURL: 'https://developer.offchainlabs.com/public-chains',
-    shortName: 'arbitrum',
-    chainId: 421613,
-    networkId: 421613,
-    blockExplorerUrls: [
-      {
-        name: 'Arbitrum Goereli Explorer',
-        url: 'https://goerli-rollup-explorer.arbitrum.io',
-      },
-    ],
-    isZk: true,
-    layer: 2,
-  },
+
   '0xa4b1': {
     name: 'Arbitrum One',
     chainName: 'Arbitrum One',
@@ -336,27 +291,6 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
         url: 'https://explorer.arbitrum.io/',
       },
     ],
-    isZk: true,
-    layer: 2,
-  },
-
-  '0x1a4': {
-    name: 'Optimism Goerli Testnet',
-    chainName: 'Optimism Goerli Testnet',
-    rpcUrls: [
-      'https://goerli.optimism.io',
-      'https://opt-goerli.g.alchemy.com/v2/demo',
-    ],
-    faucets: [],
-    nativeCurrency: {
-      name: 'Görli Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    infoURL: 'https://optimism.io',
-    shortName: 'ogor',
-    chainId: 420,
-    networkId: 420,
     isZk: true,
     layer: 2,
   },
@@ -407,35 +341,6 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     isZk: true,
     layer: 2,
   },
-  '0x12c': {
-    name: 'Optimism on Gnosis',
-    chainName: 'OGC',
-    rpcUrls: [
-      'https://optimism.gnosischain.com',
-      'wss://optimism.gnosischain.com/wss',
-    ],
-    faucets: ['https://faucet.gimlu.com/gnosis'],
-    nativeCurrency: {
-      name: 'xDAI',
-      symbol: 'xDAI',
-      decimals: 18,
-    },
-    infoURL:
-      'https://www.xdaichain.com/for-developers/optimism-optimistic-rollups-on-gc',
-    shortName: 'ogc',
-    chainId: 300,
-    networkId: 300,
-    blockExplorerUrls: [
-      {
-        name: 'blockscout',
-        url: 'https://blockscout.com/xdai/optimism',
-
-        standard: 'EIP3091',
-      },
-    ],
-    isZk: true,
-    layer: 2,
-  },
   '0xa': {
     name: 'Optimism',
     chainName: 'Optimism',
@@ -470,11 +375,7 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     name: 'Scroll Alpha Testnet',
     chainName: 'Scroll',
     rpcUrls: ['https://alpha-rpc.scroll.io/l2'],
-    faucets: [
-      'https://faucet.paradigm.xyz/',
-      'https://goerli-faucet.pk910.de/',
-      'https://scroll.io/alpha/bridge',
-    ],
+    faucets: ['https://faucet.paradigm.xyz/', 'https://scroll.io/alpha/bridge'],
     nativeCurrency: {
       name: 'Ether',
       symbol: 'ETH',
@@ -488,55 +389,6 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
       {
         name: 'scroll',
         url: 'https://blockscout.scroll.io/',
-      },
-    ],
-    isZk: true,
-    layer: 2,
-  },
-  '0x14a33': {
-    name: 'Base Goerli Testnet',
-    chainName: 'Base',
-    rpcUrls: ['https://goerli.base.org'],
-    faucets: [
-      'https://faucet.paradigm.xyz/',
-      'https://goerli-faucet.pk910.de/',
-    ],
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    infoURL: 'https://bridge.base.org/',
-    shortName: 'base',
-    chainId: 84531,
-    networkId: 84531,
-    blockExplorerUrls: [
-      {
-        name: 'base',
-        url: 'https://goerli.basescan.org',
-      },
-    ],
-    isZk: true,
-    layer: 2,
-  },
-  '0x28c5c': {
-    name: 'Alpha-2 Testnet',
-    chainName: 'Taiko',
-    rpcUrls: ['https://rpc.a2.taiko.xyz'],
-    faucets: ['https://sepoliafaucet.com/', 'https://faucet.sepolia.dev/'],
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    infoURL: 'https://taiko.xyz/docs/reference/rpc-configuration',
-    shortName: 'taiko',
-    chainId: 167004,
-    networkId: 167004,
-    blockExplorerUrls: [
-      {
-        name: 'base',
-        url: 'https://explorer.a2.taiko.xyz',
       },
     ],
     isZk: true,
@@ -563,6 +415,117 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
       },
     ],
     isZk: true,
+    layer: 2,
+  },
+  '0x12c': {
+    name: 'zkSync Sepolia Testnet',
+    chainName: 'zkSync',
+    rpcUrls: ['https://sepolia.era.zksync.dev'],
+    faucets: ['https://sepoliafaucet.com/', 'https://faucet.sepolia.dev/'],
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    infoURL: 'https://era.zksync.io/docs/dev/fundamentals/interacting.html',
+    shortName: 'zksync',
+    chainId: 300,
+    networkId: 300,
+    blockExplorerUrls: [
+      {
+        name: 'zksync',
+        url: 'https://sepolia.explorer.zksync.io',
+      },
+    ],
+    isZk: true,
+    layer: 2,
+  },
+  '0x2105': {
+    name: 'Base Mainnet',
+    chainName: 'Base',
+    rpcUrls: ['https://mainnet.base.org'],
+    faucets: [],
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    infoURL: 'https://docs.base.org/docs/network-information/',
+    shortName: 'base',
+    chainId: 8453,
+    networkId: 8453,
+    blockExplorerUrls: [
+      {
+        name: 'base',
+        url: 'https://basescan.org',
+      },
+    ],
+    layer: 2,
+  },
+  '0x14a34': {
+    name: 'Base Sepolia',
+    chainName: 'Base',
+    rpcUrls: ['https://sepolia.base.org'],
+    faucets: [],
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    infoURL: 'https://docs.base.org/docs/network-information/',
+    shortName: 'base',
+    chainId: 84532,
+    networkId: 84532,
+    blockExplorerUrls: [
+      {
+        name: 'base',
+        url: 'https://sepolia-explorer.base.org',
+      },
+    ],
+    layer: 2,
+  },
+  '0xe708': {
+    name: 'Linea',
+    chainName: 'Linea',
+    rpcUrls: ['https://rpc.linea.build '],
+    faucets: [],
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    infoURL: 'https://docs.linea.build/developers/quickstart/info-contracts',
+    shortName: 'linea',
+    chainId: 59144,
+    networkId: 59144,
+    blockExplorerUrls: [
+      {
+        name: 'lineascan',
+        url: 'https://lineascan.build/',
+      },
+    ],
+    layer: 2,
+  },
+  '0xe705': {
+    name: 'Linea Sepolia',
+    chainName: 'Linea',
+    rpcUrls: ['https://rpc.sepolia.linea.build'],
+    faucets: [],
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    infoURL: 'https://docs.linea.build/developers/quickstart/info-contracts',
+    shortName: 'linea',
+    chainId: 59141,
+    networkId: 59141,
+    blockExplorerUrls: [
+      {
+        name: 'lineascan',
+        url: 'https://sepolia.lineascan.build/',
+      },
+    ],
     layer: 2,
   },
 };
