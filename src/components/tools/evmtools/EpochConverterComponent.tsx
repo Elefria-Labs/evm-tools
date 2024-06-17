@@ -10,6 +10,7 @@ import {
 import { Button } from '@shadcn-components/ui/button';
 import { Input } from '@shadcn-components/ui/input';
 import { Separator } from '@shadcn-components/ui/separator';
+import { isNaN } from 'lodash';
 
 const LiveUnixTimestamp: React.FC = () => {
   const [currentUnixTimestamp, setCurrentUnixTimestamp] = useState<number>(
@@ -37,24 +38,35 @@ const EpochConverterComponent: React.FC = () => {
   );
   const [convertedUnixTs, setConvertedUnixTs] = useState<string>('');
   const [humanDate, setHumanDate] = useState<string>(
-    new Date(Number(unixTimestamp) * 1000)
+    new Date(Math.floor(Date.now() / 1000) * 1000)
       .toISOString()
       .replace('T', ' ')
       .substring(0, 19),
   );
-  const [timezone, setTimezone] = useState<string>('GMT');
 
   const [secondsInput, setSecondsInput] = useState<string>('');
   const [convertedTime, setConvertedTime] = useState<string>('');
 
   const handleUnixToHuman = () => {
-    const date = new Date(Number(unixTimestamp) * 1000);
-    setHumanDate(date.toISOString().replace('T', ' ').substring(0, 19));
+    if (isNaN(unixTimestamp)) {
+      console.log('test');
+      return;
+    }
+    try {
+      const date = new Date(Number(unixTimestamp) * 1000);
+      setHumanDate(date.toISOString().replace('T', ' ').substring(0, 19));
+    } catch (e) {
+      // invalid date
+    }
   };
 
   const handleHumanToUnix = () => {
-    const date = new Date(humanDate + 'Z');
-    setConvertedUnixTs(Math.floor(date.getTime() / 1000).toString());
+    try {
+      const date = new Date(humanDate + 'Z');
+      setConvertedUnixTs(Math.floor(date.getTime() / 1000).toString());
+    } catch (e) {
+      // invalid date
+    }
   };
 
   const formatRelativeTime = (timestamp: number) => {
@@ -77,7 +89,9 @@ const EpochConverterComponent: React.FC = () => {
 
   const handleSecondsConversion = () => {
     const totalSeconds = parseInt(secondsInput);
-    if (isNaN(totalSeconds)) return;
+    if (isNaN(totalSeconds)) {
+      return;
+    }
 
     const days = Math.floor(totalSeconds / (24 * 3600));
     const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
@@ -107,7 +121,9 @@ const EpochConverterComponent: React.FC = () => {
                     id="unixTimestamp"
                     type="text"
                     value={unixTimestamp}
-                    onChange={(e) => setUnixTimestamp(e.target.value)}
+                    onChange={(e) => {
+                      setUnixTimestamp(e.target.value);
+                    }}
                     placeholder="Enter Unix timestamp"
                   />
                   <Button onClick={handleUnixToHuman} className="w-full">
@@ -123,7 +139,6 @@ const EpochConverterComponent: React.FC = () => {
                 <div>
                   <Label htmlFor="humanDate">Human date and time (GMT):</Label>
                   <Input
-                    id="humanDate"
                     type="text"
                     value={humanDate}
                     onChange={(e) => setHumanDate(e.target.value)}
@@ -138,11 +153,11 @@ const EpochConverterComponent: React.FC = () => {
                 {convertedUnixTs && (
                   <div>
                     <p>Unix: {convertedUnixTs}</p>
-                    <p>
+                    {/* <p>
                       Relative: &nbsp;
                       {unixTimestamp &&
                         formatRelativeTime(Number(unixTimestamp))}
-                    </p>
+                    </p> */}
                   </div>
                 )}
 
@@ -150,7 +165,6 @@ const EpochConverterComponent: React.FC = () => {
                   <Separator className="mb-2" />
                   <Label>Seconds Helper</Label>
                   <Input
-                    id="secondsInput"
                     type="text"
                     value={secondsInput}
                     onChange={(e) => setSecondsInput(e.target.value)}
