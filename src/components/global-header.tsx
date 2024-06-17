@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { ArrowRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
   MenubarContent,
@@ -17,6 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shadcn-components/ui/dropdown-menu';
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@shadcn-components/ui/popover';
 
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -55,9 +61,7 @@ const menuLinks = [
   },
   {
     title: 'Storage Reader',
-    link: Links.evmTools,
-    newTab: true,
-    disabled: true,
+    link: Links.storageReader,
   },
   {
     title: 'Learn',
@@ -86,28 +90,8 @@ function DesktopMenuLink(props: {
   return (
     <MenubarMenu>
       {link?.disabled ? (
-        <MenubarTrigger
-          disabled={link?.disabled}
-          className="cursor-pointer text-gray-400"
-        >
+        <MenubarTrigger className="cursor-pointer text-gray-400">
           {link.title}
-          {/* TODO FIX */}
-          {/* <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger
-                onClick={(event) => {
-                  const target = event.currentTarget;
-                  target.blur();
-                  target.focus();
-                }}
-              >
-                {link.title}
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Coming Soon</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider> */}
         </MenubarTrigger>
       ) : (
         <Link href={link.link} target={link?.newTab ? '_blank' : '_self'}>

@@ -15,6 +15,7 @@ import {
 import { Button } from '@shadcn-components/ui/button';
 import { createClient } from '@supabase/supabase-js';
 import { Textarea } from '@shadcn-components/ui/textarea';
+import { supabase } from '@utils/AppConfig';
 
 const userRating = {
   1: '😕',
@@ -22,16 +23,12 @@ const userRating = {
   3: '😀',
 };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SBASE_URL!,
-  process.env.NEXT_PUBLIC_SBASE_ANON_KEY!,
-);
-
 export default function FeedbackButton({
   buttonText = 'Feedback',
   feedbackLabel = 'Tell us how we are doing?',
   submitButtonLabel = 'Submit',
   successMessage = 'Thank you for your feedback! Follow us on X @evmtools_xyz',
+  isFloating = true,
 }) {
   const [feedbackText, setFeedbackText] = useState<string>();
   const [rating, setRating] = useState<number>();
@@ -75,50 +72,52 @@ export default function FeedbackButton({
   };
 
   return (
-    <>
-      <AlertDialog>
-        <AlertDialogTrigger>
+    <AlertDialog>
+      <AlertDialogTrigger>
+        {isFloating ? (
           <Button
             className="bottom-4 right-4 fixed"
             // position="fixed"
           >
             {buttonText}
           </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{feedbackLabel}</AlertDialogTitle>
-            <AlertDialogDescription>
-              <div className="flex flex-row justify-center mb-2">
-                {Object.values(userRating).map((r, i) => (
-                  <p
-                    className={`text-4xl mr-4 hover:bg-gray-700 ${
-                      rating == i + 1 ? 'bg-gray-700' : ''
-                    } rounded-md cursor-pointer`}
-                    key={i}
-                    onClick={() => {
-                      setRating(i + 1);
-                    }}
-                  >
-                    {r}
-                  </p>
-                ))}
-              </div>
-              <Textarea
-                value={feedbackText}
-                placeholder="We will fix or build what you want, just ask :)"
-                onChange={handleInputChange}
-              />
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleSubmit}>
-              {submitButtonLabel}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+        ) : (
+          <p>{buttonText}</p>
+        )}
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{feedbackLabel}</AlertDialogTitle>
+          <AlertDialogDescription>
+            <div className="flex flex-row justify-center mb-2">
+              {Object.values(userRating).map((r, i) => (
+                <p
+                  className={`text-4xl mr-4 hover:bg-gray-700 ${
+                    rating == i + 1 ? 'bg-gray-700' : ''
+                  } rounded-md cursor-pointer`}
+                  key={i}
+                  onClick={() => {
+                    setRating(i + 1);
+                  }}
+                >
+                  {r}
+                </p>
+              ))}
+            </div>
+            <Textarea
+              value={feedbackText}
+              placeholder="We will fix or build what you want, just ask :)"
+              onChange={handleInputChange}
+            />
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleSubmit}>
+            {submitButtonLabel}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
