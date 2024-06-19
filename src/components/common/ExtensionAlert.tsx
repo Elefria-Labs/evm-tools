@@ -6,6 +6,7 @@ import {
 } from '@shadcn-components/ui/alert';
 import { RocketIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { extensionLink } from '@config/constants';
+import PhraseAnimation from './PhraseAnimation';
 
 function ClosableAlert() {
   const [visible, setVisible] = useState(true);
@@ -23,6 +24,7 @@ function ClosableAlert() {
       {/* <AlertTitle>Now access all the evm tools by just one click!</AlertTitle> */}
       <AlertTitle className="text-lg mr-4">
         One extension and all the EVM!
+        <PhraseAnimation />
       </AlertTitle>
       <AlertDescription>
         <div>
@@ -39,9 +41,9 @@ function ClosableAlert() {
           </button>
         </div>
       </AlertDescription>
-      <button onClick={handleClose} className="absolute top-2 right-2">
+      {/* <button onClick={handleClose} className="absolute top-2 right-2">
         <Cross2Icon className="h-4 w-4" />
-      </button>
+      </button> */}
     </Alert>
   );
 }
