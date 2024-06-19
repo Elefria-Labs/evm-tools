@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { playgroundToolsList } from '@data/playground';
 import {
   Tabs,
@@ -20,6 +20,8 @@ export default function ToolTabs(props: ToolTabsProps) {
   const setLastOpenTab = useGlobalStore.use.setLastOpenTab();
   const pinnedTabs = useGlobalStore.use.pinnedTabs();
   const setPinnedTabs = useGlobalStore.use.setPinnedTabs();
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   const [toolTabs] = useState(
     playgroundToolsList.filter(
@@ -32,6 +34,16 @@ export default function ToolTabs(props: ToolTabsProps) {
       setLastOpenTab(selectTab);
     }
   }, [selectTab, lastOpenTab, setLastOpenTab]);
+
+  useEffect(() => {
+    if (lastOpenTab && tabRefs.current[lastOpenTab]) {
+      tabRefs.current[lastOpenTab]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
+    }
+  }, [lastOpenTab, toolTabs]);
 
   const getToolComponent = (toolLink: string) => {
     const Component = playgroundToolsList.find(
@@ -58,13 +70,15 @@ export default function ToolTabs(props: ToolTabsProps) {
 
   return (
     <div className="flex flex-col overflow-y-auto px-0.5 align-middle custom-scrollbar">
+      {/* https://github.com/shadcn-ui/ui/issues/2740 */}
       <Tabs defaultValue={lastOpenTab} value={lastOpenTab}>
-        {/* https://github.com/shadcn-ui/ui/issues/2740 */}
-        <TabsList className="w-[474px] h-[36px] custom-scrollbar overflow-x-auto overflow-y-hidden items-center justify-start ">
+        <TabsList
+          ref={tabsListRef}
+          className="w-[474px] h-[36px] custom-scrollbar overflow-x-auto overflow-y-hidden items-center justify-start"
+        >
           {sortedToolTabs.map((t, i) => (
             <TabsTrigger
               key={t?.link}
-              // TODO fix
               value={t?.link!}
               onClick={() => {
                 setLastOpenTab(t?.link!);
@@ -73,6 +87,7 @@ export default function ToolTabs(props: ToolTabsProps) {
                 setTabHover(i);
               }}
               onMouseLeave={() => setTabHover(null)}
+              ref={(el) => (tabRefs.current[t?.link!] = el)}
             >
               <div className="relative flex items-center">
                 <span>{t?.title}</span>
