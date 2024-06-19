@@ -173,9 +173,9 @@ export const playgroundToolsList: Item[] = [
     component: CheatsheetComponent,
   },
   {
-    title: 'Hex Convertor',
+    title: 'Hex Converter',
     description: 'Decimal to hex and binary converter.',
-    link: Links.hexConvertor,
+    link: Links.hexConverter,
     component: HexConverterComponent,
   },
   {

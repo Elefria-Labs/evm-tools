@@ -14,7 +14,7 @@ export const Links = {
   eip712: 'eip712',
   erc191: 'erc191',
   mimicWallet: 'mimic-wallet',
-  hexConvertor: 'hex-convertor',
+  hexConverter: 'hex-converter',
   hashing: 'hashing',
   shamirsSecret: 'shamirs-secret',
   epochConverter: 'epoch-converter',
