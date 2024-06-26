@@ -95,6 +95,7 @@ const MerkleTreeVerifier = () => {
       const elements = parseElements(elementsInput, structure);
 
       const noDuplicates =
+        // @ts-ignore
         new Set(elements.map(JSON.stringify)).size === elements.length;
       if (!noDuplicates) {
         throw new Error('Duplicate elements found');
@@ -212,7 +213,7 @@ const MerkleTreeVerifier = () => {
       </Button>
       {merkleRoot && (
         <div className="mt-4">
-          <h4>Merkle Root: {merkleRoot}</h4>
+          <h4 className="break-words">Merkle Root: {merkleRoot}</h4>
         </div>
       )}
       <Separator className="my-2" />
