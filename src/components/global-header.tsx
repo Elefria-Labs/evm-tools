@@ -18,12 +18,6 @@ import {
   DropdownMenuTrigger,
 } from '@shadcn-components/ui/dropdown-menu';
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@shadcn-components/ui/popover';
-
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Badge } from '@shadcn-components/ui/badge';
@@ -94,8 +88,8 @@ function DesktopMenuLink(props: {
           {link.title}
         </MenubarTrigger>
       ) : (
-        <Link href={link.link} target={link?.newTab ? '_blank' : '_self'}>
-          <MenubarTrigger disabled={link?.disabled} className="cursor-pointer">
+        <Link href={`/${link.link}`} target={link?.newTab ? '_blank' : '_self'}>
+          <MenubarTrigger className="cursor-pointer">
             {link.title}
           </MenubarTrigger>
           {link?.badgeText && <Badge>{link?.badgeText}</Badge>}
@@ -121,7 +115,7 @@ function DesktopMenuLinks({
         <MenubarMenu>
           <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
           <MenubarContent>
-            <MenuLink text={'View all'} link={Links.devTools} />
+            <MenuLink text={'View all'} link={`/${Links.devTools}`} />
 
             <MenuLink text={'EIP-712'} link={`/${Links.eip712}`} />
             <MenuLink text={'ERC-191'} link={`/${Links.erc191}`} />
@@ -144,7 +138,6 @@ function DesktopMenuLinks({
               text={'Deterministic Address'}
               link={`/${Links.contractAddressGen}`}
             />
-            <MenuLink text={'EVM Visualizer'} link={Links.evmTools} />
           </MenubarContent>
         </MenubarMenu>
         {menuLinks.map((m, i) => (
@@ -218,12 +211,12 @@ function MobileMenuLinks({
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <a href={Links.blog} target="_blank">
+          <a href={`/${Links.blog}`} target="_blank">
             <DropdownMenuLabel>Learn</DropdownMenuLabel>
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">
-          <Link href={Links.contribute}>Contribute</Link>
+          <Link href={`/${Links.contribute}`}>Contribute</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <a href={evmToolsXLink} target="_blank">
@@ -248,7 +241,7 @@ export function GlobalHeader(props: { showConnectWallet?: boolean }) {
                 alt=""
                 height="60"
                 width="60"
-                src="../assets/images/evm-tools-logo-2.svg"
+                src="/assets/images/evm-tools-logo-2.svg"
                 style={{ marginRight: '10px' }}
               />
               <span>evmtools</span>

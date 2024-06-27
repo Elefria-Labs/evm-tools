@@ -1,0 +1,39 @@
+---
+title: Drawbacks of using approve function
+description: 'There are a few potential drawbacks to using the approve function in ERC20'
+date: Mar 14 2023
+---
+
+There are a few potential drawbacks to using the approve function in ERC20:
+
+#### Front-running attacks:
+
+An attacker could monitor the network for approve transactions and quickly send a transaction to transfer tokens before the original transaction is confirmed, effectively stealing the tokens.
+
+#### Unlimited approvals:
+
+Once an address is approved to spend a certain amount of tokens, they can continue to spend those tokens until the approval is revoked. This can create security risks if the approved address is compromised.
+
+#### User mistakes or malicious payloads:
+
+There is a risk that users may accidentally approve an incorrect or malicious address to spend their tokens.
+
+The approve function can be a useful tool in managing token transfers, but it should be used with caution and with proper safeguards in place to mitigate the risks mentioned above.
+
+### Some ways to overcome these drawabacks
+
+#### Approve-and-Call pattern
+
+- In this pattern, the user approves the smart contract to spend a certain amount of tokens on their behalf, and then calls a specific function in the smart contract with the approved amount. The smart contract then performs the necessary actions and spends the approved tokens, without the need for multiple transactions or the user having to manually execute the transfer.
+
+- By using this pattern, the drawbacks of the approve() function can be minimized, as the amount of tokens that can be spent is limited to the specific function call, and the user has more control over how their tokens are being used.
+
+- Additionally, the smart contract can implement additional checks and validation to prevent unauthorized spending of tokens.
+
+#### Use increase and decrease allowance
+
+- The `increaseAllowance` function increases the allowance of the spender for a specific token by a specified amount, while the `decreaseAllowance` function decreases the allowance of the spender for a specific token by a specified amount.
+
+- These functions can be used to increase or decrease the allowance without the need for an additional approval transaction.
+
+- This can further minimize the possibility of double spend attacks due to transaction re ordering of an `approve` transaction by a malicious attacker.

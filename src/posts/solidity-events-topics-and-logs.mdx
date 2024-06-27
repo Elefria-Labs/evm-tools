@@ -1,0 +1,56 @@
+---
+title: Relation Between Solidity Events, Topics & Logs
+description: 'Topics are indexed parameters to an event. EVM uses low-level primitives called logs to map them to high-level solidity construct called Event.'
+date: Sep 5 2022
+---
+
+## Topics
+
+---
+
+Topics are indexed parameters to an event.
+`topic[0]` always refers to the hash of the hash of the event itself, and can have up to 3 indexed arguments, which will be reflected in the topics.
+
+## Logs
+
+---
+
+EVM uses low-level primitives called logs to map them to high-level solidity construct called Event. Logs may contain different topics that are indexed arguments.
+
+#### Example:
+
+Consider Event:
+
+```js
+ event GroupCreated(uint indexed groupId, uint itemCount);
+```
+
+and you emit the above event inside `createGroup` function:
+
+```js
+ function createGroup() {
+        emit GroupCreated(12, 23);
+  }
+
+```
+
+This will create a low-level EVM log entry with topics
+
+`0x123....abc` (Keccak-256 hash of GroupCreated(uint256,uint256))
+
+`0x4238....gef` (Keccak-256 hash of groupId), value 12
+
+You'll notice that `itemCount` will not be a topic, but it will be included in the data section of the event.
+
+Now, in the web3 client you may watch for creation events of `groups` with `groupId` 12 Or you can also filter all past events in similar way (refer below):
+
+```js
+const event = myContract.GroupCreated({ groupId: 12 });
+event.watch(function (err, result) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log('Found ', result);
+});
+```

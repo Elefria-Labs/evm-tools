@@ -1,0 +1,108 @@
+---
+title: Save More Gas While Using Storage
+description: 'In this article, we will try to understand why it is important to structure our read-and-write storage operations appropriately to save more gas.'
+date: May 11 2023
+---
+
+We all know the importance of saving gas in smart contracts. In this article, we will try to understand why it is important to structure our read-and-write storage operations appropriately to save more gas.
+
+There are 3 types of storage in EVM at the moment, storage, memory, and stack. In most scenarios, when we want to persist data on a chain we use storage. Data in storage persists even after the end of the transaction lifecycle.
+
+But storage is also one of the most expensive options, hence it is important to structure our code properly when using on-chain storage.
+
+Let's look at an example. Please go through the below code line by line.
+
+```js
+
+// gas values from remix
+
+pragma solidity ^0.8.20;
+
+contract StorageRead {
+    uint256 x = 1;  // storage variable
+    uint256 y = 2;  // storage variable
+    // 2454 gas
+    function coldRead() external view returns (uint256 a) {
+        a = x;      // cold read
+    }
+    // 2539 gas
+    function coldWarmRead() external view returns (uint256 a) {
+        a = x;   // cold read
+        a = x;  // warm read
+    }
+    // 4622 gas
+    function coldColdRead() external view returns (uint256 a, uint256 b) {
+        a = x;      // cold read
+        b = y;  // cold read
+    }
+    // 2687 gas
+    function coldWarmRead2() external view returns (uint256 a,uint256 b) {
+        a = x;   // cold read
+        b = x;  // warm read
+    }
+    // 2454 gas
+    function coldRead2() external view returns (uint256 a) {
+        a = y;      // cold read
+    }
+
+}
+
+```
+
+In the above code, notice the gas cost for each of the functions.
+
+- `coldRead`- Read from the storage only one time. This refers to cold read.
+
+- `coldWarmRead`- Read from the storage the first time (cold read) and then read the same storage the second time (warm read).
+
+- `coldColdRead`- Read from the storage twice (cold read) but different storage slots.
+
+Notice that the gas cost varies a lot when we do two cold reads (coldColdRead) from the storage as compared to one cold read and a warm read (coldWarmRead).
+
+The cost of cold SLOAD is 2100 and the subsequent cost of the same slot is 100.
+
+This is because when a slot is loaded (SLOAD) or some value is stored (SSTORE)at a slot, it will be considered accessed for the rest of the transaction.
+
+Some other notable gas costs,
+
+SSTORE to change the value from 0 to 1 costs 21000 (cold) and 20000 (hot).
+
+SSTORE to change value from 1 to 2 costs 5000 (cold) and 2900 (hot).
+
+Now we will look at another example to understand how we can implement what we learn so far and optimize a bit using memory.
+
+```js
+// gas values from remix
+
+pragma solidity ^0.8.20;
+
+contract StorageMemoryRead {
+    uint256 x = 1;  // storage variable
+    uint256 y = 2;  // storage variable
+
+    // 2993 gas
+    function coldRead() external view returns (uint256 a) {
+         if(x < 2){
+             a = x;  // warm storage read
+         }
+
+         if(x==1){ // warm storage read
+             a = x+1; // warm storage read
+         }
+    }
+
+    // 2785 gas
+     function coldWithMemory() external view returns (uint256 a) {
+         uint256 copy = x; // copy to memory
+         if(copy < 2){
+             a = copy;
+         }
+
+         if(x==1){
+             a = copy+1;
+         }
+    }
+}
+```
+
+Let's understand the above code, `coldRead`, this function uses a lot of SSLOAD opcode by reading the same storage multiple times. The same thing is being achieved by the function, `coldWithMemory`, but by using memory. This costs less gas as MLOAD & MSTORE only cost 3 gas.

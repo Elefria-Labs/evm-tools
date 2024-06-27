@@ -1,0 +1,17 @@
+---
+title: What is ERC677? When to use it?
+description: 'Topics are indexed parameters to an event. EVM uses low-level primitives called logs to map them to high-level solidity construct called Event.'
+date: Aug 11 2022
+---
+
+## ERC677
+
+---
+
+Allow tokens to be transferred to contracts and have the contract trigger logic for how to respond to receiving the tokens within a single transaction.
+
+To do an api call or vrf request requires a function call on a smart contract (ie on the the oracle contract or operator contract or vrf coordinator contract etc). To transfer a token also requires a function call on the token contract. So if you say wanted to do a vrf request and send the payment in link, usually that would be 2 seperate function calls on 2 seperate contracts. With erc677 you can basically do both in a single transaction, thanks to the magic of the onTokenTransfer and transferAndCall functions.
+
+### Reference
+
+- https://github.com/ethereum/EIPs/issues/677

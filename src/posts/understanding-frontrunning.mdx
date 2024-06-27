@@ -1,0 +1,19 @@
+---
+title: What is front running?
+description: 'Front running has caused losses to several users in DEFI and NFT space, lets understand how it works.'
+date: Feb 21 2023
+---
+
+- Front running is an activity in which a user (or a malicious user) tries to profit from a transaction by detecting it from the mempool and executing a similar transaction with a higher gas fee, in order to prioritize their own transaction and earn a profit.
+
+- This activity is considered to be unethical as it can lead to losses for the original transaction sender.
+
+Let's consider an example to understand front running in Ethereum:
+
+1. Suppose Alice wants to purchase a specific cryptocurrency token at a specific price, say 1 ETH for 10 tokens. Alice submits a transaction to a decentralized exchange (DEX) to buy the tokens at this price.
+2. At the same time, Bob, who has access to the same DEX, sees Alice's transaction in the mempool, and decides to place a buy order at the same price but with a higher gas fee. As a result, Bob's transaction is executed before Alice's, leading to either
+
+- Alice not getting the desired amount of tokens and possibly causing a financial loss for Alice.
+- Or Alice may get tokens at a higher price due to change in liquidity curve and token price on the DEX.
+
+There are some techniques that can be used such as using private cryptocurrency or commit reveal schemes for the transactions, using private mempools, maintaining and matching order book using zero knowledge proofs etc.

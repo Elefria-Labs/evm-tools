@@ -1,0 +1,219 @@
+---
+title: How fee growth mechanism works in Uniswap V3?
+description: 'A conversation with AI to understand how fee growth mechanism works in Uniswap V3'
+date: Jun 21 2024
+---
+
+Let's dive into the fee growth mechanism in Uniswap V3.
+
+1. Global Fee Accumulation:
+
+Every time a swap occurs, fees are collected and added to the global fee accumulation variables:
+
+```solidity
+// In Pool.sol
+struct PoolState {
+    // ... other fields ...
+    uint256 feeGrowthGlobal0X128;
+    uint256 feeGrowthGlobal1X128;
+}
+
+function _updateFeeGrowthGlobal(uint256 feeAmount, uint256 tokenAmount, uint128 liquidity) private {
+    if (liquidity > 0) {
+        feeGrowthGlobal0X128 += FullMath.mulDiv(feeAmount, FixedPoint128.Q128, liquidity);
+    }
+}
+```
+
+2. Tick-Level Fee Tracking:
+
+Fees are also tracked at each tick to handle concentrated liquidity:
+
+```solidity
+// In Tick.sol
+struct Info {
+    // ... other fields ...
+    uint256 feeGrowthOutside0X128;
+    uint256 feeGrowthOutside1X128;
+}
+
+function update(
+    mapping(int24 => Tick.Info) storage self,
+    int24 tick,
+    int24 currentTick,
+    uint128 liquidityDelta,
+    uint256 feeGrowthGlobal0X128,
+    uint256 feeGrowthGlobal1X128,
+    bool upper
+) internal returns (bool flipped) {
+    Tick.Info storage info = self[tick];
+    uint128 liquidityBefore = info.liquidityGross;
+    uint128 liquidityAfter = LiquidityMath.addDelta(liquidityBefore, liquidityDelta);
+
+    if (liquidityBefore == 0) {
+        // initialize tick
+        info.feeGrowthOutside0X128 = feeGrowthGlobal0X128;
+        info.feeGrowthOutside1X128 = feeGrowthGlobal1X128;
+    }
+
+    // ... more logic ...
+}
+```
+
+3. Position-Level Fee Tracking:
+
+For each liquidity position, we track the last recorded fee growth:
+
+```solidity
+// In Position.sol
+struct Info {
+    uint128 liquidity;
+    uint256 feeGrowthInside0LastX128;
+    uint256 feeGrowthInside1LastX128;
+    uint128 tokensOwed0;
+    uint128 tokensOwed1;
+}
+```
+
+4. Fee Calculation for a Position:
+
+When a position is modified or closed, we calculate the fees owed:
+
+```solidity
+function _updatePosition(
+    address owner,
+    int24 tickLower,
+    int24 tickUpper,
+    int128 liquidityDelta,
+    int24 tick
+) internal returns (Position.Info storage position) {
+    position = positions.get(owner, tickLower, tickUpper);
+
+    uint256 feeGrowthInside0X128;
+    uint256 feeGrowthInside1X128;
+
+    (feeGrowthInside0X128, feeGrowthInside1X128) = ticks.getFeeGrowthInside(
+        tickLower,
+        tickUpper,
+        tick,
+        feeGrowthGlobal0X128,
+        feeGrowthGlobal1X128
+    );
+
+    position.tokensOwed0 += uint128(
+        FullMath.mulDiv(
+            feeGrowthInside0X128 - position.feeGrowthInside0LastX128,
+            position.liquidity,
+            FixedPoint128.Q128
+        )
+    );
+    position.tokensOwed1 += uint128(
+        FullMath.mulDiv(
+            feeGrowthInside1X128 - position.feeGrowthInside1LastX128,
+            position.liquidity,
+            FixedPoint128.Q128
+        )
+    );
+
+    position.feeGrowthInside0LastX128 = feeGrowthInside0X128;
+    position.feeGrowthInside1LastX128 = feeGrowthInside1X128;
+
+    // ... more logic ...
+}
+```
+
+5. Fee Growth Inside Ticks:
+
+The `getFeeGrowthInside` function calculates the fee growth inside a specific range:
+
+```solidity
+function getFeeGrowthInside(
+    mapping(int24 => Tick.Info) storage self,
+    int24 tickLower,
+    int24 tickUpper,
+    int24 tickCurrent,
+    uint256 feeGrowthGlobal0X128,
+    uint256 feeGrowthGlobal1X128
+) internal view returns (uint256 feeGrowthInside0X128, uint256 feeGrowthInside1X128) {
+    Tick.Info storage lower = self[tickLower];
+    Tick.Info storage upper = self[tickUpper];
+
+    // ... calculate feeGrowthBelow0X128, feeGrowthBelow1X128, feeGrowthAbove0X128, feeGrowthAbove1X128
+
+    feeGrowthInside0X128 = feeGrowthGlobal0X128 - feeGrowthBelow0X128 - feeGrowthAbove0X128;
+    feeGrowthInside1X128 = feeGrowthGlobal1X128 - feeGrowthBelow1X128 - feeGrowthAbove1X128;
+}
+```
+
+This mechanism ensures that:
+
+1. Fees are accumulated globally for the entire pool.
+2. Each tick keeps track of fees accumulated outside its range.
+3. Each position can calculate its earned fees based on its liquidity and the fee growth inside its price range.
+4. Liquidity providers only earn fees when the current price is within their specified range.
+
+### What is the difference between feeGrowthOutside0X128 and feeGrowthInside0X128
+
+Excellent question. The distinction between `feeGrowthOutside0X128` and `feeGrowthInside0X128` is crucial for understanding how Uniswap V3 tracks and distributes fees accurately within specific price ranges. Let's break this down:
+
+1. `feeGrowthOutside0X128`:
+
+- This is stored at the tick level (in the `Tick.Info` struct).
+- It represents the cumulative fee growth per unit of liquidity that has occurred outside of this tick.
+- "Outside" means either above the upper tick or below the lower tick of a position, depending on the current price.
+- It's used to calculate the fee growth inside a range by subtracting it from the global fee growth.
+
+2. `feeGrowthInside0X128`:
+
+- This is not directly stored but calculated when needed.
+- It represents the cumulative fee growth per unit of liquidity that has occurred inside a specific range (between two ticks).
+- It's computed using the global fee growth and the outside fee growth of the lower and upper ticks of a position.
+
+Here's how they relate:
+
+```solidity
+function getFeeGrowthInside(
+    mapping(int24 => Tick.Info) storage self,
+    int24 tickLower,
+    int24 tickUpper,
+    int24 tickCurrent,
+    uint256 feeGrowthGlobal0X128,
+    uint256 feeGrowthGlobal1X128
+) internal view returns (uint256 feeGrowthInside0X128, uint256 feeGrowthInside1X128) {
+    Tick.Info storage lower = self[tickLower];
+    Tick.Info storage upper = self[tickUpper];
+
+    uint256 feeGrowthBelow0X128;
+    uint256 feeGrowthBelow1X128;
+    if (tickCurrent >= tickLower) {
+        feeGrowthBelow0X128 = lower.feeGrowthOutside0X128;
+        feeGrowthBelow1X128 = lower.feeGrowthOutside1X128;
+    } else {
+        feeGrowthBelow0X128 = feeGrowthGlobal0X128 - lower.feeGrowthOutside0X128;
+        feeGrowthBelow1X128 = feeGrowthGlobal1X128 - lower.feeGrowthOutside1X128;
+    }
+
+    uint256 feeGrowthAbove0X128;
+    uint256 feeGrowthAbove1X128;
+    if (tickCurrent < tickUpper) {
+        feeGrowthAbove0X128 = upper.feeGrowthOutside0X128;
+        feeGrowthAbove1X128 = upper.feeGrowthOutside1X128;
+    } else {
+        feeGrowthAbove0X128 = feeGrowthGlobal0X128 - upper.feeGrowthOutside0X128;
+        feeGrowthAbove1X128 = feeGrowthGlobal1X128 - upper.feeGrowthOutside1X128;
+    }
+
+    feeGrowthInside0X128 = feeGrowthGlobal0X128 - feeGrowthBelow0X128 - feeGrowthAbove0X128;
+    feeGrowthInside1X128 = feeGrowthGlobal1X128 - feeGrowthBelow1X128 - feeGrowthAbove1X128;
+}
+```
+
+Key points:
+
+1. `feeGrowthOutside0X128` is used to calculate `feeGrowthInside0X128`.
+2. The calculation depends on the current tick relative to the range's lower and upper ticks.
+3. `feeGrowthInside0X128` is essentially what's left of the global fee growth after subtracting the fee growth outside the range.
+
+This mechanism allows Uniswap V3 to efficiently track fees for any arbitrary price range, enabling the concentrated liquidity feature while ensuring accurate fee distribution to liquidity providers.
+
+Would you like me to elaborate on how this calculation is used in practice, or do you have any other questions about this distinction?

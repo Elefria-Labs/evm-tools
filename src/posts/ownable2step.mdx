@@ -1,0 +1,42 @@
+---
+title: Ownable2Step in Solidity
+description: 'Another helper contract provided by Openzeppelin, which adds an extra layer of security, it is Ownable2Step.'
+date: May 26 2023
+---
+
+We have all mostly heard about the Ownable and AccessControl contracts provided by Openzeppelin for managing the admin or access to smart contract functions. But there is another helper contract provided by Openzeppelin, which can be used alongside and adds an extra layer of security, it is Ownable2Step.
+
+### Problem
+
+Most developers use onlyOwner modifier to protect the functions, and Ownable contract has this function transferOwnership which transfers the ownership to a new address in a single transaction. But what if you copy pasted the wrong address, you made a mistake while typing the address for the new owner, or you lost access to the new owner's address’s private keys? There can be other scenarios where this can lead to bricking the contract or making user funds open to risk.
+
+### Solution
+
+Ownable2Step makes the ownership transfer even more secure by using two-step transactions to set the new owner address. It has two important functions that allow us to achieve this.
+
+`Step 1`: transferOwnership allows one to initiate the transfer ownership rather than directly changing the ownership. This transaction needs to be sent by the owner's address.
+
+`Note`: If you accidentally set the wrong address at this step, the owner can call this function again to set a new pendingOwner.
+
+```js
+   function transferOwnership(address newOwner) public virtual override onlyOwner {
+        _pendingOwner = newOwner;
+        emit OwnershipTransferStarted(owner(), newOwner);
+    }
+```
+
+`Step 2`: acceptOwnership is called from the new address, which completes the transfer of ownership address.
+
+```js
+function acceptOwnership() public virtual {
+        address sender = _msgSender();
+        if (pendingOwner() != sender) {
+            revert OwnableUnauthorizedAccount(sender);
+        }
+        _transferOwnership(sender);
+    }
+```
+
+Ownable2Step, provides a lot of benefits instead of just using vanilla transferOwnership such as better security for ownership control, providing additional checks to be performed before fully transferring the ownership to the new address, and at the same time protecting against accidental incorrect address change.
+
+Thank you for reading.

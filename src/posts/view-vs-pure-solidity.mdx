@@ -1,0 +1,39 @@
+---
+title: View and Pure Functions in Solidity
+description: 'View and pure functions can be confusing sometimes for the newbees in solidity. This post will clarify the major differences.'
+date: Aug 20 2022
+---
+
+`view` indicates that the function will not alter the storage state in any way. But it allows you to read the state.
+
+`pure` is even more strict, indicating that it will not even read the storage state.
+
+A pure function is a function which given the same input, always returns the same output. But the state of the contract keeps changing as users interact with it. So if you pass a state variable as an argument to the function, since the state is changing, that function will not be pure. That's why pure functions cannot access to state.
+
+```js
+
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.15;
+
+contract ViewAndPure {
+    uint public gamePoints = 0;
+
+
+    // No modification or reading from the state
+    function checkRewards(uint multiplier, uint points) public pure returns (uint) {
+        return multiplier * points;
+    }
+
+    // No modification but can read from the state
+    function addGamePoints(uint newScore) public view returns (uint) {
+        return gamePoints + newScore;
+    }
+
+}
+
+```
+
+> If you call `view` or `pure` functions externally, you do not pay a gas fee.
+
+[Read more about storage and memory here](./arrays-within-struct)

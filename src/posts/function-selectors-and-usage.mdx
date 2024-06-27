@@ -1,0 +1,21 @@
+---
+title: Function Selectors in Solidity
+description: 'Understanding how function selectors work can help prevent unwanted bugs in solidity.'
+date: Aug 8 2022
+---
+
+All function calls in Ethereum are identified by the first 4 bytes of the data payload, which is known as the function selector. The selector is calculated from a hash of the function name and its signature. Now, 4 bytes is not a lot of entropy, which means that there is potential for clashing between two functions: two different functions with different names may end up having the same selector. If you happen to stumble upon such a case, the Solidity compiler will be smart enough to let you know, and refuse to compile a contract with two different functions with different names that have the same 4-byte identifier.
+
+```js
+// This contract will not compile, as both functions have the same selector
+contract Foo {
+function collate_propagate_storage(bytes16) external { }
+function burn(uint256) external { }
+}
+```
+
+### Why function selectors matters?
+
+When working with upgradeable contracts in solidity, it is perfectly possible for an implementation contract to have a function that has the same 4-byte identifier as the proxy’s upgrade function.
+
+This could cause an admin to inadvertently upgrade a proxy to a random address while attempting to call a completely different function provided by the implementation. This issue can be solved either by appropriate tooling while developing upgradeable smart contracts, or at the proxies themselves. In particular, if the proxy is set up such that the admin can only call upgrade management functions, and all other users can only call functions of the implementation contract, clashes are not possible. This is one of main reason Transparent Proxy patterns were recommended.

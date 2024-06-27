@@ -1,0 +1,20 @@
+---
+title: How to cancel an already sent transaction?
+description: 'Transaction in a block cannot be reversed or cancelled but only if its not committed yet'
+date: Oct 18 2022
+---
+
+One cannot cancel a transaction already committed to the blockchain.
+
+However, one can cancel a transaction that is already in the mempool, you need to send another transaction with the same nonce and a higher gas price, effectively replacing the original transaction.
+The higher gas price incentivizes miners or validators to prioritize the new transaction over the old one.
+
+Here is an example:
+
+Let's say you sent a transaction with nonce 5 and a gas price of 50 Gwei, but it has been stuck in the mempool for a long time. To cancel it, you can create a new transaction with nonce 5 and a higher gas price, let's say 70 Gwei.
+
+To do this, you can use the same parameters as the original transaction, but increase the gas price. You can also set the gas limit to the same value as the original transaction to ensure that it has enough gas to execute.
+
+Once you send the new transaction with the higher gas price, it will replace the original transaction in the mempool. Miners will now prioritize the new transaction because of the higher gas price, and the original transaction will be dropped.
+
+Additionally, if the original transaction has already been included in a block, it cannot be canceled.

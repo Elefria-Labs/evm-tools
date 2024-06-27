@@ -127,7 +127,7 @@ export function Footer() {
               alt=""
               h="60px"
               w="60px"
-              src="../assets/images/evm-tools-logo-2.svg"
+              src="/assets/images/evm-tools-logo-2.svg"
               mr="6px"
             />
             evmtools

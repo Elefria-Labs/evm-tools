@@ -1,0 +1,22 @@
+---
+title: How to updgrade smart contracts?
+description: 'Smart contract can be made upgradeable by changing the execution logic of a smart contract while esnuring that the new contract logic will use the same  state ( contract storage) as previously.'
+date: Sep 5 2022
+---
+
+## What are smart contract upgrades?
+
+---
+
+Smart contracts are immutable once deployed, there is no way to update the on-chain code. However, you can still upgrade the way contract storage is used by the contract logic. The key concept here is to use the previously defined storage and just update the logic.
+This is achieved by using `DELEGATECALL` opcode.
+
+One such way to achieve this is by using proxy patterns to delegate function calls from an immutable proxy contract to a modifiable logic contract.
+
+The basic idea is using a proxy for upgrades. The first contract is a simple wrapper or "proxy" which users interact with directly and is in charge of forwarding transactions to and from the second contract, which contains the logic. The key concept to understand is that the logic contract can be replaced while the proxy, or the access point is never changed. Both contracts are still immutable in the sense that their code cannot be changed, but the logic contract can simply be swapped by another contract. The wrapper can thus point to a different logic implementation and in doing so, the software is "upgraded".
+
+User ---- tx ---> Proxy ----------> Implementation_v0
+|
+------------> Implementation_v1
+|
+------------> Implementation_v2

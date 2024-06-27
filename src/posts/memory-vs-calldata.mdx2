@@ -1,0 +1,86 @@
+---
+title: Memory vs Calldata in Solidity
+description: 'Memory and Calldata are keywords that define the data area where a variable is stored.'
+date: Sep 26 2022
+---
+
+---
+
+- `memory` should be used when declaring variables (both function parameters as well as inside the logic of a function) that you want stored in memory (temporary).
+- `calldata` must be used when declaring an external function's dynamic parameters.
+- `calldata` is a non-modifiable, non-persistent area where function arguments are stored, and behaves mostly like memory.
+
+## Memory
+
+---
+
+`memory` lifetime is limited to a function call and is meant to be used to temporarily store variables and their values. Values stored in memory do not persist on the network after the transaction has been completed.
+
+Some notable implementation details about memory are as follows:
+
+- It can be used for both function declaration parameters as well as within the function logic
+- It is mutable (it can be overwritten and changed)
+- It is non-persistent (the value does not persist after the transaction has completed)
+
+```js
+
+function foo(string memory a) public {
+   string memory b = "abc";
+   b = "cba";
+}
+
+```
+
+### Calldata
+
+---
+
+`calldata` is very similar to memory in that it is a data location where items are stored. It is a special data location that contains the function arguments, only available for external function call parameters.
+
+Notable implementation details about calldata are as follows:
+
+- It can only be used for function declaration parameters (and not function logic)
+- It is immutable (it can't be overwritten and changed)
+- It must be used for dynamic parameters of an external function
+- It is non-persistent (the value does not persist after the transaction has completed)
+
+```js
+
+// this is wrong because is being used in a public function
+function foo(string calldata a) public {
+...
+}
+// this one line is ok
+function foo(string calldata a) external {
+   // this one is wrong
+   string calldata b = "abc";
+   // this one is also wrong
+   a = "abc";
+}
+
+```
+
+```js
+pragma solidity 0.5.11;
+
+contract Test {
+
+    string stringTest;
+
+    function memoryTest(string memory _exampleString) public returns (string memory) {
+        _exampleString = "example";  // You can modify memory
+        string memory newString = _exampleString;  // You can use memory within a function's logic
+        return newString;  // You can return memory
+    }
+
+    function calldataTest(string calldata _exampleString) external returns (string memory) {
+        // cannot modify _exampleString
+        // but can return it
+        return _exampleString;
+    }
+}
+```
+
+calldata are only parameters of a function which is declared as external, which value is allocated by the caller, that's why it's gas cost is lower.
+
+// https://ethereum.stackexchange.com/questions/74442/when-should-i-use-calldata-and-when-should-i-use-memory

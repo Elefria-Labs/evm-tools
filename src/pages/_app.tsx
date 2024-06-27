@@ -3,6 +3,8 @@ import React from 'react';
 import { AppProps } from 'next/app';
 import '../styles/global.css';
 import '@rainbow-me/rainbowkit/styles.css';
+import 'prismjs/themes/prism-tomorrow.css';
+
 import '@firebase/firebase-config';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, sepolia, WagmiConfig } from 'wagmi';

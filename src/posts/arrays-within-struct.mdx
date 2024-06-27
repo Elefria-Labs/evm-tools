@@ -1,0 +1,42 @@
+---
+title: Using Arrays Within Solidity Structs
+description: 'Abstract contracts and interfaces share some similar characterstics but they are different.'
+date: Sep 22 2022
+---
+
+`memory` variables are temporary variables that exist only inside the calling function. The memory variables do not persist and are generally cheaper to use than storage variables.
+
+`storage` variables are stored in contract state and are only changed by sending a transaction and spending gas.
+
+```js
+
+pragma solidity ^0.7.0;
+
+contract ArrayInsideStruct {
+
+  event CreateGame(address indexed _from, uint256 _value);
+
+  struct Game {
+    address[] users;
+    uint256 gameId;
+  }
+
+  Game[] public games;
+
+  function createGame() public {
+
+      // initialize struct with empty new array of size 0
+      Game memory game = Game(new address[](0), 0);
+
+      games.push(game);
+
+      // push data to the array inside struct
+      games[games.length-1].users.push(msg.sender);
+
+      CreateGame(msg.sender, games.length-1);
+  }
+  function getUsers(uint i) public view returns (address[]){
+      return game[i].users;
+  }
+}
+```

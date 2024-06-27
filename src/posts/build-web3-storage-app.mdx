@@ -1,0 +1,128 @@
+---
+title: Build a Web3 notes app in 4 steps?
+description: 'In this article we will be creating a notes app using IPFS. IPFS is a decentralized storage.'
+date: Oct 8 2022
+---
+
+To create this app we will be using following tools-
+
+- [zk-block](https://github.com/heypran/zk-block) - boilerplate for zk and web3 dapps. ( NextJS, React, Typescript, Metamask)
+
+- [web3 storage](https://web3.storage) - library for IPFS and provides an easy and scalable way to store data on IPFS
+
+We wont be diving into UI or ReactJs part of the app. As these are outside the scope of the article.
+
+When dealing with any storage, there are mainly two tings that we need to deal with -
+
+- Storing data
+- Retrieving data
+
+Assuming you can handle creating a UI and user inputs in react, we can just focus on the code that will help you interact with the IPFS using `web3.storage`.
+
+### 1. Install the web3.storage
+
+`npm install web3.storage`
+
+### 2. You need to get an access token
+
+Getting an access token is free, and you can get yours at https://web3.storage/account/.
+
+### 3. Create a storage client object
+
+```js
+const storage = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3_KEY });
+```
+
+### 4. Store & Retrieve Files
+
+### Storing
+
+The Web3.Storage client's `put` method accepts an array of File objects. So, we will have to convert any data that we want to store in a `File` object.
+
+```
+const finalContent = JSON.stringify(content);
+const file = new File([finalContent], await sha256(finalContent), {
+      type: 'text/plain',
+    });
+```
+
+Once, we have the `File` object. we can simply call `put` to store or upload the files to IPFS
+
+```js
+const cid = await storage.put([file]);
+```
+
+CID you get back from the client when uploading is the CID of the directory and not the file itself.
+
+To link to the file itself using an IPFS URI, just add the filename to the CID, separated by a `/` like this: `ipfs://<cid>/<filename>`.
+
+For eg, to access this blog link stored on ipfs you can use the below link -
+
+https://ipfs.io/ipfs/bafybeicbv3pjrmkx7vy27puybjitqibzo6r5hrlc2exp6jh4kf4ijhpaqe
+
+---
+
+<b>Optional:</b> put also provides callback functions to show upload progress.
+
+```js
+const onRootCidReady = (cid) => {
+  console.log('uploading files with cid:', cid);
+};
+
+const onStoredChunk = (size) => {
+  uploaded += size;
+  const pct = totalSize / uploaded;
+  console.log(`Uploading... ${pct.toFixed(2)}% complete`);
+};
+
+await storage.put(files, { onRootCidReady, onStoredChunk });
+```
+
+---
+
+### Retrieving
+
+You can retrieve your uploaded data by -
+
+`https://<cid>.ipfs.dweb.link/`
+
+`https://ipfs.io/ipfs/<cid>`
+
+or via code
+
+```js
+const web3ResponseObject = await storage.get(cid); // Web3Response object
+```
+
+The `web3ResponseObject` extends the Response object from the Web [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) with two methods that provide access to the retrieved IPFS data: `files` and `unixFsIterator()`.
+
+The `files` method returns an array of `Web3File` objects, which represent all files contained in the content archive identified by the given CID. A `Web3File` is just like a regular web `File` object, with the addition of `path` and `cid` properties. These contain the relative path of the file within the archive and the CID of the file, respectively.
+
+```js
+const files = await web3ResponseObject.files(); // return your files
+```
+
+You can checkout the notes app in action [here](https://github.com/heypran/dotes)
+
+**_Optional:_** Encrypting the data
+
+Since, all the data is publicly accessible and sometimes its best to store data in encrypted form.
+
+```js
+const stringifiedContent = JSON.stringify(content);
+const finalContent = CryptoJS.AES.encrypt(
+  stringifiedContent,
+  password
+).toString();
+```
+
+and you can decrypt like below,
+
+```js
+const retrievedContent = CryptoJS.AES.decrypt(reader.result, password).toString(
+  CryptoJS.enc.Utf8
+);
+const actualContent = JSON.parse(retrievedContent);
+```
+
+That's all!

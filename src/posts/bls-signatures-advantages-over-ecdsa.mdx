@@ -1,0 +1,31 @@
+---
+title: Advantages of BLS Signatures over ECDSA
+description: 'BLS signatures and ECDSA signatures have their own pros and cons. But BLS can be very useful in blockchains'
+date: Mar 16 2023
+---
+
+Advantages of BLS signatures over ECDSA:
+
+#### Faster signature verification
+
+BLS signature verification is faster than ECDSA verification, which means that transactions can be processed more quickly.
+
+#### Better scalability
+
+Because BLS signatures are shorter and faster to verify, they can enable better scalability for blockchains.
+
+#### Batch verification
+
+BLS signatures allow for efficient batch verification, which can improve the efficiency of operations such as multisignature transactions.
+
+#### No need for secret key operations
+
+BLS signatures do not require secret key operations, which can be useful in certain use cases such as threshold signatures where secret key sharing may be required.
+
+In traditional signature schemes like ECDSA, the signer needs to have access to their private key to generate a signature. This involves expensive cryptographic operations like modular exponentiation, scalar multiplication, and hashing.
+
+In contrast, BLS signatures are based on pairing-friendly elliptic curves, which allow for efficient signature generation without the need for secret key operations. In BLS signatures, the signer only needs to raise their message to a power using a fixed public key, which is a much simpler and cheaper operation than what is required for ECDSA signatures.
+
+This means that BLS signatures can be generated much faster than ECDSA signatures, especially for large messages or in scenarios where multiple signatures need to be generated quickly. Additionally, the reduced computational complexity of BLS signatures can help to reduce the gas costs of transactions in blockchain applications, making them more efficient and cost-effective.
+
+It's worth noting that both BLS signatures and ECDSA signatures have their own unique advantages and disadvantages, and the choice between them depends on the specific requirements of the use case.

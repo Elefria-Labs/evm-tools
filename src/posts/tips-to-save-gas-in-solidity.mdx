@@ -1,0 +1,17 @@
+---
+title: Tips to save gas in solidity?
+description: 'Some known and uncommon techniques to save gas in solidity smart contracts'
+date: Oct 26 2022
+---
+
+- Pack struct variables
+- Organize storage variables to fit them 256 bit/32 bytes slots. But remember to use them together in a function otherwise, SLOAD 2100 gas will be charged multiple times, there will be no benefit of HOT load from storage.
+- Use Immutable and constants ( constants are stored as part of byte code)
+- When deploying multiple contracts as clones use minimal proxy pattern
+- Use calldata & memory where possible
+- Use `unchecked {}` when you are sure there is no overflow or underflow
+- Use custom `error()` instead of require or revert when possible
+- When you use require use smaller message lengths
+- Use events to eliminate the need for storage variables
+- Use `++number` to increment
+- Store data in memory which needs to be read frequently, such as array.length

@@ -1,0 +1,39 @@
+---
+title: Transient storage
+description: 'Transient storage was introduced in EIP-1155. Let’s understand how transient storage will help in reducing gas costs.'
+date: Jun 08 2023
+---
+
+Transient storage was introduced in EIP-1155. This EIP was scheduled for Shanghai hardfork but got postponed and now it is promised to be included in the Cacun upgrade. The two big protocols rooting for this EIP are Uniswap and Optimism. With the upcoming release of Uniswap v4, the singleton model for the Uniswap V4 contract will no doubt will benefit a lot from this EIP. Uniswap's founder claims that creating new pools using V4 is at least 90% cheaper (that's just WOW!!!).
+
+Let’s understand how transient storage will help in reducing gas costs.
+
+In the existing scenario, developers rely on using SLOAD and SSTORE opcodes, which are referenced in solidity by ‘storage’. These variables are persisted in storage and hence they are expensive. But in some scenarios, if we are able to initialize some value at the start of the transaction and access the correct value during a transaction lifetime, then we don’t care if the data persisted or not.
+
+Consider a simple reentrancy guard, we start with the value of a variable set to true, then perform some operations, then make it false again. But in this case, each time we change the value it persisted in the storage. That means each time we load value from the storage and write the changed value back to the storage.
+
+```js
+modifier reentrancyGuard() {
+     require(!locked)
+     locked = true;
+      _;
+      locked = false;
+  }
+```
+
+Transient storage will allow persisting the value (like storage) but just for the lifetime of a transaction and then it's cleared.
+
+The gas cost of `TLOAD` and `TSTORE` is the same as hot `SLOAD` (100) and warm `SSTORE` (100) respectively, which is a huge difference if compared to cold `SSTORE` & cold `SLOAD` (2100).
+
+Transient storage becomes efficient also partially due to the fact that handling of gas refunds. Gas calculations are treated differently for opcodes like `SSTORE` and `SLOAD`. In the case of storage opcode, there is a limit to the possible gas refund which is like 20% of the gas left.
+
+These opcodes are more efficient to execute than the `SSTORE` and `SLOAD` opcodes because the no value needs to be loaded from storage. The gas accounting rules are also simpler since no refunds are required.
+
+Some of the potential use cases as mentioned in the EIP includes:
+
+- Reentrancy locks
+- On-chain computable `CREATE2` addresses: constructor arguments are read from the factory contract instead of passed as part of init code hash
+- Single transaction ERC-20 approvals, e.g. #temporaryApprove(address spender, uint256 amount)
+- Fee-on-transfer contracts: pay a fee to a token contract to unlock transfers for the duration of a transaction
+
+One thing to note is that the transient storage is only cleared post the transaction execution, so if you are planning to use the transient storage slot twice within the same transaction make sure to clear the value as required.

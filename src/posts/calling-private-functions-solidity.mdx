@@ -1,0 +1,15 @@
+---
+title: How to call private functions in solidity?
+description: 'Private functions are not callable from outside the contract.'
+date: Aug 1 2022
+---
+
+`internal` is the default visibility level for state variables.
+
+`private` state variables are like internal ones but they are not visible in derived contracts.
+
+A `private` or `internal` function can only be called by the contract itself.
+
+### How does the EVM enforce this?
+
+On the EVM level, there are no function calls. Rather, solidity generates a dispatcher for each contract, and sending a transaction just activates said dispatcher. On a theoretical level, making a function private is just a matter of not putting it in the dispatcher.

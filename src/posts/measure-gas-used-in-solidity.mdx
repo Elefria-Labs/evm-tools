@@ -1,0 +1,53 @@
+---
+title: Measure Gas Used in Solidity
+description: 'Gas is one of most important consideration when writing smart contract. Solidity provides some built in helper funciton to measure gas.'
+date: Sep 1 2022
+---
+
+## Mesauring gas consumption
+
+---
+
+You can measure the gas used in a block of code by calculating the difference between `gasleft()` at the start and `gasleft()` at the end:
+
+#### Example:
+
+```js
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.10;
+
+contract Gas {
+    uint public i = 0;
+    uint public gasUsed = 0;
+    uint public testCalculation;
+    uint public gasPrice = 0;
+
+    // Using up all of the gas that you send causes your transaction to fail.
+    // State changes are undone.
+    // Gas spent are not refunded.
+    function forever() public {
+        // Here we run a loop until all of the gas are spent
+        // and the transaction fails
+        while (true) {
+            i += 1;
+        }
+    }
+
+    function checkGasUsed() public {
+        uint startGas = gasleft();
+
+        testCalculation = 25/5;
+
+        gasUsed = startGas - gasleft(); // 22121
+    }
+
+    function checkGasUsed2(uint a) public {
+        uint startGas = gasleft();
+
+        testCalculation = a/5;
+        gasPrice = tx.gasprice;
+        gasUsed = startGas - gasleft(); // 27315
+    }
+
+}
+```

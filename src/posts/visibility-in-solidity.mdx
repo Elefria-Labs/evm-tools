@@ -1,0 +1,44 @@
+---
+title: Visibility in Solidity
+description: 'Functions and state variables have to declare whether they are accessible by other contracts or externally.'
+date: Aug 23 2022
+---
+
+Functions can be declared as
+
+| Visibility | Description                                                        |
+| ---------- | ------------------------------------------------------------------ |
+| `public`   | Any contract and account can call                                  |
+| `private`  | Accessible only inside the contract that defines the function      |
+| `internal` | Accessible only inside contract that inherits an internal function |
+| `external` | Accessible only other contracts and accounts can call              |
+
+State variables can be declared as public, private, or internal but not external.
+
+```js
+
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.15;
+
+contract ViewAndPure {
+    uint public gamePoints = 0;
+
+
+    // No modification or reading from the state
+    function checkRewards(uint multiplier, uint points) public pure returns (uint) {
+        return multiplier * points;
+    }
+
+    // No modification but can read from the state
+    function addGamePoints(uint newScore) public view returns (uint) {
+        return gamePoints + newScore;
+    }
+
+}
+
+```
+
+> If you call `view` or `pure` functions externally, you do not pay a gas fee.
+
+[Read more about storage and memory here](./arrays-within-struct)

@@ -1,0 +1,52 @@
+---
+title: Libraries in solidity
+description: 'A library is a piece of code that can be re-used by other smart contracts.'
+date: Sep 11 2022
+---
+
+Libraries in solidity are considered stateless, and hence have the following restrictions:
+
+- They do not have any storage (so can’t have non-constant state variables)
+- They can’t hold ethers (so can’t have a fallback function)
+- Doesn’t allow payable functions (since they can’t hold ethers)
+- Cannot inherit nor be inherited
+- Can’t be destroyed (no selfdestruct() function since version 0.4.20)
+
+There are 2 types of libraries: **deployed & embedded**
+
+### Deployed libraries
+
+These have their own address, and they can be used by several other smart contracts.
+If a library contain public or external functions then library needs to be deployed. The deployment of library will generate a unique address in the blockchain. This address needs to be linked with calling contract.
+
+### Embedded libraries
+
+These don’t have their own address and are deployed as part of the code of the smart contract that use them.
+If a smart contract is consuming a library which have only internal functions, then the EVM simply embeds library into the contract. Instead of using delegate call to call a function, it simply uses JUMP statement(normal method call). There is no need to separately deploy library in this scenario.
+
+```js
+
+// Embedded (function is internal)
+library Lib {
+  function add(uint a, uint b) pure internal returns(uint) {
+    return a + b;
+  }
+}
+
+//  Deployed (function is public)
+library Lib {
+  function add(uint a, uint b) pure public returns(uint) {
+    return a + b;
+  }
+}
+
+contract Example {
+
+    using Lib for uint;
+
+    function addExample(uint _a, uint _b) public view returns (uint) {
+        return _a.add(_b);
+    }
+}
+
+```

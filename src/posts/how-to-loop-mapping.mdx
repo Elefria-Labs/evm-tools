@@ -1,0 +1,46 @@
+---
+title: How to loop through mapping in solidity?
+description: 'Looping through mapping in solidity can be tricky, considering the way solidity works and is a strictly compiled language.'
+date: Aug 14 2022
+---
+
+## Loop through Mapping in Solidity
+
+---
+
+There is no direct way to way loop through the keys or count the keys in a mapping, but there are ways to achieve this using some extra variables.
+
+```js
+pragma solidity 0.8.15;
+
+contract LoopMap {
+
+  address[] public userAddress;
+
+  mapping (address => uint) public addresssItemMapping;
+
+
+  // Option1: construct an array of items by looping the mapping inside soldity
+  function getAllItems() public view returns(uint[] memory items) {
+
+    // create an in-memory array to return as result
+    uint[] memory allItems = new uint[](userAddress.length);
+
+    // add all items to the in-memory array
+    for (uint i =0;i<userAddress.length;++i){
+        allItems[i]=addresssItemMapping[userAddress[i]];
+    }
+
+    return allItems;
+  }
+
+  // Option2: call this function from frontend in a loop
+   function getSingleItem(address _user) public view returns(uint item) {
+    return addresssItemMapping[_user];
+  }
+
+  // Option3: Use an indexing service to read/query the relevant data such as sub-graph
+}
+```
+
+But you must keep in mind some of the limitations of iterations, like having too many steps to the point that the iteration exceeds the maximum amount of gas. The whole purpose of doing this is to read data from the blockchain. Another way this can be achived is by emitting the events and use event caching to query the data.

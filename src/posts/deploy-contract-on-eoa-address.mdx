@@ -1,0 +1,41 @@
+---
+title: How to deploy contract on EOA address?
+description: 'The EIP-7377 proposes a new transaction type to achieve this.'
+date: Jul 28 2023
+---
+
+#### Is it possible to deploy a contract on your externally owned account?
+
+---
+
+The EIP-7377 introduces a new EIP-2718 transaction type. This will be a pivotal moment when Ethereum will support abstract accounts natively. Using this transaction type existing externally owned account (EOA) users will be able to migrate to smart contract wallets.
+
+This is essential for user adoption and security of assets, as using smart contract wallets, users can add more conditions to make it more secure to interact with and move assets around.
+
+Security is one of the biggest concerns when using EOAs, one wrong transaction signed can lead to the draining of the wallet. Hence, security is of tantamount importance for adoption. Side benefits of using smart contracts account is also huge like custom spending, low gas recurring payments, and less intrusive permission for DEFI or Gaming protocols.
+
+Account abstraction is a crucial objective for Ethereum and overall user adoption. Numerous efforts are being made to achieve this goal, and significant progress is being made. However, past failures have led many users to stick with an EOA due to uncertainty. Despite the challenges, the community remains committed to realizing account abstraction’s benefits and advancing toward wider adoption.
+
+Once a user has amassed a substantial amount of assets in an EOA, the process of migrating each asset to a new address becomes impractical. This is primarily due to the high associated costs and the cumbersome nature of manually signing and verifying potentially hundreds of transactions. As a result, users often prefer to retain their assets in the existing EOA to avoid the complexities of migration.
+
+## How the migration transaction will work?
+
+The migration transaction should adhere to below restrictions,
+
+- The transaction should contain all EIP-1559 properties unless specified otherwise
+- The code at codeAddr is less than the EIP-170 limit of 24576
+- The code at codeAddr must not have a size 0
+
+Executing this transaction will be two step process- deployment of the contract and processing of the transaction.
+
+The smart contract code is stored against the address in Merkle Patricia tree, which is why for EOA accounts code value is 0x. A migration transaction will directly set the code value against the sender’s account.
+
+This transaction will allow one-time migration. There is no `to` address field in this transaction. It is designed to immediately call the deployed contract, which is at the sender’s address, after deployment to allow the sender to do any kind of further processing.
+
+It will allow using code pointers to point to existing code on the chain instead of re-deploying the same code again as many accounts will migrate to the same copy of smart contract wallets.
+
+As per the EIP authors, one of the overlooked pieces of the problem is converting existing users to smart contract wallets. This EIP will efficiently expedite adoption and push forward better support and integrations for smart contract wallets.
+
+This EIP proposes a mechanism, embedded in the protocol, to migrate EOAs to smart contracts.
+
+Thank you for reading.

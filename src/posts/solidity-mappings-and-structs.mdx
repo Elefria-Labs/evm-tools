@@ -1,0 +1,88 @@
+---
+title: Using Mappings and Structs in solidity
+description: 'Using mappings and structs in solidity can sometimes become tricky due to the nature of how solidity works.'
+date: Sep 14 2022
+---
+
+## Mappings in Solidity
+
+---
+
+Mappings are similar to hash tables that help store some data in them. They store data in the key-value pair format somewhat like objects in JavaScript or dictionaries in Python.
+
+```
+mapping(_KeyType => _ValueType) public mappingName
+```
+
+- Mappings are useful because they can hold a large number of \_KeyTypes to \_ValueTypes.
+- Mappings don’t really have a length, nor do they have the concept of setting a key or a value.
+- Mappings are only applicable to state variables that serve as storage reference types.
+- When mappings are initialized, they contain every possible key and are mapped to values whose byte-representations are all zeros.
+
+## Structs in Solidity
+
+---
+
+Solidity gives users the ability to create their own data types in the form of structures. The struct contains a collection of elements, each of which has a different data type. In most cases, it is used to represent a record. The struct keyword is used to define a structure, which creates a new data type.
+
+Refer to the example below:
+
+```js
+Contract test {
+
+   // Declaring a structure
+   struct Human {
+      string name;
+      string family;
+      uint age;
+      bool happy;
+   }
+}
+```
+
+## Use `Mappings` inside `Structs` in solidity
+
+We will now simply declare mapping inside a struct and create a function to set values to the struct.
+
+```js
+contract Crowdfund {
+
+    // defining our Request struct
+    struct Request {
+        string description;
+        uint256 value;
+        address recipient;
+        bool complete;
+        uint256 approvalCount;
+
+    }
+
+    Request[] public requests;
+
+    function createRequest(
+        string memory description,
+        uint256 value,
+        address recipient
+    ) public {
+
+        Request memory newRequest = Request({
+            description: description,
+            value: value,
+            recipient: recipient,
+            complete: false,
+            approvalCount: 0
+        });
+
+        // Request(description, value, recipient, false); // alternative syntax to create Request instance - NOT RECOMMENDED!
+
+        requests.push(newRequest);
+    }
+}
+
+```
+
+To access any element of the structure, we use the dot operator, which separates the struct variable from the element we want to access. The variable of structure data type structure name is used to define it.
+
+```js
+requests[0].description;
+```

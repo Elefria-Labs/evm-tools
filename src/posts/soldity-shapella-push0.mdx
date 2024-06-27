@@ -1,0 +1,18 @@
+---
+title: PUSH0 Opcode Solidity
+description: 'Push0 OPCODE was proposed in EIP-3855 and realeased with withdrawls upgrade as part of Shapella in 2023'
+date: Apr 14 2023
+---
+
+EIP-3855 proposes the introduction of a new opcode in the Ethereum Virtual Machine (EVM) called PUSH0. 
+
+PUSH0 opcode is designed to push the constant value 0 onto the stack in a more efficient manner than the current alternative, which is to use PUSH1 with a value of 0.
+
+- The motivation for this change is to reduce contract code size and to reduce the risk of contracts using various instructions as an optimization measure. The cost of deploying contracts that use PUSH1 with a value of 0 is significant, and by introducing PUSH0, the overall gas cost of deploying contracts can be reduced.
+- The PUSH0 opcode has no immediate data and pops no items from the stack. It places a single item with the value 0 onto the stack and has a gas cost of 2. 
+- It is not backward compatible, meaning that already deployed contracts using the opcode may change their behavior after this EIP is implemented.
+
+Overall, this change is intended to improve the efficiency and security of the Ethereum network by introducing a more streamlined and efficient opcode for pushing the value 0 onto the stack.
+
+### Reference
+- https://eips.ethereum.org/EIPS/eip-3855
