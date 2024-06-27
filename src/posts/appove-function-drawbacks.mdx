@@ -25,15 +25,11 @@ The approve function can be a useful tool in managing token transfers, but it sh
 #### Approve-and-Call pattern
 
 - In this pattern, the user approves the smart contract to spend a certain amount of tokens on their behalf, and then calls a specific function in the smart contract with the approved amount. The smart contract then performs the necessary actions and spends the approved tokens, without the need for multiple transactions or the user having to manually execute the transfer.
-
 - By using this pattern, the drawbacks of the approve() function can be minimized, as the amount of tokens that can be spent is limited to the specific function call, and the user has more control over how their tokens are being used.
-
 - Additionally, the smart contract can implement additional checks and validation to prevent unauthorized spending of tokens.
 
 #### Use increase and decrease allowance
 
 - The `increaseAllowance` function increases the allowance of the spender for a specific token by a specified amount, while the `decreaseAllowance` function decreases the allowance of the spender for a specific token by a specified amount.
-
 - These functions can be used to increase or decrease the allowance without the need for an additional approval transaction.
-
 - This can further minimize the possibility of double spend attacks due to transaction re ordering of an `approve` transaction by a malicious attacker.

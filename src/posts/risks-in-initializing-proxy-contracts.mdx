@@ -8,16 +8,11 @@ date: Feb 23 2023
 OpenZeppelin.
 
 - One risk is that if the implementation contract doesn't define an `initialize` function, or if the `initialize` function has a different signature or behavior in the implementation contract compared to the proxy contract, then the initialization process can fail or behave unexpectedly.
-
 - Prevent the `initialize` function being called more than once. If the initialize function has not implemented a check to prevent if it has already been called, then it can be called multiple times, potentially leading to unexpected behavior or security vulnerabilities.
   For example, if the `initialize` function sets the owner of the contract, calling it multiple times could result in a different owner being set than intended.
-
 - When defining an `initialize` function for a proxy contract, developer should need to manually handle the calling of the `initialize` functions of all the inherited contracts.
-
 - Avoid assigning initial values to non constant variables in the implementaiton contract. As implmentation contract uses storage of proxy contract, the initial value (or storage) of the variables in implmentation contract would not be available when the contract is called via proxy contract. Hence, it is recommended to initialize the non constant variables in an `initialize` function.
-
 - Ensure to initialize the implementation contract in a proxy contract, as leaving it uninitialized can result in a security breach by attackers and negatively impact the proxy. Developers can prevent the use of an uninitialized implementation contract by calling the `_disableInitializers` function in the constructor (as provided by OpenZeppelin library), which automatically locks the implementation contract upon deployment.
-
 - A note when using `OpenZeppelin upgrades`, if one creates a new contract instance within the Solidity code (contract clones using factory patterns etc.), it won't be handled by OpenZeppelin Upgrades, which implies that these contracts would not be upgradeable. As cloned contracts will be directly created by solidity code and hence one may have to write additional code to properly initalize these auto deployed contracts.
 
 To mitigate these risks, it's important to carefully design and test the initialization process for proxy contracts. One can use OpenZeppelin hardhat package provided specifically for this purpose, but additional testing is still recommended.

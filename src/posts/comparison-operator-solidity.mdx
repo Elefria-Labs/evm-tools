@@ -5,7 +5,6 @@ date: Mar 15 2023
 ---
 
 - When a comparison operator is used on uint256 values, it requires the EVM to perform a subtraction operation between the two values, which takes up more gas than a simple check for equality.
-
 - When we use `!=X` for comparison, the EVM checks if the value is non-zero by simply checking the zero flag, which is more efficient in terms of gas cost compared to checking for a positive value using `> X`. This is because checking for a positive value requires the EVM to perform a subtraction operation to determine whether the value is positive or not.
 
-- Therefore, in Solidity, it is more gas-efficient to use `!=X` instead of `> X` when comparing unsigned integer values.
+Therefore, in Solidity, it is more gas-efficient to use `!=X` instead of `> X` when comparing unsigned integer values.

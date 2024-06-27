@@ -7,7 +7,6 @@ date: Oct 8 2022
 To create this app we will be using following tools-
 
 - [zk-block](https://github.com/heypran/zk-block) - boilerplate for zk and web3 dapps. ( NextJS, React, Typescript, Metamask)
-
 - [web3 storage](https://web3.storage) - library for IPFS and provides an easy and scalable way to store data on IPFS
 
 We wont be diving into UI or ReactJs part of the app. As these are outside the scope of the article.
@@ -112,7 +111,7 @@ Since, all the data is publicly accessible and sometimes its best to store data 
 const stringifiedContent = JSON.stringify(content);
 const finalContent = CryptoJS.AES.encrypt(
   stringifiedContent,
-  password
+  password,
 ).toString();
 ```
 
@@ -120,7 +119,7 @@ and you can decrypt like below,
 
 ```js
 const retrievedContent = CryptoJS.AES.decrypt(reader.result, password).toString(
-  CryptoJS.enc.Utf8
+  CryptoJS.enc.Utf8,
 );
 const actualContent = JSON.parse(retrievedContent);
 ```
