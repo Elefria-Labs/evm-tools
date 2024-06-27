@@ -21,6 +21,7 @@ export const Links = {
   addressBook: 'address-book',
   evmChecksumAddress: 'evm-checksum-address',
   uniswapV4Tools: 'uniswap-v4-tools',
+  uniswapV4HooksChecker: 'uniswap-v4-hooks-checker',
   marketData: 'market-data',
   bitManipulation: 'bit-manipulation',
   storageReader: 'storage-reader',

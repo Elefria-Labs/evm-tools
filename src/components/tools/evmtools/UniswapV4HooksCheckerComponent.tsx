@@ -1,16 +1,26 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@shadcn-components/ui/input';
 import { Label } from '@shadcn-components/ui/label';
 import { Button } from '@shadcn-components/ui/button';
-import {
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  Tabs,
-} from '@shadcn-components/ui/tabs';
 import { toast } from '@shadcn-components/ui/use-toast';
 import { toastOptions } from '@components/common/toast';
 import { ethers } from 'ethers';
+import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
+
+const BEFORE_INITIALIZE_FLAG = 1n << 13n;
+const AFTER_INITIALIZE_FLAG = 1n << 12n;
+const BEFORE_ADD_LIQUIDITY_FLAG = 1n << 11n;
+const AFTER_ADD_LIQUIDITY_FLAG = 1n << 10n;
+const BEFORE_REMOVE_LIQUIDITY_FLAG = 1n << 9n;
+const AFTER_REMOVE_LIQUIDITY_FLAG = 1n << 8n;
+const BEFORE_SWAP_FLAG = 1n << 7n;
+const AFTER_SWAP_FLAG = 1n << 6n;
+const BEFORE_DONATE_FLAG = 1n << 5n;
+const AFTER_DONATE_FLAG = 1n << 4n;
+const BEFORE_SWAP_RETURNS_DELTA_FLAG = 1n << 3n;
+const AFTER_SWAP_RETURNS_DELTA_FLAG = 1n << 2n;
+const AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG = 1n << 1n;
+const AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG = 1n << 0n;
 
 interface HookFlags {
   BEFORE_INITIALIZE: boolean;
@@ -23,17 +33,17 @@ interface HookFlags {
   AFTER_SWAP: boolean;
   BEFORE_DONATE: boolean;
   AFTER_DONATE: boolean;
-  NO_OP: boolean;
-  ACCESS_LOCK: boolean;
+  BEFORE_SWAP_RETURNS_DELTA: boolean;
+  AFTER_SWAP_RETURNS_DELTA: boolean;
+  AFTER_ADD_LIQUIDITY_RETURNS_DELTA: boolean;
+  AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA: boolean;
 }
 
 function UniswapV4HooksCheckerComponent() {
   const [hooksAddress, setHooksAddress] = useState<string>(
-    '0x4444000000000000000000000000000000000aC2',
+    '0x4444000000000000000000000000000000000EC0',
   );
-  const [binaryAddress, setBinaryAddress] = useState<string>(
-    '0x4444000000000000000000000000000000000aC2',
-  );
+  const [hooks, setHooks] = useState<HookFlags | null>(null);
 
   const deriveHooks = (address: string): HookFlags | null => {
     if (!ethers.utils.isAddress(address)) {
@@ -45,21 +55,34 @@ function UniswapV4HooksCheckerComponent() {
     }
 
     const addressBigInt = ethers.BigNumber.from(address).toBigInt();
-    setBinaryAddress(addressBigInt.toString(2));
 
     const hooks: HookFlags = {
-      BEFORE_INITIALIZE: Boolean(addressBigInt & (1n << 159n)),
-      AFTER_INITIALIZE: Boolean(addressBigInt & (1n << 158n)),
-      BEFORE_ADD_LIQUIDITY: Boolean(addressBigInt & (1n << 157n)),
-      AFTER_ADD_LIQUIDITY: Boolean(addressBigInt & (1n << 156n)),
-      BEFORE_REMOVE_LIQUIDITY: Boolean(addressBigInt & (1n << 155n)),
-      AFTER_REMOVE_LIQUIDITY: Boolean(addressBigInt & (1n << 154n)),
-      BEFORE_SWAP: Boolean(addressBigInt & (1n << 153n)),
-      AFTER_SWAP: Boolean(addressBigInt & (1n << 152n)),
-      BEFORE_DONATE: Boolean(addressBigInt & (1n << 151n)),
-      AFTER_DONATE: Boolean(addressBigInt & (1n << 150n)),
-      NO_OP: Boolean(addressBigInt & (1n << 149n)),
-      ACCESS_LOCK: Boolean(addressBigInt & (1n << 148n)),
+      BEFORE_INITIALIZE: Boolean(addressBigInt & BEFORE_INITIALIZE_FLAG),
+      AFTER_INITIALIZE: Boolean(addressBigInt & AFTER_INITIALIZE_FLAG),
+      BEFORE_ADD_LIQUIDITY: Boolean(addressBigInt & BEFORE_ADD_LIQUIDITY_FLAG),
+      AFTER_ADD_LIQUIDITY: Boolean(addressBigInt & AFTER_ADD_LIQUIDITY_FLAG),
+      BEFORE_REMOVE_LIQUIDITY: Boolean(
+        addressBigInt & BEFORE_REMOVE_LIQUIDITY_FLAG,
+      ),
+      AFTER_REMOVE_LIQUIDITY: Boolean(
+        addressBigInt & AFTER_REMOVE_LIQUIDITY_FLAG,
+      ),
+      BEFORE_SWAP: Boolean(addressBigInt & BEFORE_SWAP_FLAG),
+      AFTER_SWAP: Boolean(addressBigInt & AFTER_SWAP_FLAG),
+      BEFORE_DONATE: Boolean(addressBigInt & BEFORE_DONATE_FLAG),
+      AFTER_DONATE: Boolean(addressBigInt & AFTER_DONATE_FLAG),
+      BEFORE_SWAP_RETURNS_DELTA: Boolean(
+        addressBigInt & BEFORE_SWAP_RETURNS_DELTA_FLAG,
+      ),
+      AFTER_SWAP_RETURNS_DELTA: Boolean(
+        addressBigInt & AFTER_SWAP_RETURNS_DELTA_FLAG,
+      ),
+      AFTER_ADD_LIQUIDITY_RETURNS_DELTA: Boolean(
+        addressBigInt & AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG,
+      ),
+      AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA: Boolean(
+        addressBigInt & AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG,
+      ),
     };
 
     toast({
@@ -68,50 +91,63 @@ function UniswapV4HooksCheckerComponent() {
       variant: 'default',
     });
 
-    console.log('hooks -m', hooks);
+    setHooks(hooks);
     return hooks;
   };
 
   return (
     <div>
       <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
-        <Tabs defaultValue="sqrtPrice">
-          <TabsList>
-            <TabsTrigger value={'hookChecker'}>Hooks Checker</TabsTrigger>
-          </TabsList>
-          {/* //height: `472px`, // -${56}px -${70}px */}
-          <div>
-            <TabsContent value={'hookChecker'}>
-              <>
-                <div>
-                  <div style={{ marginBottom: '10px' }}>
-                    <Label htmlFor="token0Decimals">Hook Address</Label>
-                    <Input
-                      type="string"
-                      value={hooksAddress.toString()}
-                      onChange={(e) => setHooksAddress(e.target.value)}
-                    />
-                  </div>
-                  <Button
-                    className="w-full"
-                    onClick={() => deriveHooks(hooksAddress)}
-                  >
-                    Check Hooks
-                  </Button>
-
-                  <div style={{ marginBottom: '10px' }}>
-                    <Label>Binary Address</Label>
-                    <Input
-                      type="string"
-                      value={binaryAddress.toString()}
-                      disabled
-                    />
-                  </div>
-                </div>
-              </>
-            </TabsContent>
+        <div>
+          <div style={{ marginBottom: '10px' }}>
+            <Label htmlFor="token0Decimals">Hook Address</Label>
+            <Input
+              type="string"
+              value={hooksAddress.toString()}
+              onChange={(e) => setHooksAddress(e.target.value)}
+            />
           </div>
-        </Tabs>
+          <Button className="w-full" onClick={() => deriveHooks(hooksAddress)}>
+            Check Hooks
+          </Button>
+
+          {hooks && (
+            <div>
+              <h3 className="text-lg font-semibold">Derived Hooks</h3>
+              <p>
+                {
+                  Object.entries(hooks).filter(([hook, enabled]) => enabled)
+                    .length
+                }{' '}
+                hooks enabled
+              </p>
+              <table className="w-full mt-4 border-collapse">
+                <thead>
+                  <tr>
+                    <th className="border px-4 py-2">Hook</th>
+                    <th className="border px-4 py-2">Enabled</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(hooks).map(([hook, enabled]) => (
+                    <tr key={hook}>
+                      <td className="border px-4 py-2">
+                        {hook.replace(/_/g, ' ').toLowerCase()}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        {enabled ? (
+                          <CheckIcon color="green" />
+                        ) : (
+                          <Cross2Icon color="red" />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

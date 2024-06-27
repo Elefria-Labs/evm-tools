@@ -19,6 +19,7 @@ import UniswapV4ToolComponent from '@components/tools/evmtools/UniswapV4Tools';
 import MarketData from '@components/tools/market/MarketDetails';
 import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
 import EpochConverterComponent from '@components/tools/evmtools/EpochConverterComponent';
+import UniswapV4HooksCheckerComponent from '@components/tools/evmtools/UniswapV4HooksCheckerComponent';
 
 export interface Item {
   title: string;
@@ -205,7 +206,6 @@ export const playgroundToolsList: Item[] = [
       'Perform bit manipulation, apply mask for upto 256 bit integers.',
     link: Links.bitManipulation,
     component: BitMaskingComponent,
-    isBeta: true,
   },
   {
     title: 'Epoch Converter',
@@ -213,6 +213,14 @@ export const playgroundToolsList: Item[] = [
       'Time helpers, seconds converter, convert between unix timestamp and readable date format.',
     link: Links.epochConverter,
     component: EpochConverterComponent,
+  },
+  {
+    title: 'Uniswap V4 Hooks Checker',
+    description:
+      'Check which Uniswap V4 hooks are enabled from the hook address.',
+    link: Links.uniswapV4HooksChecker,
+    component: UniswapV4HooksCheckerComponent,
+    isBeta: true,
   },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',

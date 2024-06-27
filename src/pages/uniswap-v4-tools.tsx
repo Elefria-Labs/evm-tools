@@ -10,13 +10,13 @@ export default function UniswapV4Tools() {
     <Main
       meta={
         <Meta
-          title={`Uniswap V4 Tools | ${pageMeta.appName}`}
+          title={`Uniswap V4 Price Tools | ${pageMeta.appName}`}
           description="Derive price from sqrtPrice or tick"
         />
       }
     >
       <ToolBase
-        title="Uniswap Utils"
+        title="Uniswap Price Utils"
         toolComponent={<UniswapV4ToolComponent />}
       />
     </Main>
