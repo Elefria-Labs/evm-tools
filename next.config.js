@@ -12,7 +12,7 @@ const nextConfig = {
   output: 'export',
   trailingSlash: false,
   swcMinify: false,
-  resolveSymlinks: false,
+  // resolveSymlinks: false,
   basePath: '',
   poweredByHeader: false,
   images: { unoptimized: true },

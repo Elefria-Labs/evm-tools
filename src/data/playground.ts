@@ -21,6 +21,13 @@ import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
 import EpochConverterComponent from '@components/tools/evmtools/EpochConverterComponent';
 import UniswapV4HooksCheckerComponent from '@components/tools/evmtools/UniswapV4HooksCheckerComponent';
 
+export enum ToolCategory {
+  DecodersAndConverters = 'Converters & Decoders',
+  WalletAndSignatures = 'Wallets & Signatures',
+  Zk = 'ZK',
+  Defi = 'DeFi',
+  Miscellaneous = 'Miscellaneous',
+}
 export interface Item {
   title: string;
   description: string;
@@ -33,6 +40,8 @@ export interface Item {
   component: any;
   isOnlyWeb?: boolean;
   isOnlyExtension?: boolean;
+  category: ToolCategory;
+  commonlyUsed?: boolean;
 }
 
 export const playgroundToolsList: Item[] = [
@@ -50,6 +59,8 @@ export const playgroundToolsList: Item[] = [
     link: Links.eip712,
     component: Eip712Component,
     isOnlyWeb: true,
+    category: ToolCategory.WalletAndSignatures,
+    commonlyUsed: true,
   },
   {
     title: 'ERC-191',
@@ -58,6 +69,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.erc191,
     component: PersonalSignComponent,
     isOnlyWeb: true,
+    category: ToolCategory.WalletAndSignatures,
   },
   {
     title: 'Checksum Address',
@@ -65,6 +77,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.evmChecksumAddress,
     isWalletRequired: false,
     component: EVMAddressChecksumComponent,
+    category: ToolCategory.Miscellaneous,
   },
   {
     title: 'ZK Boilerplate',
@@ -73,6 +86,7 @@ export const playgroundToolsList: Item[] = [
     isExternal: true,
     isOnlyWeb: true,
     component: null,
+    category: ToolCategory.Zk,
   },
   {
     title: 'Uniswap Utils',
@@ -80,6 +94,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.uniswapV4Tools,
     isExternal: false,
     component: UniswapV4ToolComponent,
+    category: ToolCategory.Defi,
   },
   // {
   //   title: 'Uniswap V3 (beta)',
@@ -105,6 +120,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.txDecoder,
     isWalletRequired: false,
     component: TxDecoderComponent,
+    category: ToolCategory.DecodersAndConverters,
   },
   {
     title: 'Hashing Utils',
@@ -112,6 +128,8 @@ export const playgroundToolsList: Item[] = [
     link: Links.hashing,
     isWalletRequired: false,
     component: HashingComponent,
+    category: ToolCategory.DecodersAndConverters,
+    commonlyUsed: true,
   },
   {
     title: 'Merkle Tree Generator',
@@ -120,6 +138,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.merkleTreeGenerator,
     isWalletRequired: false,
     component: MerkleTreeVerifier,
+    category: ToolCategory.DecodersAndConverters,
   },
   {
     title: 'Gas Converter',
@@ -128,6 +147,8 @@ export const playgroundToolsList: Item[] = [
     link: Links.gasConverter,
     isWalletRequired: false,
     component: GasConverterComponent,
+    category: ToolCategory.DecodersAndConverters,
+    commonlyUsed: true,
   },
   {
     title: 'Bytes & String Converter',
@@ -135,6 +156,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.byteconversion,
     isWalletRequired: false,
     component: StringByteConversion,
+    category: ToolCategory.DecodersAndConverters,
   },
   {
     title: 'Burner Wallet',
@@ -142,6 +164,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.burnerWallet,
     isWalletRequired: false,
     component: BurnerWalletComponent,
+    category: ToolCategory.WalletAndSignatures,
   },
   {
     title: 'Deterministic Contracts',
@@ -155,6 +178,7 @@ export const playgroundToolsList: Item[] = [
     },
     component: DeterministicAddress,
     isOnlyWeb: true,
+    category: ToolCategory.DecodersAndConverters,
   },
   {
     title: 'Mimic Wallet',
@@ -164,6 +188,7 @@ export const playgroundToolsList: Item[] = [
     isExternal: false,
     isWalletRequired: false,
     component: MimicWalletComponent,
+    category: ToolCategory.WalletAndSignatures,
   },
   {
     title: 'Cheatsheet',
@@ -172,12 +197,15 @@ export const playgroundToolsList: Item[] = [
     link: Links.cheatsheet,
     isWalletRequired: false,
     component: CheatsheetComponent,
+    category: ToolCategory.Miscellaneous,
   },
   {
     title: 'Hex Converter',
     description: 'Decimal to hex and binary converter.',
     link: Links.hexConverter,
     component: HexConverterComponent,
+    category: ToolCategory.DecodersAndConverters,
+    commonlyUsed: true,
   },
   {
     title: 'Shamir Secret Demo',
@@ -185,6 +213,7 @@ export const playgroundToolsList: Item[] = [
       'Shares can be used to reconstruct the secret when a threshold of shares are combined.',
     link: Links.shamirsSecret,
     component: ShamirSecretSharingComponent,
+    category: ToolCategory.Miscellaneous,
   },
   {
     title: 'Address Book',
@@ -192,6 +221,7 @@ export const playgroundToolsList: Item[] = [
       'Store your favorite EVM address in local storage for easy access.',
     link: Links.addressBook,
     component: AddressBookComponent,
+    category: ToolCategory.Miscellaneous,
   },
   {
     title: 'Market Data',
@@ -199,6 +229,7 @@ export const playgroundToolsList: Item[] = [
     link: Links.marketData,
     component: MarketData,
     isOnlyExtension: true,
+    category: ToolCategory.Miscellaneous,
   },
   {
     title: 'Bit Manipulation',
@@ -206,6 +237,7 @@ export const playgroundToolsList: Item[] = [
       'Perform bit manipulation, apply mask for upto 256 bit integers.',
     link: Links.bitManipulation,
     component: BitMaskingComponent,
+    category: ToolCategory.DecodersAndConverters,
   },
   {
     title: 'Epoch Converter',
@@ -213,6 +245,7 @@ export const playgroundToolsList: Item[] = [
       'Time helpers, seconds converter, convert between unix timestamp and readable date format.',
     link: Links.epochConverter,
     component: EpochConverterComponent,
+    category: ToolCategory.DecodersAndConverters,
   },
   {
     title: 'Uniswap V4 Hooks Checker',
@@ -221,7 +254,15 @@ export const playgroundToolsList: Item[] = [
     link: Links.uniswapV4HooksChecker,
     component: UniswapV4HooksCheckerComponent,
     isBeta: true,
+    category: ToolCategory.Defi,
   },
+  // {
+  //   title: 'HD Key Generator',
+  //   description: 'Derive keys using mnemonic phrase and BIP44 derivation',
+  //   link: Links.hdKeyGenerator,
+  //   component: HdKeyGeneratorComponent,
+  //   isBeta: true,
+  // },
   // {
   //   title: 'EVM Visualizer (deprecating soon)',
   //   description: 'Analyze EVM bytecode, slots and storage layout',

@@ -1,0 +1,31 @@
+---
+title: Why storage is expensive?
+description: 'Storage contains data that persists on chain. These are stored as part of the storage merkle tree.'
+date: Oct 01 2022
+---
+
+## Why Storage is expensive
+
+---
+
+Storage is any data that is persistent between transactions. It can be accessed in future transactions.
+
+To explain why this is the case in a blockchains, lets consider a centralized database.
+
+On a centralized server, storage is stored on a single database ( or may be there is some redundancy). It’s predictable, so as more users use this centralized application, we can predict the amount of storage the database will need. It’s easily scalable, as there are only very few places to scale up.
+
+On a blockchain however there are thousands of nodes and the data stored no longer exists in just one place but on tens of thousands of disks. It also has to be readily available to every node in the network if a future transaction comes along to access or change it. The overall cost of this data equates to the sum of the space it consumes across the whole network.
+
+So, the EVM has two intentionally expensive opcodes:
+
+#### SLOAD
+
+Load word from storage.
+Stack input - key
+Min Gas cost - 100
+
+#### SSTORE
+
+Save word to storage.
+Stack input - key & value
+Min Gas cost - 100

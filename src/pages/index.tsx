@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { playgroundToolsList } from '@data/playground';
+import { ToolCategory, playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
 import { ToolSearchComponent } from '@components/common/ToolSearchComponent';
 
@@ -75,24 +75,46 @@ const Index = () => {
               />
               <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
               {defaultView && (
-                <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <>
-                    {playgroundToolsList
-                      .filter((tool) => tool.isBeta)
-                      .map((tool) => (
-                        <HomeCard
-                          {...tool}
-                          key={tool.title}
-                          glow={tool.isBeta}
+                <div className="mb-8">
+                  {/* <div>
+                    <h3 className="my-8 text-xl font-bold">
+                      Most Commonly used
+                    </h3>
+                    <div>
+                      {
+                        <ToolCarousel
+                          playgroundTools={playgroundToolsList.filter(
+                            (tool) => tool.commonlyUsed,
+                          )}
                         />
-                      ))}
-                    {playgroundToolsList
-                      ?.filter(
-                        (tool) => tool?.isOnlyExtension != true && !tool.isBeta,
-                      )
-                      .map((tool) => (
-                        <HomeCard {...tool} key={tool.title} />
-                      ))}
+                      }
+                    </div>
+                  </div> */}
+                  <>
+                    {Object.values(ToolCategory).map((toolCategory, i) => {
+                      return (
+                        <div key={i}>
+                          <h3 className="my-8 text-xl font-bold">
+                            {toolCategory}
+                          </h3>
+                          <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {playgroundToolsList
+                              .filter(
+                                (tool) =>
+                                  tool.category ==
+                                  (toolCategory as ToolCategory),
+                              )
+                              .map((tool) => (
+                                <HomeCard
+                                  {...tool}
+                                  key={tool.title}
+                                  glow={tool.isBeta}
+                                />
+                              ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </>
                 </div>
               )}
