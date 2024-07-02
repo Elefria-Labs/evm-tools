@@ -8,17 +8,19 @@ import { Textarea } from '@shadcn-components/ui/textarea';
 import { Button } from '@shadcn-components/ui/button';
 import { Input } from '@shadcn-components/ui/input';
 import { Separator } from '@shadcn-components/ui/separator';
+import { Checkbox } from '@shadcn-components/ui/checkbox';
 
 const MerkleTreeVerifier = () => {
   const [structureInput, setStructureInput] = useState(
     'address,uint256,string,bytes,bytes32,bool',
   );
   const [elementsInput, setElementsInput] = useState(
-    '0xd8da6bf26964af9d7eed9e03e53415d37aa96045,100,hello,0x1234,0x1234567890123456789012345678901234567890123456789012345678901234,true\n0xeee718c1e522ecb4b609265db7a83ab48ea0b06f,200,world,0x5678,0x2345678901234567890123456789012345678901234567890123456789012345,false',
+    '0xd8da6bf26964af9d7eed9e03e53415d37aa96045,100,hello,0x1234,0x1234567890123456789012345678901234567890123456789012345678901234,true\n0xd964FEcCe4b763e1978Ec10252D1e96D309CaaB3,200,world,0x5678,0x2345678901234567890123456789012345678901234567890123456789012345,false\n0xeee718c1e522ecb4b609265db7a83ab48ea0b06f,200,world,0x5678,0x2345678901234567890123456789012345678901234567890123456789012345,false',
   );
   const [merkleRoot, setMerkleRoot] = useState('');
   const [verifyElement, setVerifyElement] = useState('');
   const [proofElementInput, setProofElementInput] = useState('');
+  const [isSortedMerkleTree, setIsSortedMerkleTree] = useState<boolean>(false);
   const [elementProof, setElementProof] = useState('');
   const [, setElementBelongs] = useState(false);
   const { toast } = useToast();
@@ -101,7 +103,9 @@ const MerkleTreeVerifier = () => {
         throw new Error('Duplicate elements found');
       }
 
-      return StandardMerkleTree.of(elements, structure);
+      return StandardMerkleTree.of(elements, structure, {
+        sortLeaves: isSortedMerkleTree,
+      });
     } catch (e) {
       toast({
         ...toastOptions,
@@ -208,6 +212,16 @@ const MerkleTreeVerifier = () => {
         value={elementsInput}
         onChange={handleElementsInputChange}
       />
+      <div className="flex flex-row items-start space-x-2 space-y-0 rounded-md  py-4">
+        <Checkbox
+          checked={isSortedMerkleTree}
+          onCheckedChange={(e) => setIsSortedMerkleTree(e.valueOf() as boolean)}
+        />
+
+        <div className="space-y-1 leading-none">
+          <Label>Use sorted leaves to generate merkle tree and proof.</Label>
+        </div>
+      </div>
       <Button className="w-full mt-2" onClick={handleCreateMerkleRoot}>
         Create Merkle Root
       </Button>
