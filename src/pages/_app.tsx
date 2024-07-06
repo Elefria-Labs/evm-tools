@@ -6,10 +6,13 @@ import '@rainbow-me/rainbowkit/styles.css';
 import 'prismjs/themes/prism-tomorrow.css';
 
 import '@firebase/firebase-config';
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig, sepolia, WagmiConfig } from 'wagmi';
+
+import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+
 import {
   mainnet,
+  sepolia,
   polygon,
   optimism,
   arbitrum,
@@ -20,46 +23,38 @@ import {
   bscTestnet,
   polygonMumbai,
   polygonZkEvm,
+  hardhat,
 } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@shadcn-components/ui/toaster';
 import FeedbackButton from '@components/FeedbackButton';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
+const config = getDefaultConfig({
+  appName: 'zk-block',
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID!,
+  chains: [
+    // @ts-ignore
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+    base,
+    zora,
+    sepolia,
+    baseSepolia,
+    bsc,
+    bscTestnet,
+    polygonMumbai,
+    polygonZkEvm,
+    hardhat,
+  ],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
+const queryClient = new QueryClient();
 const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
-  const { chains, publicClient } = configureChains(
-    [
-      mainnet,
-      polygon,
-      optimism,
-      arbitrum,
-      base,
-      zora,
-      sepolia,
-      baseSepolia,
-      bsc,
-      bscTestnet,
-      polygonMumbai,
-      polygonZkEvm,
-    ],
-    [
-      publicProvider(),
-      // alchemyProvider({ apiKey: process.env.ALCHEMY_ID! }),
-    ],
-  );
 
-  const { connectors } = getDefaultWallets({
-    appName: 'zk-block',
-    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID!,
-    chains,
-  });
-
-  const wagmiConfig = createConfig({
-    autoConnect: true,
-    connectors,
-    publicClient,
-  });
   return (
     // <ChakraProvider resetCSS>
     <ThemeProvider
@@ -68,13 +63,15 @@ const MyApp = (props: AppProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
-          {/* @ts-ignore */}
-          <Component {...pageProps} />
-          <FeedbackButton />
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            {/* @ts-ignore */}
+            <Component {...pageProps} />
+            <FeedbackButton />
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
       <Toaster />
     </ThemeProvider>
   );
