@@ -31,7 +31,11 @@ const DeterministicAddress = () => {
 
   useEffect(() => {
     const getNonce = async () => {
-      if (addressInput == null || !ethers.utils.isAddress(addressInput)) {
+      if (
+        addressInput == null ||
+        !ethers.utils.isAddress(addressInput) ||
+        publicClient == null
+      ) {
         return;
       }
 
