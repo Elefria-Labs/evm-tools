@@ -10,13 +10,13 @@ export default function DevTools() {
     <Main
       meta={
         <Meta
-          title="Evm Tools"
-          description="Playground for EVM chains | EVM Tools"
+          title="All EVM Tools"
+          description="Ethereum Tools for EVM chains | EVM Tools"
         />
       }
     >
       <ToolBase
-        title="Evm Tools"
+        title="All EVM Tools"
         toolComponent={<PlaygroundListComponent items={playgroundToolsList} />}
       />
     </Main>

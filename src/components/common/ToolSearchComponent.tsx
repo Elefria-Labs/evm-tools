@@ -39,14 +39,13 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
 
   return (
     <div>
-      <Label className="mr-4">Search Tool:</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[240px] justify-between"
+            className="w-[360px] justify-between"
           >
             {value != 'all'
               ? playgroundToolsList.find((tool) => tool.link.includes(value))

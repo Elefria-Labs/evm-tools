@@ -23,6 +23,7 @@ const PhraseAnimation: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}
+        className="mt-4"
       >
         <motion.div
           key={currentPhraseIndex}
@@ -31,7 +32,10 @@ const PhraseAnimation: React.FC = () => {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
         >
-          {phrases[currentPhraseIndex]}
+          {/* <p className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> */}
+          <h3 className="text-xxl bg-gradient-to-r from-orange-400 via-red-500 to-blue-400 inline-block text-transparent bg-clip-text">
+            {phrases[currentPhraseIndex]}
+          </h3>
         </motion.div>
       </div>
     </div>

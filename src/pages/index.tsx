@@ -34,11 +34,9 @@ const Index = () => {
         <div className="flex flex-col justify-between">
           <div>
             <div className="py-8">
-              <h1 className="text-lg font-bold">EVM Tools</h1>
-              <p className="mb-2">
-                Tools to help you develop on ethereum and other evm chains.
-              </p>
-              {/* <div className="flex flex-row content-center justify-end">
+              <div className="flex flex-row justify-center">
+                <div>
+                  {/* <div className="flex flex-row content-center justify-end">
                 <Link
                   aria-label="Go to Playgrounds"
                   href={Links.devTools}
@@ -47,32 +45,34 @@ const Index = () => {
                   <Button>View All</Button>
                 </Link>
               </div> */}
-              <ToolSearchComponent
-                onSelected={(selectedTool) => {
-                  if (selectedTool.toolLink == 'all') {
-                    setDefaultView(true);
-                    setSelectedTool(null);
-                    return;
-                  }
-                  if (
-                    playgroundToolsList
-                      .filter((t) => t.isExternal)
-                      .find((t) => t.link == selectedTool.toolLink)
-                  ) {
-                    setDefaultView(true);
-                    setSelectedTool(null);
-                    window.open(
-                      selectedTool.toolLink,
-                      '_blank',
-                      'rel=noopener noreferrer',
-                    );
-                    return;
-                  }
+                  <ToolSearchComponent
+                    onSelected={(selectedTool) => {
+                      if (selectedTool.toolLink == 'all') {
+                        setDefaultView(true);
+                        setSelectedTool(null);
+                        return;
+                      }
+                      if (
+                        playgroundToolsList
+                          .filter((t) => t.isExternal)
+                          .find((t) => t.link == selectedTool.toolLink)
+                      ) {
+                        setDefaultView(true);
+                        setSelectedTool(null);
+                        window.open(
+                          selectedTool.toolLink,
+                          '_blank',
+                          'rel=noopener noreferrer',
+                        );
+                        return;
+                      }
 
-                  setDefaultView(false);
-                  setSelectedTool(selectedTool.toolLink);
-                }}
-              />
+                      setDefaultView(false);
+                      setSelectedTool(selectedTool.toolLink);
+                    }}
+                  />
+                </div>
+              </div>
               <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
               {defaultView && (
                 <div className="mb-8">

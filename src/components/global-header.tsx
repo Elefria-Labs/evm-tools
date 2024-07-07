@@ -113,7 +113,7 @@ function DesktopMenuLinks({
           }}
         />
         <MenubarMenu>
-          <MenubarTrigger className="cursor-pointer">EVM Tools</MenubarTrigger>
+          <MenubarTrigger className="cursor-pointer">Tools</MenubarTrigger>
           <MenubarContent>
             <MenuLink text={'View all'} link={`/${Links.devTools}`} />
 

@@ -20,13 +20,13 @@ function ClosableAlert() {
   }
 
   return (
-    <Alert className="relative flex flex-row justify-center align-middle items-center">
+    <Alert className="relative flex flex-col justify-center align-middle items-center border-0 border-l-0 border-r-0 rounded-none">
       {/* <AlertTitle>Now access all the evm tools by just one click!</AlertTitle> */}
-      <AlertTitle className="text-lg mr-4">
-        One extension and all the EVM!
+      <AlertTitle className="text-xl">
+        Go-To Tool Kit For Web3 Developers
         <PhraseAnimation />
       </AlertTitle>
-      <AlertDescription>
+      <AlertDescription className="mt-8">
         <div>
           <button
             onClick={() => window.open(extensionLink, '_blank')}
