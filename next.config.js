@@ -4,7 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 const withPlugins = require('next-compose-plugins');
 const withTM = require('next-transpile-modules')(); // pass the modules you would like to see transpiled
-// const compose = require('next-compose');
 import('next').NextConfig;
 
 const nextConfig = {
@@ -12,7 +11,6 @@ const nextConfig = {
   output: 'export',
   trailingSlash: false,
   swcMinify: false,
-  // resolveSymlinks: false,
   basePath: '',
   poweredByHeader: false,
   images: { unoptimized: true },
