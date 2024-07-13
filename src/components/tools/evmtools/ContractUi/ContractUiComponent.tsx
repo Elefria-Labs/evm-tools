@@ -51,7 +51,7 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   const chainId = useChainId();
   const signer = useEthersProvider({ chainId });
   const [autoFetchedResults, setAutoFetchedResults] = useState<{
-    [key: string]: string;
+    [key: string]: { value: string; type: string };
   }>({});
 
   useEffect(() => {
@@ -100,10 +100,16 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
     const autoFetchPromises = funcs.map(async (func) => {
       try {
         const result = await smartContract[func.name]();
-        return [func.name, formatResult(result)];
+        return [
+          func.name,
+          {
+            value: formatResult(result),
+            type: func.outputs[0]?.type || 'unknown',
+          },
+        ];
       } catch (error) {
         console.error(`Error fetching ${func.name}:`, error);
-        return [func.name, 'Error fetching result'];
+        return [func.name, { value: 'Error fetching result', type: 'error' }];
       }
     });
 
@@ -117,15 +123,19 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
     if (!contract) return;
     try {
       const result = await contract[funcName]();
+      const func = abi.find((item: any) => item.name === funcName);
       setAutoFetchedResults((prev) => ({
         ...prev,
-        [funcName]: formatResult(result),
+        [funcName]: {
+          value: formatResult(result),
+          type: func?.outputs[0]?.type || 'unknown',
+        },
       }));
     } catch (error) {
       console.error(`Error refreshing ${funcName}:`, error);
       setAutoFetchedResults((prev) => ({
         ...prev,
-        [funcName]: 'Error refreshing result',
+        [funcName]: { value: 'Error refreshing result', type: 'error' },
       }));
     }
   };
@@ -320,11 +330,9 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
                   <div className="flex items-center w-full">
                     <div className="w-4/12">
                       <strong className="mr-2">{funcName}</strong>
-                      <span>
-                        <Badge>Badge</Badge>
-                      </span>
+                      <Badge>{result.type}</Badge>
                     </div>
-                    <div className="w-4/12">{result}</div>
+                    <div className="w-4/12">{result.value}</div>
                   </div>
                   <Button
                     variant="ghost"
