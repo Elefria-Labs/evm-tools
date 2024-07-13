@@ -21,6 +21,7 @@ import { useEthersProvider } from '@hooks/useEthersSigner';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
 
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { Badge } from '@shadcn-components/ui/badge';
 
 interface ContractFunction {
   name: string;
@@ -305,28 +306,39 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   return (
     <div className="mt-4">
       {Object.keys(autoFetchedResults).length > 0 && (
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Contract Details</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {Object.entries(autoFetchedResults).map(([funcName, result]) => (
-              <div key={funcName} className="flex items-center p-0 m-0">
-                <strong className="mr-2">{funcName}:</strong> {result}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="ml-2 p-0 m-0 my-0"
+        <Accordion type="single" collapsible className="w-full mb-6">
+          <AccordionItem value="contract-details">
+            <AccordionTrigger className="text-lg">
+              Contract Details
+            </AccordionTrigger>
+            <AccordionContent>
+              {Object.entries(autoFetchedResults).map(([funcName, result]) => (
+                <div
+                  key={funcName}
+                  className="flex items-center justify-between"
                 >
-                  <ReloadIcon
-                    className="h-4 w-4 p-0 m-0"
+                  <div className="flex items-center w-full">
+                    <div className="w-4/12">
+                      <strong className="mr-2">{funcName}</strong>
+                      <span>
+                        <Badge>Badge</Badge>
+                      </span>
+                    </div>
+                    <div className="w-4/12">{result}</div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => refreshAutoFetchedResult(funcName)}
-                  />
-                </Button>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+                    className="ml-2 p-1"
+                  >
+                    <ReloadIcon className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       )}
 
       <div className="mb-4 flex flex-row items-center">
