@@ -20,10 +20,12 @@ import MarketData from '@components/tools/market/MarketDetails';
 import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
 import EpochConverterComponent from '@components/tools/evmtools/EpochConverterComponent';
 import UniswapV4HooksCheckerComponent from '@components/tools/evmtools/UniswapV4HooksCheckerComponent';
+import BaseContractUiComponent from '@components/tools/evmtools/BaseContractUiComponent';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
   WalletAndSignatures = 'Wallets & Signatures',
+  Contracts = 'Contracts',
   Zk = 'ZK',
   Defi = 'DeFi',
   Miscellaneous = 'Miscellaneous',
@@ -89,7 +91,7 @@ export const playgroundToolsList: Item[] = [
     category: ToolCategory.Zk,
   },
   {
-    title: 'Uniswap Utils',
+    title: 'Uniswap Price Utils',
     description: 'Derive token price from tick or sqrtX96.',
     link: Links.uniswapV4Tools,
     isExternal: false,
@@ -256,6 +258,15 @@ export const playgroundToolsList: Item[] = [
     isBeta: true,
     category: ToolCategory.Defi,
   },
+  {
+    title: 'Contracts UI',
+    description:
+      'Interact with multiple contracts at the same time. Call read and write functions.',
+    link: Links.contractsUi,
+    component: BaseContractUiComponent,
+    isBeta: true,
+    category: ToolCategory.Contracts,
+  },
   // {
   //   title: 'HD Key Generator',
   //   description: 'Derive keys using mnemonic phrase and BIP44 derivation',
@@ -270,3 +281,9 @@ export const playgroundToolsList: Item[] = [
   //   isExternal: true,
   // },
 ];
+
+export const playgroundToolKeyRecord: Record<string, Item> =
+  playgroundToolsList.reduce(
+    (map, item) => ({ ...map, [item.link]: item }),
+    {},
+  );

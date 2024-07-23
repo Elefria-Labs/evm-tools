@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import MerkleTreeVerifier from '@components/tools/evmtools/MerkleTreeVerifier';
 import ToolBase from '@components/common/ToolBase';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function MerkleTreeGenerator() {
   return (
@@ -14,6 +14,7 @@ export default function MerkleTreeGenerator() {
           description="Generate merkle trees and verify leaves"
         />
       }
+      link={Links.merkleTreeGenerator}
     >
       <ToolBase
         title="Merkle Tree Generator"

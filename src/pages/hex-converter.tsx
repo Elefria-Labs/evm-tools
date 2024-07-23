@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import HexConverterComponent from '@components/tools/evmtools/HexConverterComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function HexConverter() {
   return (
@@ -14,6 +14,7 @@ export default function HexConverter() {
           description="Convert between hexadecimals, decimals and binary"
         />
       }
+      link={Links.hexConverter}
     >
       <ToolBase
         title="Hex Converter"

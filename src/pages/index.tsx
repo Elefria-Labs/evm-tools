@@ -102,7 +102,8 @@ const Index = () => {
                               .filter(
                                 (tool) =>
                                   tool.category ==
-                                  (toolCategory as ToolCategory),
+                                    (toolCategory as ToolCategory) &&
+                                  !tool.isOnlyExtension,
                               )
                               .map((tool) => (
                                 <HomeCard

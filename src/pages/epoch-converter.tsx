@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import EpochConverterComponent from '@components/tools/evmtools/EpochConverterComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function EpochConverter() {
   return (
@@ -14,6 +14,7 @@ export default function EpochConverter() {
           description="Time helpers, seconds converter, convert between unix timestamp and readable date format"
         />
       }
+      link={Links.epochConverter}
     >
       <ToolBase
         title=""

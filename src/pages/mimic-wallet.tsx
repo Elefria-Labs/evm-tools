@@ -4,7 +4,7 @@ import { Main } from '@templates/Main';
 import MimicWalletComponent from '@components/tools/evmtools/MimicWalletComponent';
 import ToolBase from '@components/common/ToolBase';
 import WalletConnectBase from '@components/common/WalletConnectBase';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function MimicWallet() {
   return (
@@ -15,6 +15,7 @@ export default function MimicWallet() {
           description="Mimic wallet connection to a dapp using WalletConnect"
         />
       }
+      link={Links.mimicWallet}
     >
       <ToolBase
         title="Mimic Wallet"

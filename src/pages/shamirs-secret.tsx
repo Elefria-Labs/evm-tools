@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import ShamirSecretSharingComponent from '@components/tools/evmtools/ShamirSecretSharingComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function ShamirsSecret() {
   return (
@@ -14,6 +14,7 @@ export default function ShamirsSecret() {
           description="Understand how shamir's secrets work"
         />
       }
+      link={Links.shamirsSecret}
     >
       <ToolBase
         title="Shamir's Secret Demo"

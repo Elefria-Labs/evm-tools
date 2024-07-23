@@ -3,24 +3,24 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import HashingComponent from '@components/tools/evmtools/HashingComponent';
-import { Links, pageMeta } from '@config/constants';
+import { pageMeta } from '@config/constants';
+import HdKeyGeneratorComponent from '@components/tools/evmtools/HdKeyGeneratorComponent';
 
-export default function Hashing() {
+export default function HdKeyGenerator() {
   return (
     <Main
       meta={
         <Meta
-          title={`Hashing Utils | ${pageMeta.appName}`}
-          description="Derive keccack256, Sha256 hashes"
+          title={`HD Key Generator | ${pageMeta.appName}`}
+          description="Derive keys using mnemonic phrase and BIP44 derivation"
         />
       }
-      link={Links.hashing}
     >
       <ToolBase
-        title="Hashing Utils"
+        title="HD Key Generator"
         toolComponent={
           <div className="max-w-[640px] lg:max-w-[1024px]">
-            <HashingComponent />
+            <HdKeyGeneratorComponent />
           </div>
         }
       />

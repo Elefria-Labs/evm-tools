@@ -4,7 +4,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function BurnerWallet() {
   return (
@@ -15,6 +15,7 @@ export default function BurnerWallet() {
           description="Generate random private keys for evm chains"
         />
       }
+      link={Links.burnerWallet}
     >
       <ToolBase
         title="Burner Wallet"

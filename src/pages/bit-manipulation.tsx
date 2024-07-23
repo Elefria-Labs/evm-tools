@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function BitManipulation() {
   return (
@@ -14,6 +14,7 @@ export default function BitManipulation() {
           description="Perform bit manipulation, apply mask for upto 256 bit integers"
         />
       }
+      link={Links.bitManipulation}
     >
       <ToolBase
         title="Bit Manipulation"

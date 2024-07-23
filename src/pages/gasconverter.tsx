@@ -4,7 +4,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import GasConvertorComponent from '@components/tools/evmtools/GasConvertorComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function GasConvertor() {
   return (
@@ -15,6 +15,7 @@ export default function GasConvertor() {
           description="Convert between wei, gwei and eth"
         />
       }
+      link={Links.gasConverter}
     >
       <ToolBase
         title="Ethereum Unit Convertor"

@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import CheatsheetComponent from '@components/tools/evmtools/CheatsheetComponent';
 import ToolBase from '@components/common/ToolBase';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function Cheatsheet() {
   return (
@@ -14,6 +14,7 @@ export default function Cheatsheet() {
           description="Solidity helpers"
         />
       }
+      link={Links.cheatsheet}
     >
       <ToolBase
         title="Solidity helpers"

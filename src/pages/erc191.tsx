@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import PersonalSignComponent from '@components/personal-sign/PersonalSignComponent';
 import ToolBase from '@components/common/ToolBase';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function Erc191() {
   return (
@@ -14,6 +14,7 @@ export default function Erc191() {
           description="Sign typed data using ERC-191 | Personal message signing"
         />
       }
+      link={Links.erc191}
     >
       <ToolBase
         title="ERC-191 Signature"

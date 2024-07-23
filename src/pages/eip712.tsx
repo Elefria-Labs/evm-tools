@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import Eip712PlaygroundComponent from '@components/eip712-playground/Eip712Component';
 import ToolBase from '@components/common/ToolBase';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function Eip712() {
   return (
@@ -14,6 +14,7 @@ export default function Eip712() {
           description="Sign typed data using EIP-712"
         />
       }
+      link={Links.eip712}
     >
       <ToolBase
         title="EIP-712 Signature"

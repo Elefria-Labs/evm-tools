@@ -4,7 +4,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import AddressBookComponent from '@components/tools/evmtools/AddressBookComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function AddressBook() {
   return (
@@ -15,6 +15,7 @@ export default function AddressBook() {
           description="Store your EVM addresses in local storage for easy access"
         />
       }
+      link={Links.addressBook}
     >
       <ToolBase title="Address Book" toolComponent={<AddressBookComponent />} />
     </Main>
