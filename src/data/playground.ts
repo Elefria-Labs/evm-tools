@@ -21,6 +21,7 @@ import BitMaskingComponent from '@components/tools/evmtools/BitMasking';
 import EpochConverterComponent from '@components/tools/evmtools/EpochConverterComponent';
 import UniswapV4HooksCheckerComponent from '@components/tools/evmtools/UniswapV4HooksCheckerComponent';
 import BaseContractUiComponent from '@components/tools/evmtools/BaseContractUiComponent';
+import ContractGenerator from '@components/tools/evmtools/HooksTemplateGeneratorComponent';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -256,6 +257,13 @@ export const playgroundToolsList: Item[] = [
     link: Links.uniswapV4HooksChecker,
     component: UniswapV4HooksCheckerComponent,
     isBeta: true,
+    category: ToolCategory.Defi,
+  },
+  {
+    title: 'Uniswap V4 Hooks Template Generator',
+    description: 'Generate your hook template based on selected hooks.',
+    link: Links.uniswapV4HooksTemplateGenerator,
+    component: ContractGenerator,
     category: ToolCategory.Defi,
   },
   {
