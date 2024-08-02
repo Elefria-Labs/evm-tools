@@ -1,10 +1,11 @@
-import { border } from '@chakra-ui/react';
 import React from 'react';
 
 type ToolBaseProps = {
   title: string;
   isWalletRequired?: boolean;
   toolComponent: JSX.Element;
+  category?: string;
+  link?: string;
 };
 
 export default function ToolBase(props: ToolBaseProps) {

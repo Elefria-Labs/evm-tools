@@ -10,16 +10,8 @@ type BaseAlertPropsType = {
   title: string;
   description?: string;
   type?: 'destructive';
-  onClose: (open: boolean) => void;
 };
-{
-  /* <CloseButton
-        alignSelf="flex-end"
-        onClick={() => {
-          props.onClose(false);
-        }}
-      /> */
-}
+
 export default function BaseAlert(props: BaseAlertPropsType) {
   return props.open ? (
     <Alert variant={props?.type}>

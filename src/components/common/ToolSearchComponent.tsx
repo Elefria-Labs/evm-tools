@@ -23,6 +23,7 @@ import {
 } from '@shadcn-components/ui/popover';
 import { playgroundToolsList } from '@data/playground';
 import { Label } from '@shadcn-components/ui/label';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 type ToolSearchComponentProps = {
   onSelected: (selectedTool: {
@@ -86,6 +87,10 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? '' : currentValue);
                         setOpen(false);
+                        const analytics = getAnalytics();
+                        logEvent(analytics, 'use_evm_tool', {
+                          name: tool.link,
+                        });
                         props.onSelected({
                           toolLink: currentValue,
                           isOnlyWeb: tool?.isOnlyWeb,
