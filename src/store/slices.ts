@@ -1,5 +1,5 @@
 import { StoreApi } from 'zustand';
-import { GlobalState } from './state';
+import { GlobalState, ReadWriteUserContract } from './state';
 
 export const createChecksumAddressSlice = (
   set: (
@@ -75,5 +75,33 @@ export const createBitManipulationSlice = (
   setShiftedValue: (shiftedValue: string) =>
     set((state) => ({
       bitManipulation: { ...state.bitManipulation, shiftedValue },
+    })),
+});
+
+export const createReadWriteContractUiSlice = (
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
+  _get: () => unknown,
+  _: StoreApi<unknown>,
+) => ({
+  readWriteUserContracts: [
+    {
+      id: '1',
+      address: '0xc3De830EA07524a0761646a6a4e4be0e114a3C83',
+
+      abi: '',
+      parsedAbi: null,
+      parseError: '',
+      contractAbi: null,
+      abiError: null,
+    },
+  ],
+  setReadWriteUserContracts: (rwUserContract: ReadWriteUserContract[]) =>
+    set((state) => ({
+      ...state,
+      readWriteUserContracts: rwUserContract,
     })),
 });
