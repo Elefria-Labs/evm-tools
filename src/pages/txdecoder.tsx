@@ -3,7 +3,7 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
 import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
-import { pageMeta } from '@config/constants';
+import { Links, pageMeta } from '@config/constants';
 
 export default function TxDecoder() {
   return (
@@ -14,6 +14,7 @@ export default function TxDecoder() {
           description="Decode raw evm transaction"
         />
       }
+      link={Links.txDecoder}
     >
       <ToolBase
         title="Transaction Decoder"
