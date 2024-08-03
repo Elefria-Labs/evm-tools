@@ -25,6 +25,7 @@ export const Links = {
   uniswapV4Tools: 'uniswap-v4-tools',
   uniswapV4HooksChecker: 'uniswap-v4-hooks-checker',
   uniswapV4HooksTemplateGenerator: 'uniswap-v4-hooks-template',
+  uniswapV4HooksMiner: 'uniswap-v4-hooks-miner',
   marketData: 'market-data',
   bitManipulation: 'bit-manipulation',
   storageReader: 'storage-reader',

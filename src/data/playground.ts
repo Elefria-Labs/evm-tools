@@ -22,6 +22,7 @@ import EpochConverterComponent from '@components/tools/evmtools/EpochConverterCo
 import UniswapV4HooksCheckerComponent from '@components/tools/evmtools/UniswapV4HooksCheckerComponent';
 import BaseContractUiComponent from '@components/tools/evmtools/BaseContractUiComponent';
 import ContractGenerator from '@components/tools/evmtools/HooksTemplateGeneratorComponent';
+import HookMinerComponent from '@components/tools/evmtools/HooksMinerComponent';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -97,6 +98,16 @@ export const playgroundToolsList: Item[] = [
     link: Links.uniswapV4Tools,
     isExternal: false,
     component: UniswapV4ToolComponent,
+    category: ToolCategory.Defi,
+  },
+  {
+    title: 'Uniswap V4 Hooks Miner',
+    description: 'Mine salt for uniswap v4 hooks address.',
+    link: Links.uniswapV4HooksMiner,
+    isExternal: false,
+    isBeta: true,
+    isWalletRequired: false,
+    component: HookMinerComponent,
     category: ToolCategory.Defi,
   },
   // {
@@ -256,7 +267,8 @@ export const playgroundToolsList: Item[] = [
       'Check which Uniswap V4 hooks are enabled from the hook address.',
     link: Links.uniswapV4HooksChecker,
     component: UniswapV4HooksCheckerComponent,
-    isBeta: true,
+
+    isWalletRequired: false,
     category: ToolCategory.Defi,
   },
   {
