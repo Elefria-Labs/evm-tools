@@ -4,8 +4,15 @@ import { Label } from '@shadcn-components/ui/label';
 import { Button } from '@shadcn-components/ui/button';
 import { toast } from '@shadcn-components/ui/use-toast';
 import { toastOptions } from '@components/common/toast';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@shadcn-components/ui/tooltip';
 import { ethers } from 'ethers';
-import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { CheckIcon, Cross2Icon, InfoCircledIcon } from '@radix-ui/react-icons';
+import AddressToBinary from './HooksChecker/AddressToBinary';
 
 const BEFORE_INITIALIZE_FLAG = 1n << 13n;
 const AFTER_INITIALIZE_FLAG = 1n << 12n;
@@ -21,6 +28,32 @@ const BEFORE_SWAP_RETURNS_DELTA_FLAG = 1n << 3n;
 const AFTER_SWAP_RETURNS_DELTA_FLAG = 1n << 2n;
 const AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG = 1n << 1n;
 const AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG = 1n << 0n;
+
+const hooksInfo: Record<string, string> = {
+  BEFORE_INITIALIZE:
+    'uint160 internal constant BEFORE_INITIALIZE_FLAG = 1 << 13',
+  AFTER_INITIALIZE: 'uint160 internal constant AFTER_INITIALIZE_FLAG = 1 << 12',
+  BEFORE_ADD_LIQUIDITY:
+    'uint160 internal constant BEFORE_ADD_LIQUIDITY_FLAG = 1 << 11',
+  AFTER_ADD_LIQUIDITY:
+    'uint160 internal constant AFTER_ADD_LIQUIDITY_FLAG = 1 << 10',
+  BEFORE_REMOVE_LIQUIDITY:
+    'uint160 internal constant BEFORE_REMOVE_LIQUIDITY_FLAG = 1 << 9',
+  AFTER_REMOVE_LIQUIDITY:
+    'uint160 internal constant AFTER_REMOVE_LIQUIDITY_FLAG = 1 << 8',
+  BEFORE_SWAP: 'uint160 internal constant BEFORE_SWAP_FLAG = 1 << 7',
+  AFTER_SWAP: 'uint160 internal constant AFTER_SWAP_FLAG = 1 << 6',
+  BEFORE_DONATE: 'uint160 internal constant BEFORE_DONATE_FLAG = 1 << 5',
+  AFTER_DONATE: 'uint160 internal constant AFTER_DONATE_FLAG = 1 << 4',
+  BEFORE_SWAP_RETURNS_DELTA:
+    'uint160 internal constant BEFORE_SWAP_RETURNS_DELTA_FLAG = 1 << 3',
+  AFTER_SWAP_RETURNS_DELTA:
+    'uint160 internal constant AFTER_SWAP_RETURNS_DELTA_FLAG = 1 << 2',
+  AFTER_ADD_LIQUIDITY_RETURNS_DELTA:
+    'uint160 internal constant AFTER_ADD_LIQUIDITY_RETURNS_DELTA_FLAG = 1 << 1',
+  AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA:
+    'uint160 internal constant AFTER_REMOVE_LIQUIDITY_RETURNS_DELTA_FLAG = 1 << 0',
+};
 
 interface HookFlags {
   BEFORE_INITIALIZE: boolean;
@@ -97,7 +130,7 @@ function UniswapV4HooksCheckerComponent() {
 
   return (
     <div>
-      <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '400px', margin: '0 auto' }}>
         <div>
           <div style={{ marginBottom: '10px' }}>
             <Label htmlFor="token0Decimals">Hook Address</Label>
@@ -111,6 +144,9 @@ function UniswapV4HooksCheckerComponent() {
             Check Hooks
           </Button>
 
+          {hooksAddress && (
+            <AddressToBinary address={hooksAddress.toString()} />
+          )}
           {hooks && (
             <div>
               <h3 className="text-lg font-semibold">Derived Hooks</h3>
@@ -131,8 +167,19 @@ function UniswapV4HooksCheckerComponent() {
                 <tbody>
                   {Object.entries(hooks).map(([hook, enabled]) => (
                     <tr key={hook}>
-                      <td className="border px-4 py-2">
+                      <td className="border px-4 py-2 flex flex-row items-center ">
                         {hook.replace(/_/g, ' ').toLowerCase()}
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <InfoCircledIcon className="ml-2 cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{hooksInfo[hook]!}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </td>
                       <td className="border px-4 py-2 text-center">
                         {enabled ? (
