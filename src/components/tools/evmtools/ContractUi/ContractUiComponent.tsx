@@ -17,7 +17,7 @@ import {
 } from '@shadcn-components/ui/accordion';
 
 import { useChainId } from 'wagmi';
-import { useEthersProvider } from '@hooks/useEthersSigner';
+import { useEthersSigner } from '@hooks/useEthersSigner';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
 
 import { ReloadIcon } from '@radix-ui/react-icons';
@@ -43,16 +43,19 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   const [txLoading, setTxLoading] = useState<boolean>(false);
   const [readFunctions, setReadFunctions] = useState<ContractFunction[]>([]);
   const [writeFunctions, setWriteFunctions] = useState<ContractFunction[]>([]);
-  const [results, setResults] = useState<{ [key: string]: string }>({});
+  const [results, setResults] = useState<{
+    [key: string]: { value: string; type: string };
+  }>({});
   const [selectedFunctions, setSelectedFunctions] = useState<Set<string>>(
     new Set(),
   );
   const [showOnlySelected, setShowOnlySelected] = useState<boolean>(false);
   const chainId = useChainId();
-  const signer = useEthersProvider({ chainId });
+  // const signer = useEthersProvider({ chainId });
   const [autoFetchedResults, setAutoFetchedResults] = useState<{
     [key: string]: { value: string; type: string };
   }>({});
+  const signer = useEthersSigner({ chainId });
 
   useEffect(() => {
     const initContract = async () => {
@@ -185,7 +188,17 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
       if (func.stateMutability === 'view' || func.stateMutability === 'pure') {
         result = await contract[func.name](...inputValues);
       } else {
-        const tx = await contract[func.name](...inputValues);
+        const options: { value?: ethers.BigNumber } = {};
+        if (func.stateMutability === 'payable') {
+          const valueInput = document.getElementById(
+            `${func.name}-value`,
+          ) as HTMLInputElement;
+          const value = valueInput.value;
+          if (value) {
+            options.value = ethers.BigNumber.from(value);
+          }
+        }
+        const tx = await contract[func.name](...inputValues, options);
         setTxLoading(true);
         await tx.wait();
         result = 'Transaction successful';
@@ -193,16 +206,20 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
       }
 
       const formattedResult = formatResult(result);
+      const returnType = func.outputs[0]?.type || 'void';
 
       setResults((prevResults) => ({
         ...prevResults,
-        [func.name]: formattedResult,
+        [func.name]: { value: formattedResult, type: returnType },
       }));
     } catch (error) {
       console.error('Error calling function:', error);
       setResults((prevResults) => ({
         ...prevResults,
-        [func.name]: 'Error: ' + (error as Error).message,
+        [func.name]: {
+          value: 'Error: ' + (error as Error).message,
+          type: 'error',
+        },
       }));
     }
   };
@@ -285,6 +302,19 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
                         )}
                       </div>
                     ))}
+                    {func.stateMutability === 'payable' && (
+                      <div className="mb-4">
+                        <Label htmlFor={`${func.name}-value`}>
+                          Value (in wei)
+                        </Label>
+                        <Input
+                          id={`${func.name}-value`}
+                          type="number"
+                          placeholder="Enter value in wei"
+                          className="mt-1"
+                        />
+                      </div>
+                    )}
                     <Button
                       onClick={() => handleFunctionCall(func)}
                       className="mt-2"
@@ -298,9 +328,12 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
                     {txLoading && <div className="mt-4">Loading.....</div>}
                     {results[func.name] && (
                       <div className="mt-4">
-                        <h4 className="font-semibold">Result:</h4>
-                        <pre className="dark:bg-gray-500 bg-gray-200  p-2 rounded mt-1 overflow-x-auto">
-                          {results[func.name]}
+                        <div className="flex items-center">
+                          <h4 className="font-semibold mr-2">Result:</h4>
+                          <Badge>{results[func.name]!.type}</Badge>
+                        </div>
+                        <pre className="dark:bg-gray-500 bg-gray-200 p-2 rounded mt-1 overflow-x-auto">
+                          {results[func.name]!.value}
                         </pre>
                       </div>
                     )}
