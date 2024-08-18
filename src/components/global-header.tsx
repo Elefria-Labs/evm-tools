@@ -50,6 +50,10 @@ const menuLinks = [
   //   link: Links.zkTools,
   // },
   {
+    title: 'Contracts UI',
+    link: Links.contractsUi,
+  },
+  {
     title: 'ZK Networks',
     link: Links.zkChains,
   },
@@ -88,11 +92,19 @@ function DesktopMenuLink(props: {
           {link.title}
         </MenubarTrigger>
       ) : (
-        <Link href={`/${link.link}`} target={link?.newTab ? '_blank' : '_self'}>
+        <Link
+          className="relative inline-block"
+          href={`/${link.link}`}
+          target={link?.newTab ? '_blank' : '_self'}
+        >
           <MenubarTrigger className="cursor-pointer">
             {link.title}
           </MenubarTrigger>
-          {link?.badgeText && <Badge>{link?.badgeText}</Badge>}
+          {link?.badgeText && (
+            <Badge className="absolute text-xs text- top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+              {link?.badgeText}
+            </Badge>
+          )}
         </Link>
       )}
     </MenubarMenu>
