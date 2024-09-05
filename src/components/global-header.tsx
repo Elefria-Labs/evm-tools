@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ArrowRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
   MenubarContent,
@@ -66,8 +66,8 @@ const menuLinks = [
     link: Links.blog,
   },
   {
-    title: 'Contribute',
-    link: Links.contribute,
+    title: 'Support',
+    link: Links.support,
   },
   // {
   //   title: 'Subscribe',
@@ -228,7 +228,7 @@ function MobileMenuLinks({
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">
-          <Link href={`/${Links.contribute}`}>Contribute</Link>
+          <Link href={`/${Links.support}`}>Support</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <a href={evmToolsXLink} target="_blank">

@@ -8,7 +8,7 @@ export const Links = {
   boilerplate: 'https://boilerplate.zkblock.app/',
   blog: 'blog',
   zkChains: 'zk-networks',
-  contribute: 'contribute',
+  support: 'support',
   devTools: 'dev-tools',
   contractsUi: 'contracts-ui',
   zkTools: 'zk-tools',
