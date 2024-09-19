@@ -49,7 +49,6 @@ const EpochConverterComponent: React.FC = () => {
 
   const handleUnixToHuman = () => {
     if (isNaN(unixTimestamp)) {
-      console.log('test');
       return;
     }
     try {
@@ -66,24 +65,6 @@ const EpochConverterComponent: React.FC = () => {
       setConvertedUnixTs(Math.floor(date.getTime() / 1000).toString());
     } catch (e) {
       // invalid date
-    }
-  };
-
-  const formatRelativeTime = (timestamp: number) => {
-    const now = Date.now();
-    const diffInSeconds = Math.floor((now - timestamp * 1000) / 1000);
-    const minutes = Math.floor(diffInSeconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    if (days > 0) {
-      return `${days} days ago`;
-    } else if (hours > 0) {
-      return `${hours} hours ago`;
-    } else if (minutes > 0) {
-      return `${minutes} minutes ago`;
-    } else {
-      return `${diffInSeconds} seconds ago`;
     }
   };
 

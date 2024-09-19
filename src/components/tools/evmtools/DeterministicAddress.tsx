@@ -10,8 +10,6 @@ import { Label } from '@shadcn-components/ui/label';
 import { useAccount, usePublicClient } from 'wagmi';
 
 const DeterministicAddress = () => {
-  // const { provider, address } = props;
-
   const account = useAccount();
   const publicClient = usePublicClient();
   const [addressInput, setAddressInput] = useState<string | undefined>();
