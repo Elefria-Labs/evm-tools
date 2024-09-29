@@ -23,6 +23,7 @@ import UniswapV4HooksCheckerComponent from '@components/tools/evmtools/UniswapV4
 import BaseContractUiComponent from '@components/tools/evmtools/BaseContractUiComponent';
 import ContractGenerator from '@components/tools/evmtools/HooksTemplateGeneratorComponent';
 import HookMinerComponent from '@components/tools/evmtools/HooksMinerComponent';
+import ContractAbiEncoder from '@components/tools/evmtools/ContractEncoderComponent';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -105,7 +106,7 @@ export const playgroundToolsList: Item[] = [
     description: 'Mine salt for uniswap v4 hooks address.',
     link: Links.uniswapV4HooksMiner,
     isExternal: false,
-    isBeta: true,
+    isBeta: false,
     isWalletRequired: false,
     component: HookMinerComponent,
     category: ToolCategory.Defi,
@@ -267,7 +268,6 @@ export const playgroundToolsList: Item[] = [
       'Check which Uniswap V4 hooks are enabled from the hook address.',
     link: Links.uniswapV4HooksChecker,
     component: UniswapV4HooksCheckerComponent,
-
     isWalletRequired: false,
     category: ToolCategory.Defi,
   },
@@ -285,6 +285,15 @@ export const playgroundToolsList: Item[] = [
     link: Links.contractsUi,
     component: BaseContractUiComponent,
     isBeta: true,
+    category: ToolCategory.Contracts,
+  },
+  {
+    title: 'Abi Encoder',
+    description: 'Encode smart contract function parameters.',
+    link: Links.abiEncoder,
+    component: ContractAbiEncoder,
+    isBeta: true,
+    isWalletRequired: false,
     category: ToolCategory.Contracts,
   },
   // {

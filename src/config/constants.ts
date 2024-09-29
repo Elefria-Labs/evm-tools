@@ -39,6 +39,7 @@ export const Links = {
   burnerWallet: 'burner-wallet',
   merkleTreeGenerator: 'merkletree-generator',
   cheatsheet: 'cheatsheet',
+  abiEncoder: 'abi-encoder',
   about: 'about',
   subscribe: 'subscribe',
   eipGpt: 'https://gpt.zkblock.app/',
