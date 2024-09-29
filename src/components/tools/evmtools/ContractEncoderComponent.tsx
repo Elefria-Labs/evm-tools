@@ -80,7 +80,7 @@ const ContractAbiEncoder: React.FC = () => {
     <div className="space-y-4 p-4">
       <div>
         <Label>Contract ABI</Label>
-        <textarea
+        <Textarea
           className="w-full h-32 p-2 border rounded"
           placeholder="Paste contract ABI here..."
           onChange={handleAbiInput}
