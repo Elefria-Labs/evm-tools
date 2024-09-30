@@ -12,15 +12,12 @@ import {
   SelectValue,
 } from '@shadcn-components/ui/select';
 import { Textarea } from '@shadcn-components/ui/textarea';
-
-interface AbiItem {
-  type: string;
-  name?: string;
-  inputs?: { name: string; type: string }[];
-}
+import { useGlobalStore } from '@store/global-store';
 
 const ContractAbiEncoder: React.FC = () => {
-  const [abi, setAbi] = useState<AbiItem[]>([]);
+  // const [abi, setAbi] = useState<AbiItem[]>([]);
+  const abi = useGlobalStore().contractEncoderAbi.contractAbi;
+  const setAbi = useGlobalStore().setContractEncoderAbi;
   const [selectedFunction, setSelectedFunction] = useState<string>('');
   const [inputs, setInputs] = useState<{ [key: string]: string }>({});
   const [encodedOutput, setEncodedOutput] = useState<string>('');
@@ -29,7 +26,7 @@ const ContractAbiEncoder: React.FC = () => {
   const handleAbiInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     try {
       const parsedAbi = JSON.parse(e.target.value);
-      setAbi(parsedAbi);
+      setAbi({ contractAbi: parsedAbi });
       setError('');
     } catch (err) {
       setError('Invalid ABI format');
@@ -47,7 +44,7 @@ const ContractAbiEncoder: React.FC = () => {
   };
 
   const encodeParameters = () => {
-    const selectedAbi = abi.find(
+    const selectedAbi = abi?.find(
       (item) =>
         (item.type === 'constructor' && selectedFunction === 'constructor') ||
         (item.type === 'function' && item.name === selectedFunction),
@@ -79,19 +76,31 @@ const ContractAbiEncoder: React.FC = () => {
   return (
     <div className="space-y-4 p-4">
       <div>
-        <Label>Contract ABI</Label>
+        <div className="flex flex-row justify-between">
+          <Label>Contract ABI</Label>
+          <p
+            className="text-xs hover:underline-offset-4 underline cursor-pointer decoration-sky-500 italic"
+            onClick={() => {
+              setAbi({ contractAbi: [] });
+            }}
+          >
+            {'Clear'}
+          </p>
+        </div>
+
         <Textarea
           className="w-full h-32 p-2 border rounded"
           placeholder="Paste contract ABI here..."
+          value={JSON.stringify(abi)}
           onChange={handleAbiInput}
         />
       </div>
 
-      {abi.length > 0 && (
+      {abi?.length > 0 && (
         <div>
-          <Label htmlFor="function-select">Select Function</Label>
+          <Label>Select Function</Label>
           <Select onValueChange={handleFunctionSelect}>
-            <SelectTrigger id="function-select">
+            <SelectTrigger className="mt-4" id="function-select">
               <SelectValue placeholder="Select a function" />
             </SelectTrigger>
             <SelectContent>
@@ -119,7 +128,7 @@ const ContractAbiEncoder: React.FC = () => {
         </div>
       )}
 
-      {selectedFunction && (
+      {abi.length > 0 && selectedFunction && (
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Function Parameters</h3>
           {abi
@@ -143,11 +152,13 @@ const ContractAbiEncoder: React.FC = () => {
                 />
               </div>
             ))}
-          <Button onClick={encodeParameters}>Encode</Button>
+          <Button className="w-full" onClick={encodeParameters}>
+            Encode
+          </Button>
         </div>
       )}
 
-      {encodedOutput && (
+      {abi.length > 0 && encodedOutput && (
         <div>
           <h3 className="text-lg font-semibold">Encoded Output</h3>
           <Textarea disabled rows={8}>
