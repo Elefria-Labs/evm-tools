@@ -4,7 +4,6 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { ToolCategory, playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
-import { ToolSearchComponent } from '@components/common/ToolSearchComponent';
 
 const Index = () => {
   const [defaultView, setDefaultView] = useState(true);
@@ -34,17 +33,8 @@ const Index = () => {
         <div className="flex flex-col justify-between">
           <div>
             <div className="py-8">
-              <div className="flex flex-row justify-center">
+              {/* <div className="flex flex-row justify-center">
                 <div>
-                  {/* <div className="flex flex-row content-center justify-end">
-                <Link
-                  aria-label="Go to Playgrounds"
-                  href={Links.devTools}
-                  passHref
-                >
-                  <Button>View All</Button>
-                </Link>
-              </div> */}
                   <ToolSearchComponent
                     onSelected={(selectedTool) => {
                       if (selectedTool.toolLink == 'all') {
@@ -72,7 +62,7 @@ const Index = () => {
                     }}
                   />
                 </div>
-              </div>
+              </div> */}
               <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
               {defaultView && (
                 <div className="mb-8">

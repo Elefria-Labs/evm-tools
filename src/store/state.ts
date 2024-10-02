@@ -7,6 +7,17 @@ export interface ReadWriteUserContract {
   contractAbi: null | any[];
   abiError: null | string;
 }
+
+interface AbiItem {
+  type: string;
+  name?: string;
+  inputs?: { name: string; type: string }[];
+}
+
+export interface ContractEncoderAbi {
+  contractAbi: AbiItem[];
+}
+
 export interface GlobalState {
   toChecksumAddress: string;
   setToChecksumAddress: (address: string) => void;
@@ -28,6 +39,9 @@ export interface GlobalState {
     readWriteUserContracts: ReadWriteUserContract[],
   ) => void;
 
+  // abi encoder
+  contractEncoderAbi: ContractEncoderAbi;
+  setContractEncoderAbi: (contractEncoderAbi: ContractEncoderAbi) => void;
   // Ext
   lastOpenTab: string;
   setLastOpenTab: (lastOpenTab: string) => void;

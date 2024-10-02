@@ -1,5 +1,9 @@
 import { StoreApi } from 'zustand';
-import { GlobalState, ReadWriteUserContract } from './state';
+import {
+  ContractEncoderAbi,
+  GlobalState,
+  ReadWriteUserContract,
+} from './state';
 
 export const createChecksumAddressSlice = (
   set: (
@@ -103,5 +107,24 @@ export const createReadWriteContractUiSlice = (
     set((state) => ({
       ...state,
       readWriteUserContracts: rwUserContract,
+    })),
+});
+
+export const createAbiEncoderUiSlice = (
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
+  _get: () => unknown,
+  _: StoreApi<unknown>,
+) => ({
+  contractEncoderAbi: {
+    contractAbi: [],
+  },
+  setContractEncoderAbi: (userContractAbi: ContractEncoderAbi) =>
+    set((state) => ({
+      ...state,
+      contractEncoderAbi: userContractAbi,
     })),
 });

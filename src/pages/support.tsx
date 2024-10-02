@@ -25,7 +25,7 @@ export default function Contribute() {
               className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600"
             >
               <div
-                className="cursor-pointer flex flex-row items-center text-black dark:text-white justify-center"
+                className="cursor-pointer flex flex-row items-center text-black dark:text-white justify-center flex-wrap"
                 onClick={() => {
                   navigator.clipboard.writeText(
                     `0xA5DCfF342D095ED3dB42542E1A04d105a9f9CAA2`,
@@ -37,7 +37,7 @@ export default function Contribute() {
                   });
                 }}
               >
-                {`Donation Address: ${'0xA5DCfF342D095ED3dB42542E1A04d105a9f9CAA2'}`}
+                <p className="break-words break-all">{`Donation Address: ${'0xA5DCfF342D095ED3dB42542E1A04d105a9f9CAA2'}`}</p>
               </div>
             </li>
           </ul>

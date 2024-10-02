@@ -1,9 +1,10 @@
-import { GlobalHeader } from '@components/global-header';
+import { SiteHeader } from '@components/global-header';
 import { PageWrapper } from '@components/page-wrapper';
 import { ReactNode } from 'react';
 import { Footer } from '@components/Footer';
 import ToolCarousel from '@components/common/ToolCarousel';
 import { playgroundToolKeyRecord, playgroundToolsList } from '@data/playground';
+import ClosableAlert from '@components/common/ExtensionAlert';
 
 type IMainProps = {
   meta: ReactNode;
@@ -18,8 +19,10 @@ const Main = (props: IMainProps) => {
       {props.meta}
       <div style={{ paddingLeft: '0px', paddingTop: '0px' }}>
         <PageWrapper>
-          <GlobalHeader showConnectWallet={props?.showConnectWallet} />
-          {/* <NavBar /> */}
+          <SiteHeader showConnectWallet={props?.showConnectWallet} />
+          <div className="flex-row flex justify-center">
+            <ClosableAlert />
+          </div>
           <div className="flex flex-col content-between items-center min-h-screen">
             <div className="flex flex-col max-w-[1024px] w-11/12">
               {props.children}

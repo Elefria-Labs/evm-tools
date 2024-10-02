@@ -5,6 +5,7 @@ import {
   createExtensionSettingsSlice,
   createBitManipulationSlice,
   createReadWriteContractUiSlice,
+  createAbiEncoderUiSlice,
 } from './slices';
 import { createSelectors } from './selectors';
 import { GlobalState } from './state';
@@ -16,6 +17,7 @@ const useGlobalStoreBase = create<GlobalState>((...a) => ({
   ...createExtensionSettingsSlice(...a),
   ...createBitManipulationSlice(...a),
   ...createReadWriteContractUiSlice(...a),
+  ...createAbiEncoderUiSlice(...a),
 }));
 
 const usePersistGlobalStoreBase = create<GlobalState>()(
@@ -26,6 +28,7 @@ const usePersistGlobalStoreBase = create<GlobalState>()(
       ...createExtensionSettingsSlice(...a),
       ...createBitManipulationSlice(...a),
       ...createReadWriteContractUiSlice(...a),
+      ...createAbiEncoderUiSlice(...a),
     }),
     {
       name: 'evm-tools', // name of the item in the storage (must be unique)
