@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
-  MenubarContent,
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
@@ -22,6 +21,10 @@ import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Badge } from '@shadcn-components/ui/badge';
 import ClosableAlert from './common/ExtensionAlert';
+import { CommandMenu } from './common/GlobalSearch';
+import { Button } from '@shadcn-components/ui/button';
+
+import { cn } from '@lib/utils';
 
 type MenuLinkProps = {
   text: string;
@@ -44,11 +47,6 @@ const menuLinks = [
   //   title: 'Home',
   //   link: Links.home,
   // },
-
-  // {
-  //   title: 'ZK Tools',
-  //   link: Links.zkTools,
-  // },
   {
     title: 'Contracts UI',
     link: Links.contractsUi,
@@ -69,11 +67,51 @@ const menuLinks = [
     title: 'Support',
     link: Links.support,
   },
-  // {
-  //   title: 'Subscribe',
-  //   link: Links.subscribe,
-  // },
 ];
+
+import { usePathname } from 'next/navigation';
+function MenuNavLink(props: { link: string; title: string }) {
+  const pathname = usePathname();
+  return (
+    <Link
+      href={props.link}
+      className={cn(
+        'transition-colors hover:text-foreground/80',
+        pathname === Links.home ? 'text-foreground' : 'text-foreground/60',
+      )}
+    >
+      {props.title}
+    </Link>
+  );
+}
+export function MainNav() {
+  return (
+    <div className="mr-4 hidden md:flex">
+      <Link
+        href={Links.home}
+        className="mr-4 flex items-center space-x-2 lg:mr-6"
+      >
+        <div className="flex flex-row items-center self-start">
+          <Image
+            alt=""
+            height="60"
+            width="60"
+            src="/assets/images/evm-tools-logo-2.svg"
+            style={{ marginRight: '10px' }}
+          />
+          <span className="hidden font-bold lg:inline-block">evmtools</span>
+        </div>
+      </Link>
+      <nav className="flex items-center gap-4 text-sm lg:gap-6">
+        <MenuNavLink link={Links.home} title="Home" />
+        {menuLinks.map((m, i) => (
+          <MenuNavLink key={i} link={m.link} title={m.title} />
+        ))}
+      </nav>
+    </div>
+  );
+}
+
 // TODO
 function DesktopMenuLink(props: {
   link: {
@@ -124,7 +162,7 @@ function DesktopMenuLinks({
             link: Links.home,
           }}
         />
-        <MenubarMenu>
+        {/* <MenubarMenu>
           <MenubarTrigger className="cursor-pointer">Tools</MenubarTrigger>
           <MenubarContent>
             <MenuLink text={'View all'} link={`/${Links.devTools}`} />
@@ -151,25 +189,21 @@ function DesktopMenuLinks({
               link={`/${Links.contractAddressGen}`}
             />
           </MenubarContent>
-        </MenubarMenu>
+        </MenubarMenu> */}
         {menuLinks.map((m, i) => (
           <DesktopMenuLink key={i} link={m} />
         ))}
-
-        {/* <MenubarMenu></MenubarMenu> */}
       </Menubar>
 
       <Link className="ml-2" href={evmToolsXLink} target={'_blank'}>
-        <button className="relative inline-flex items-center justify-center p-0.5 me-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-          <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-            <TwitterIcon className="w-6 h-6" />
-          </span>
-        </button>
-
-        {/* <MenubarTrigger className="cursor-pointer">
-                {m.title}
-              </MenubarTrigger> */}
+        {/* <button className="relative inline-flex items-center justify-center p-0.5 me-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"></button> */}
+        <Button variant="ghost">
+          <TwitterIcon className="w-6 h-6" />
+        </Button>
       </Link>
+      <div className="w-full flex-1 md:w-auto md:flex-none">
+        <CommandMenu />
+      </div>
       {showConnectWallet && (
         <div className="ml-[2px]">
           <ConnectButton
@@ -187,7 +221,7 @@ function DesktopMenuLinks({
 }
 
 function MobileMenuLinks({
-  showConnectWallet = true,
+  showConnectWallet = false,
 }: {
   showConnectWallet?: boolean;
 }) {
@@ -217,20 +251,21 @@ function MobileMenuLinks({
             />
           </DropdownMenuItem>
         )}
+
         <DropdownMenuItem>
-          <Link href={`/${Links.devTools}`}>
-            <DropdownMenuLabel>EVM Tools</DropdownMenuLabel>
-          </Link>
+          <Link href={Links.contractsUi}>Contracts UI</Link>
         </DropdownMenuItem>
+
         <DropdownMenuItem>
           <a href={`/${Links.blog}`} target="_blank">
             <DropdownMenuLabel>Learn</DropdownMenuLabel>
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">
-          <Link href={`/${Links.support}`}>Support</Link>
+          <Link href={`${Links.support}`}>Support</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+
         <a href={evmToolsXLink} target="_blank">
           <DropdownMenuItem className="cursor-pointer">
             <p className="mr-2">Follow</p>
@@ -278,5 +313,60 @@ export function GlobalHeader(props: { showConnectWallet?: boolean }) {
         <ClosableAlert />
       </div>
     </div>
+  );
+}
+
+export function SiteHeader({
+  showConnectWallet = true,
+}: {
+  showConnectWallet?: boolean;
+}) {
+  return (
+    <header className="max-w-screen-xl mx-auto sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 max-w-screen-2xl items-center">
+        <MainNav />
+        {/* <MobileMenuLinks /> */}
+
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <span className="sr-only">Open main menu</span>
+          <MobileMenuLinks />
+        </button>
+        <div className="w-full flex-1 md:w-auto md:flex-none">
+          <CommandMenu />
+        </div>
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          {/* <div className="w-full flex-1 md:w-auto md:flex-none">
+            <CommandMenu />
+          </div> */}
+          {showConnectWallet && (
+            <div className="ml-[2px]">
+              <ConnectButton
+                chainStatus="icon"
+                showBalance={false}
+                accountStatus={{
+                  smallScreen: 'avatar',
+                  largeScreen: 'full',
+                }}
+              />
+            </div>
+          )}
+          <nav className="flex items-center">
+            <Link href={evmToolsXLink} target="_blank" rel="noreferrer">
+              <div>
+                <TwitterIcon className="ml-2 h-10 w-10" />
+
+                <span className="sr-only">Twitter</span>
+              </div>
+            </Link>
+          </nav>
+        </div>
+      </div>
+    </header>
   );
 }

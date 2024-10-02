@@ -18,7 +18,7 @@ export default function ToolCarousel(props: ToolCarouselProps) {
   const { playgroundTools } = props;
   return (
     <div>
-      <p className="mb-4 text-xl font-bold">Other similar tools</p>
+      <p className="mt-8 mb-4 text-xl font-bold">Other similar tools</p>
       <Carousel
         opts={{
           align: 'start',
