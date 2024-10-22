@@ -108,6 +108,7 @@ export const playgroundToolsList: Item[] = [
     isExternal: false,
     isBeta: false,
     isWalletRequired: false,
+    isOnlyWeb: true,
     component: HookMinerComponent,
     category: ToolCategory.Defi,
   },
@@ -286,7 +287,7 @@ export const playgroundToolsList: Item[] = [
     component: BaseContractUiComponent,
     isBeta: true,
     category: ToolCategory.Contracts,
-    isWalletRequired: true,
+    isOnlyWeb: true,
   },
   {
     title: 'Abi Encoder',
