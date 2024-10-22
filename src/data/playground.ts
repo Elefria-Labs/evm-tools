@@ -286,6 +286,7 @@ export const playgroundToolsList: Item[] = [
     component: BaseContractUiComponent,
     isBeta: true,
     category: ToolCategory.Contracts,
+    isWalletRequired: true,
   },
   {
     title: 'Abi Encoder',
