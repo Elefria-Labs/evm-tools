@@ -87,10 +87,10 @@ export function ToolSearchComponent(props: ToolSearchComponentProps) {
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? '' : currentValue);
                         setOpen(false);
-                        const analytics = getAnalytics();
-                        logEvent(analytics, 'use_evm_tool', {
-                          name: tool.link,
-                        });
+                        // const analytics = getAnalytics();
+                        // logEvent(analytics, 'use_evm_tool', {
+                        //   name: tool.link,
+                        // });
                         props.onSelected({
                           toolLink: currentValue,
                           isOnlyWeb: tool?.isOnlyWeb,
