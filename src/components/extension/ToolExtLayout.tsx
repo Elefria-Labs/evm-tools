@@ -32,7 +32,6 @@ export default function ToolExtLayout() {
         />
       </div>
       <div className="pb-4">
-        {/* <ToolSearchInput /> */}
         <ToolTabs selectTab={searchSelectedTool} />
       </div>
     </div>
