@@ -105,7 +105,7 @@ export function MainNav() {
       <nav className="flex items-center gap-4 text-sm lg:gap-6">
         <MenuNavLink link={Links.home} title="Home" />
         {menuLinks.map((m, i) => (
-          <MenuNavLink key={i} link={m.link} title={m.title} />
+          <MenuNavLink key={i} link={`/${m.link}`} title={m.title} />
         ))}
       </nav>
     </div>
