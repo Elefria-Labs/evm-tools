@@ -11,6 +11,7 @@ type IMainProps = {
   children: ReactNode;
   showConnectWallet?: boolean;
   link?: string;
+  bannerNotVisible?: boolean;
 };
 
 const Main = (props: IMainProps) => {
@@ -20,9 +21,13 @@ const Main = (props: IMainProps) => {
       <div style={{ paddingLeft: '0px', paddingTop: '0px' }}>
         <PageWrapper>
           <SiteHeader showConnectWallet={props?.showConnectWallet} />
-          <div className="flex-row flex justify-center">
-            <ClosableAlert />
-          </div>
+          {props?.bannerNotVisible ? (
+            <></>
+          ) : (
+            <div className="flex-row flex justify-center">
+              <ClosableAlert />
+            </div>
+          )}
           <div className="flex flex-col content-between items-center min-h-screen">
             <div className="flex flex-col max-w-[1024px] w-11/12">
               {props.children}

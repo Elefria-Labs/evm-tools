@@ -31,7 +31,7 @@ import FeedbackButton from '@components/FeedbackButton';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const config = getDefaultConfig({
-  appName: 'zk-block',
+  appName: 'evmtools',
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID!,
   chains: [
     // @ts-ignore
