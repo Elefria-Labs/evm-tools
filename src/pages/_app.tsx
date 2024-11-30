@@ -24,29 +24,11 @@ import {
   polygonMumbai,
   polygonZkEvm,
   hardhat,
-  anvil,
 } from 'wagmi/chains';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@shadcn-components/ui/toaster';
 import FeedbackButton from '@components/FeedbackButton';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-
-// const connectors = connectorsForWallets(
-//   [
-//     {
-//       groupName: 'Recommended',
-//       wallets: [metaMaskWallet, safeWallet],
-//     },
-//     {
-//       groupName: 'Others',
-//       wallets: [coinbaseWallet, walletConnectWallet],
-//     },
-//   ],
-//   {
-//     appName: 'zk-block',
-//     projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID!,
-//   },
-// );
 
 const config = getDefaultConfig({
   appName: 'zk-block',
@@ -67,31 +49,10 @@ const config = getDefaultConfig({
     polygonZkEvm,
     hardhat,
   ],
-  //ssr: true, // If your dApp uses server side rendering (SSR)
+  // ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
 const queryClient = new QueryClient();
-// const fullConfig = createConfig({
-//   connectors: connectors,
-//   chains: [
-//     mainnet,
-//     polygon,
-//     optimism,
-//     arbitrum,
-//     base,
-//     zora,
-//     sepolia,
-//     baseSepolia,
-//     bsc,
-//     bscTestnet,
-//     polygonMumbai,
-//     polygonZkEvm,
-//     hardhat,
-//   ],
-//   client:config.,
-//   transport: http()
-//   ssr: true,
-// });
 
 const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
