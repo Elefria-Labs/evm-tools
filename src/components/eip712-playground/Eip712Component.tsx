@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { ethers } from 'ethers';
-import { splitSignature, verifyTypedData } from 'ethers/lib/utils';
+import { ethers, verifyTypedData } from 'ethers';
+
 import JSONInput from 'react-json-editor-ajrm';
 import { SignatureLike } from '@ethersproject/bytes';
 import {
@@ -43,7 +43,7 @@ export default function Eip712PlaygroundComponent() {
 
   const [eip721Template, setEip712Template] = useState<string>('');
   const [verifySigInput, setVerifySigInput] = useState<
-    SignatureLike | undefined
+    string | undefined
   >();
   const [rsvSig, setRsvSig] = useState<ethers.Signature | undefined>();
   const [data7122, setData7122] = useState<
@@ -106,7 +106,7 @@ export default function Eip712PlaygroundComponent() {
     if (eip712Signature == null) {
       return;
     }
-    const sig = splitSignature(eip712Signature);
+    const sig = ethers.Signature.from(eip712Signature);
     setRsvSig(sig);
     setVerifySigInput(eip712Signature);
   }, [eip712Signature]);
@@ -121,6 +121,7 @@ export default function Eip712PlaygroundComponent() {
       [data7122.primaryType]: data7122.types[data7122.primaryType],
     } as Record<string, []>;
     try {
+      
       const recoveredAddress = verifyTypedData(
         data7122.domain,
         types,
@@ -210,7 +211,7 @@ export default function Eip712PlaygroundComponent() {
                 <Label>Verify Signature:</Label>
                 <Input
                   placeholder="signature..."
-                  value={verifySigInput as string}
+                  value={verifySigInput}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setVerifySigInput(event.target.value);
                   }}

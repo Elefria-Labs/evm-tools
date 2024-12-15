@@ -160,7 +160,7 @@ export default function MimicWalletComponent() {
       return;
     }
 
-    if (ethers.utils.isAddress(addressToMimic) == false) {
+    if (ethers.isAddress(addressToMimic) == false) {
       toast({
         ...toastOptions,
         title: 'Invalid address!',
