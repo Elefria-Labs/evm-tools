@@ -227,7 +227,7 @@ export function getEip712AaveCreditDelegation(): GenericData712Type<
     },
     message: {
       delegatee: '0x18D365087Eb68362c7E62792953fB209703541fE',
-      value: ethers.utils.parseEther('0.1').toString(),
+      value: ethers.parseEther('0.1').toString(),
       nonce: String(1),
       deadline: '1819258295',
     },
@@ -271,11 +271,11 @@ export function getPermit2Template(): GenericData712Type<
       name: 'MyToken',
       version: '1',
       chainId: 1,
-      verifyingContract: ethers.constants.AddressZero, // Replace with your token contract address
+      verifyingContract: ethers.ZeroAddress, // Replace with your token contract address
     },
     message: {
-      owner: ethers.constants.AddressZero, // Replace with the owner address
-      spender: ethers.constants.AddressZero, // Replace with the spender address
+      owner: ethers.ZeroAddress, // Replace with the owner address
+      spender: ethers.ZeroAddress, // Replace with the spender address
       value: 1000, // Amount to be allowed
       nonce: 0, // Nonce for the permit
       deadline: Math.floor(Date.now() / 1000) + 3600, // Current time + 1 hour in seconds
