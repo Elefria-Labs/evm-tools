@@ -5,14 +5,14 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { ethers, providers } from 'ethers';
+import { ethers, } from 'ethers';
 import { getNetworkForMetamask, networkConfig } from '@config/network';
 import { toHex } from '@utils/wallet';
 
 export const networkOptions = Object.values(networkConfig);
 
 type UseWalletConnectReturnType = {
-  provider: ethers.providers.Web3Provider | undefined;
+  provider: ethers.JsonRpcProvider | undefined;
   connectWallet: () => void;
   disconnect: () => Promise<void>;
   account: string | undefined;
@@ -23,7 +23,7 @@ type UseWalletConnectReturnType = {
 };
 export const useWalletConnect = (): UseWalletConnectReturnType => {
   const [provider, setProvider] = useState<
-    providers.Web3Provider | undefined
+    ethers.JsonRpcProvider | undefined
   >();
   const [account, setAccount] = useState<string | undefined>();
   const [error, setError] = useState('');
@@ -35,8 +35,8 @@ export const useWalletConnect = (): UseWalletConnectReturnType => {
       return;
     }
     try {
-      const web3provider: ethers.providers.Web3Provider =
-        new ethers.providers.Web3Provider(window.ethereum);
+      const web3provider: ethers.JsonRpcProvider =
+        new ethers.JsonRpcProvider(window.ethereum);
       const accounts = await web3provider.send('eth_requestAccounts', []);
       const providerNetwork = await web3provider.getNetwork();
 
@@ -45,7 +45,7 @@ export const useWalletConnect = (): UseWalletConnectReturnType => {
         setAccount(accounts[0]);
       }
 
-      setChainId(providerNetwork.chainId);
+      setChainId(Number(providerNetwork.chainId));
     } catch (error) {
       console.log('Error connecting wallet:', error);
       setError('Error connecting to wallet.');

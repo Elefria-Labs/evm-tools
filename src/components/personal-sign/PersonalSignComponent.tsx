@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
-import { ethers } from 'ethers';
-import { splitSignature, verifyMessage } from 'ethers/lib/utils';
-import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
-import { SignatureLike } from '@ethersproject/bytes';
+import { Signature, verifyMessage } from 'ethers';
+
+
 import { toastOptions } from '@components/common/toast';
-import { useAccount, useSignMessage } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import { Textarea } from '@shadcn-components/ui/textarea';
 import { Input } from '@shadcn-components/ui/input';
 import { Button } from '@shadcn-components/ui/button';
 import { Label } from '@shadcn-components/ui/label';
+import { useEthersSigner } from '@hooks/useEthersSigner';
+import {
+  CheckCircledIcon,
+  CrossCircledIcon,
+  LockClosedIcon,
+} from '@radix-ui/react-icons';
+
 
 type PersonalSignComponentPropsType = {};
 
@@ -19,27 +25,29 @@ export default function PersonalSignComponent(
   _: PersonalSignComponentPropsType,
 ) {
   // const { provider } = props;
+  const chainId = useChainId();
+  const etherSigner = useEthersSigner({ chainId });
   const account = useAccount();
-  const { data: signMessageData, signMessage } = useSignMessage();
+
   const { toast } = useToast();
 
-  const [verifySigInput, setVerifySigInput] = useState<
-    SignatureLike | undefined
-  >();
-  const [rsvSig, setRsvSig] = useState<ethers.Signature | undefined>();
+  const [verifySigInput, setVerifySigInput] = useState<string | undefined>();
+  const [rsvSig, setRsvSig] = useState<Signature | undefined>();
   const [messageToSign, setMessageToSign] = useState<string>(defaultMsg);
+  const [msgSignature, setMsgSignature] = useState<string | null>();
 
   const [recoveredAddr, setRecoveredAddr] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (signMessageData == null) {
+    if (msgSignature == null) {
       return;
     }
-    const sig = splitSignature(signMessageData);
+    const sig = Signature.from(msgSignature);
     setRsvSig(sig);
-    setVerifySigInput(signMessageData);
-  }, [signMessageData]);
+    setVerifySigInput(msgSignature);
+  }, [msgSignature]);
+
   const signPersonalMessageUsingEthers = async () => {
     if (account == null) {
       toast({
@@ -48,23 +56,28 @@ export default function PersonalSignComponent(
       });
       return;
     }
-    if (signMessage == null) {
+    if (etherSigner?.signMessage == null) {
       return;
     }
     setLoading(true);
-    // const signer = await provider.getSigner();
-    signMessage({ message: messageToSign });
-    // setSig(flatSig);
+
+    const signature = await etherSigner.signMessage(messageToSign);
+    setMsgSignature(signature);
 
     setLoading(false);
   };
 
   const verify = async () => {
-    if (verifySigInput == null || signMessage == null) {
+    if (verifySigInput == null || msgSignature == null) {
       return;
     }
     setLoading(true);
-    const recoveredAddress = verifyMessage(messageToSign, verifySigInput);
+    // const splitSig = Signature.from(verifySigInput);
+
+    const recoveredAddress = verifyMessage(
+      messageToSign,
+      verifySigInput as string,
+    );
     setRecoveredAddr(recoveredAddress);
     setLoading(false);
   };
@@ -86,17 +99,17 @@ export default function PersonalSignComponent(
           />
           <Button onClick={signPersonalMessageUsingEthers}>Sign</Button>
         </div>
-        {signMessageData && (
+        {msgSignature && (
           <div className="flex flex-col  min-w-[240px] w-3/5 ml-4 mt-8 sm:mt-0">
             <div>
               <Label>
-                <LockIcon color="green.500" /> Signature:
+                <LockClosedIcon color="green.500" /> Signature:
               </Label>
-              <Textarea contentEditable={false} value={signMessageData} />
+              <Textarea contentEditable={false} value={msgSignature} />
             </div>
             <div>
               <Label>
-                <LockIcon color="green.500" /> Split Signature:
+                <LockClosedIcon color="green.500" /> Split Signature:
               </Label>
               <Textarea
                 value={JSON.stringify(rsvSig)}
@@ -115,7 +128,7 @@ export default function PersonalSignComponent(
             </div>
             <div>
               <Label className="word-wrap">
-                <CheckCircleIcon color="green.500" /> Signing Address:{' '}
+                <CheckCircledIcon color="green.500" /> Signing Address:{' '}
                 <strong>{account.address}</strong>
               </Label>
               {/* <Input value={account.address} disabled /> */}
@@ -125,9 +138,9 @@ export default function PersonalSignComponent(
                 <Label>
                   {recoveredAddr?.toLowerCase() ==
                   account?.address?.toLowerCase() ? (
-                    <CheckCircleIcon color="green.500" />
+                    <CheckCircledIcon color="green.500" />
                   ) : (
-                    <CloseIcon color="red.500" />
+                    <CrossCircledIcon color="red.500" />
                   )}{' '}
                   Recovered Address:
                   <strong>{recoveredAddr?.toLowerCase()}</strong>

@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 
 export const useGetErc20Balance = (
   tokenContractAddress: string,
-  provider: ethers.providers.JsonRpcProvider,
+  provider: ethers.JsonRpcProvider,
   spenderAddress?: string,
 ): { balance: string | null; allowance: string | null } => {
   const [balance, setBalance] = useState<string | null>(null);
@@ -23,10 +23,12 @@ export const useGetErc20Balance = (
 
     const fetchBalance = async () => {
       try {
-        const accountAddress = await provider.getSigner().getAddress();
+        const accountAddress =  (await provider.getSigner()).address;
+        //@ts-ignore
         const balanceResult = await tokenContract.balanceOf(accountAddress);
+        //@ts-ignore
         const decimals = await tokenContract.decimals();
-        const formattedBalance = ethers.utils.formatUnits(
+        const formattedBalance = ethers.formatUnits(
           balanceResult,
           decimals,
         );
@@ -39,13 +41,15 @@ export const useGetErc20Balance = (
 
     const fetchAllowance = async (spender: string) => {
       try {
-        const accountAddress = await provider.getSigner().getAddress();
+        const accountAddress = (await provider.getSigner()).address;
+        //@ts-ignore
         const allowance = await tokenContract.allowance(
           accountAddress,
           spender,
         );
+        //@ts-ignore
         const decimals = await tokenContract.decimals();
-        const formattedBalance = ethers.utils.formatUnits(allowance, decimals);
+        const formattedBalance = ethers.formatUnits(allowance, decimals);
         setAllowance(formattedBalance);
       } catch (error) {
         console.error('Error fetching ERC20 token allowance:', error);

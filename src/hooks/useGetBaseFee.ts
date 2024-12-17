@@ -16,7 +16,7 @@ export const useGetBaseFee = () => {
 
   useEffect(() => {
     const getGasFee = async () => {
-      const provider = new ethers.providers.JsonRpcProvider(
+      const provider = new ethers.JsonRpcProvider(
         'https://eth.llamarpc.com',
       );
       const gasFeeData = await provider.getFeeData();
