@@ -30,7 +30,7 @@ export default function TxDecoderComponent() {
 
   const handleDecodeTx = () => {
     try {
-      const tx = ethers.utils.parseTransaction(rawTx);
+      const tx = ethers.Transaction.from(rawTx);
       setDecodedTx(tx);
     } catch (error) {
       setDecodedTx(null);

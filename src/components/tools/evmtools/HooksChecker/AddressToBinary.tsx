@@ -15,7 +15,7 @@ function AddressToBinary(props: AddressToBinaryProps) {
   const { toast } = useToast();
 
   const convertToBinary = (hex: string): string => {
-    const bigInt = ethers.BigNumber.from(hex).toBigInt();
+    const bigInt = ethers.toBigInt(hex);
     // Ensure 160 bits (40 hex chars * 4)
     let binary = bigInt.toString(2).padStart(160, '0');
 
@@ -41,7 +41,7 @@ function AddressToBinary(props: AddressToBinaryProps) {
   }, [address, toast]);
 
   useEffect(() => {
-    if (ethers.utils.isAddress(address)) {
+    if (ethers.isAddress(address)) {
       handleConvert();
     }
   }, [address, handleConvert]);
