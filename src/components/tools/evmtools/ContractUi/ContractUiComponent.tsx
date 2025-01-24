@@ -51,11 +51,70 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   );
   const [showOnlySelected, setShowOnlySelected] = useState<boolean>(false);
   const chainId = useChainId();
-  // const signer = useEthersProvider({ chainId });
+
   const [autoFetchedResults, setAutoFetchedResults] = useState<{
     [key: string]: { value: string; type: string };
   }>({});
   const signer = useEthersSigner({ chainId });
+
+  const formatResult = (result: any): string => {
+    if (result === null || result === undefined) {
+      return 'null';
+    }
+    if (typeof result === 'bigint') {
+      return result.toString();
+    }
+    if (Array.isArray(result)) {
+      return JSON.stringify(result.map(formatResult), null, 2);
+    }
+    if (typeof result === 'object') {
+      if (Object.prototype.hasOwnProperty.call(result, 'toString')) {
+        return result.toString();
+      }
+      return JSON.stringify(
+        Object.fromEntries(
+          Object.entries(result).map(([key, value]) => [
+            key,
+            formatResult(value),
+          ]),
+        ),
+        null,
+        2,
+      );
+    }
+    return JSON.stringify(result, null, 2);
+  };
+
+  const fetchAutoFetchableResults = async (
+    smartContract: ethers.Contract,
+    funcs: ContractFunction[],
+  ) => {
+    const autoFetchPromises = funcs.map(async (func) => {
+      try {
+        if (smartContract == null || smartContract?.[func.name] == null) {
+          return;
+        }
+        // @ts-ignore
+        const result = await smartContract[func.name]();
+        return [
+          func.name,
+          {
+            value: formatResult(result),
+            type: func.outputs[0]?.type || 'unknown',
+          },
+        ];
+      } catch (error) {
+        console.error(`Error fetching ${func.name}:`, error);
+        return [func.name, { value: 'Error fetching result', type: 'error' }];
+      }
+    });
+
+    const autoFetchedResults = Object.fromEntries(
+      // @ts-ignore
+      await Promise.all(autoFetchPromises),
+    );
+    setAutoFetchedResults(autoFetchedResults);
+  };
 
   useEffect(() => {
     const initContract = async () => {
@@ -96,35 +155,10 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
     initContract();
   }, [abi, contractAddress, chainId, signer]);
 
-  const fetchAutoFetchableResults = async (
-    smartContract: ethers.Contract,
-    funcs: ContractFunction[],
-  ) => {
-    const autoFetchPromises = funcs.map(async (func) => {
-      try {
-        const result = await smartContract[func.name]();
-        return [
-          func.name,
-          {
-            value: formatResult(result),
-            type: func.outputs[0]?.type || 'unknown',
-          },
-        ];
-      } catch (error) {
-        console.error(`Error fetching ${func.name}:`, error);
-        return [func.name, { value: 'Error fetching result', type: 'error' }];
-      }
-    });
-
-    const autoFetchedResults = Object.fromEntries(
-      await Promise.all(autoFetchPromises),
-    );
-    setAutoFetchedResults(autoFetchedResults);
-  };
-
   const refreshAutoFetchedResult = async (funcName: string) => {
     if (!contract) return;
     try {
+      // @ts-ignore
       const result = await contract[funcName]();
       const func = abi.find((item: any) => item.name === funcName);
       setAutoFetchedResults((prev) => ({
@@ -186,18 +220,20 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
     try {
       let result;
       if (func.stateMutability === 'view' || func.stateMutability === 'pure') {
+        // @ts-ignore
         result = await contract[func.name](...inputValues);
       } else {
-        const options: { value?: ethers.BigNumber } = {};
+        const options: { value?: ethers.BigNumberish } = {};
         if (func.stateMutability === 'payable') {
           const valueInput = document.getElementById(
             `${func.name}-value`,
           ) as HTMLInputElement;
           const value = valueInput.value;
           if (value) {
-            options.value = ethers.BigNumber.from(value);
+            options.value = ethers.toBigInt(value);
           }
         }
+        // @ts-ignore
         const tx = await contract[func.name](...inputValues, options);
         setTxLoading(true);
         await tx.wait();
@@ -222,34 +258,6 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
         },
       }));
     }
-  };
-
-  const formatResult = (result: any): string => {
-    if (result === null || result === undefined) {
-      return 'null';
-    }
-    if (typeof result === 'bigint') {
-      return result.toString();
-    }
-    if (Array.isArray(result)) {
-      return JSON.stringify(result.map(formatResult), null, 2);
-    }
-    if (typeof result === 'object') {
-      if (Object.prototype.hasOwnProperty.call(result, 'toString')) {
-        return result.toString();
-      }
-      return JSON.stringify(
-        Object.fromEntries(
-          Object.entries(result).map(([key, value]) => [
-            key,
-            formatResult(value),
-          ]),
-        ),
-        null,
-        2,
-      );
-    }
-    return JSON.stringify(result, null, 2);
   };
 
   const renderFunctions = (functions: ContractFunction[], title: string) => (
