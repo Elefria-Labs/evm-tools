@@ -57,12 +57,12 @@ const ContractAbiEncoder: React.FC = () => {
 
     try {
       const values = selectedAbi.inputs.map((input) => inputs[input.name]);
-      const iface = new ethers.utils.Interface([selectedAbi]);
+      const iface = new ethers.Interface([selectedAbi]);
       if (selectedAbi.type === 'constructor') {
         const encoded = iface.encodeDeploy(values);
         setEncodedOutput(encoded || '');
       } else {
-        const iface = new ethers.utils.Interface([selectedAbi]);
+        const iface = new ethers.Interface([selectedAbi]);
         const encoded = iface.encodeFunctionData(selectedFunction, values);
         setEncodedOutput(encoded);
       }

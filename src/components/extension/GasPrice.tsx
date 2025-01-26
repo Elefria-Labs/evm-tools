@@ -6,14 +6,12 @@ export default function GasPrice() {
 
   useEffect(() => {
     const getGasFee = async () => {
-      const provider = new ethers.providers.JsonRpcProvider(
-        'https://eth.llamarpc.com',
-      );
+      const provider = new ethers.JsonRpcProvider('https://eth.llamarpc.com');
       const gasFeeData = await provider.getFeeData();
 
       if (gasFeeData.gasPrice) {
         setGasFee(
-          ethers.utils
+          ethers
             .formatUnits(gasFeeData.gasPrice.toString(), 'gwei')
             .toString()
             .substring(0, 4),
