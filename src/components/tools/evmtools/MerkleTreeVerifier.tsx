@@ -58,7 +58,7 @@ const MerkleTreeVerifier = () => {
       return element.map((value, index) => {
         switch (structure[index]) {
           case 'address':
-            if (!ethers.utils.isAddress(value)) {
+            if (!ethers.isAddress(value)) {
               throw new Error(`Invalid address: ${value}`);
             }
             return value;

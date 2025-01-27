@@ -11,13 +11,13 @@ import { toastOptions } from '@components/common/toast';
 function calculateValue(ethAmount: string, gasPrice: string): string {
   let value;
   try {
-    const ethValue = ethers.utils.parseEther(ethAmount.toString());
-    value = ethValue.mul(ethers.utils.parseUnits(gasPrice.toString(), 18));
+    const ethValue = ethers.parseEther(ethAmount.toString());
+    value = ethValue * ethers.parseUnits(gasPrice.toString(), 18);
   } catch (e) {
-    return ethers.utils.formatUnits(0, 18 * 2);
+    return ethers.formatUnits(0, 18 * 2);
   }
 
-  return ethers.utils.formatUnits(value, 18 * 2);
+  return ethers.formatUnits(value, 18 * 2);
 }
 
 export default function GasConverterComponent() {
@@ -43,9 +43,9 @@ export default function GasConverterComponent() {
         return;
       }
       setWeiValue(weiValue);
-      const gweiValue = ethers.utils.formatUnits(weiValue.toString(), 'gwei');
+      const gweiValue = ethers.formatUnits(weiValue.toString(), 'gwei');
       setGweiValue(gweiValue);
-      const eth = ethers.utils.formatUnits(weiValue.toString(), 'ether');
+      const eth = ethers.formatUnits(weiValue.toString(), 'ether');
       setEthValue(eth);
     } catch (e) {
       console.log('error', e);
@@ -57,9 +57,9 @@ export default function GasConverterComponent() {
 
     setGweiValue(gweiValue);
     try {
-      const weiValue = ethers.utils.parseUnits(gweiValue, 'gwei');
+      const weiValue = ethers.parseUnits(gweiValue, 'gwei');
       setWeiValue(weiValue.toString());
-      const ethValue = ethers.utils.formatEther(weiValue);
+      const ethValue = ethers.formatEther(weiValue);
       setEthValue(ethValue);
     } catch (e) {
       toast({
@@ -76,7 +76,7 @@ export default function GasConverterComponent() {
     setEthValue(ethValue);
     let weiValue;
     try {
-      weiValue = ethers.utils.parseEther(ethValue);
+      weiValue = ethers.parseEther(ethValue);
       setWeiValue(weiValue.toString());
     } catch (e) {
       toast({
@@ -86,7 +86,7 @@ export default function GasConverterComponent() {
       return;
     }
 
-    const gweiValue = ethers.utils.formatUnits(weiValue, 'gwei');
+    const gweiValue = ethers.formatUnits(weiValue, 'gwei');
     setGweiValue(gweiValue);
   };
 
@@ -95,9 +95,9 @@ export default function GasConverterComponent() {
   };
 
   useEffect(() => {
-    const weiValue = ethers.utils.parseEther('0.01');
+    const weiValue = ethers.parseEther('0.01');
     setWeiValue(weiValue.toString());
-    const gweiValue = ethers.utils.formatUnits(weiValue, 'gwei');
+    const gweiValue = ethers.formatUnits(weiValue, 'gwei');
     setGweiValue(gweiValue);
     setEthValue('0.01');
   }, []);
@@ -154,7 +154,7 @@ export default function GasConverterComponent() {
           <Label htmlFor="eth-input">{'Suggested Base Fee'}</Label>
           <div>
             <InputBaseCopy
-              value={ethers.utils
+              value={ethers
                 .formatUnits(gasDetails.gasPrice.toString(), 'gwei')
                 .toString()
                 .substring(0, 4)}

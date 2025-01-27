@@ -11,7 +11,7 @@ function StringByteConversion() {
   const { toast } = useToast();
   const convertToBytes = (stringValue: string) => {
     try {
-      const bytesValue = ethers.utils.formatBytes32String(stringValue);
+      const bytesValue = ethers.encodeBytes32String(stringValue);
       setBytesInput(bytesValue);
     } catch (error) {
       toast({
@@ -23,7 +23,7 @@ function StringByteConversion() {
 
   const convertToString = (bytesValue: string) => {
     try {
-      const stringValue = ethers.utils.parseBytes32String(bytesValue);
+      const stringValue = ethers.decodeBytes32String(bytesValue);
       setStringInput(stringValue);
     } catch (error) {
       toast({
