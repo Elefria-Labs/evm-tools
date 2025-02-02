@@ -22,7 +22,7 @@ export default function EvmAddressChecksumComponent() {
   };
 
   const handleToChecksumAddress = () => {
-    if (!ethers.utils.isAddress(toChecksumAddress)) {
+    if (!ethers.isAddress(toChecksumAddress)) {
       toast({
         ...toastOptions,
         title: 'Invalid address',
@@ -30,7 +30,7 @@ export default function EvmAddressChecksumComponent() {
       return;
     }
 
-    setChecksummedAddress(ethers.utils.getAddress(toChecksumAddress));
+    setChecksummedAddress(ethers.getAddress(toChecksumAddress));
   };
 
   const handleIsChecksumAddress = (
@@ -38,7 +38,7 @@ export default function EvmAddressChecksumComponent() {
   ) => {
     const addressInput = event.target.value;
     setIsChecksumAddress(addressInput);
-    if (!ethers.utils.isAddress(addressInput)) {
+    if (!ethers.isAddress(addressInput)) {
       toast({
         ...toastOptions,
         title: 'Invalid address',
@@ -48,7 +48,7 @@ export default function EvmAddressChecksumComponent() {
 
     let addr;
     try {
-      addr = ethers.utils.getAddress(addressInput);
+      addr = ethers.getAddress(addressInput);
     } catch (e) {
       toast({
         ...toastOptions,
@@ -100,7 +100,7 @@ export default function EvmAddressChecksumComponent() {
                   ) {
                     return;
                   }
-                  handleCopyClick(ethers.utils.getAddress(toChecksumAddress));
+                  handleCopyClick(ethers.getAddress(toChecksumAddress));
                 }}
               />
             </>

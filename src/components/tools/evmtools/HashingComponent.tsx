@@ -21,17 +21,17 @@ function HashingComponent() {
             onChange={(e) => {
               setInputText(e.target.value);
 
-              const text = ethers.utils.toUtf8Bytes(e.target.value);
+              const text = ethers.toUtf8Bytes(e.target.value);
               // if (!ethers.utils.isHexString(text)) {
 
               // }
-              const keccack256 = ethers.utils.keccak256(text);
+              const keccack256 = ethers.keccak256(text);
               setKeccak256Hash(keccack256);
 
-              const sha256 = ethers.utils.sha256(text);
+              const sha256 = ethers.sha256(text);
               setSha256Hash(sha256);
 
-              const sha512 = ethers.utils.sha512(text);
+              const sha512 = ethers.sha512(text);
               setSha512Hash(sha512);
             }}
           />

@@ -26,18 +26,18 @@ export default function CheatsheetComponent() {
 
   const getMaxMinValue = useCallback((bits: number, intType: string) => {
     if (intType.includes('uint') == false) {
-      const min = ethers.BigNumber.from('2')
-        .pow(BigInt(bits - 1))
-        .mul(-1)
-        .toString();
-      const max = ethers.BigNumber.from('2')
-        .pow(BigInt(bits - 1))
-        .sub(1)
+      const min = ((ethers.toBigInt('2')
+         ** BigInt(bits - 1)) *
+        -1n).toString()
+        
+      const max = (ethers.toBigInt('2')
+        ** BigInt(bits - 1)
+        -1n)
         .toString();
       setMinMaxValue({ min, max });
       return;
     }
-    const maxValue = ethers.BigNumber.from('2').pow(BigInt(bits)).sub(1);
+    const maxValue = ethers.toBigInt('2') ** BigInt(bits) -1n;
     setMinMaxValue({ max: maxValue.toString() });
   }, []);
   useEffect(() => {
@@ -103,8 +103,8 @@ export default function CheatsheetComponent() {
         <div className="mt-4">
           <Label>Zero Address</Label>
           <InputBaseCopy
-            onClick={() => handleCopyClick(ethers.constants.AddressZero)}
-            value={ethers.constants.AddressZero}
+            onClick={() => handleCopyClick(ethers.ZeroAddress)}
+            value={ethers.ZeroAddress}
             disabled
           />
         </div>
