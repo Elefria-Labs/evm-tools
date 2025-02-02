@@ -55,7 +55,7 @@ function AddressBookComponent(props: AddressBookComponentPropsType) {
   }, []);
 
   const handleAdd = () => {
-    if (ethers.utils.isAddress(address)) {
+    if (ethers.isAddress(address)) {
       const newEntry = { tag, address };
       const updatedAddressBook = [...addressBook, newEntry];
       setAddressBook(updatedAddressBook);
