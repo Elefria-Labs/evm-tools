@@ -1,17 +1,21 @@
-## ZK-Block - Boilerplate & Tools for ZK Dapps
+## Evm Tools - Tools for web3 and zk Dapps
 
-Website- [zkblock](https://zkblock.app)
+Website- [evmtools](https://evmtools.xyz)
+
+Extension- [evmtools](https://chromewebstore.google.com/detail/evm-tools/aibinghcdfagfoaajjiojfhkmnjmjmem)
+
+Previously- [zkblock](https://zkblock.app)
 
 ![](https://i.imgur.com/waxVImv.png)
 
-This repository is part of zkblock. If you want to add more tools please create a pr with tools details in `data/tool.ts`
+This repository is part of evmtools (zkblock). If you want to request specific tools please create an issue or create a pr with the code.
 
 #### Run locally
 
 ```
-git clone https://github.com/heypran/zk-tools.git
+git clone https://github.com/heypran/evm-tools.git
 
-cd zk-tools
+cd evm-tools
 
 yarn install
 
@@ -31,7 +35,7 @@ Open http://localhost:3000 in the browser.
 
 > Everyone is welcome to contribute to this project.
 
-- Add more zk tools or web3 tools including testing libraries, new zk paradigms
+- Add more tools including testing libraries, new zk paradigms, testing, debugging tools
 - Improve the site's codebase
 - Discuss ideas in issues
 - Improve documentation
