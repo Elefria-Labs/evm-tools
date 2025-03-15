@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { toast, useToast } from '@shadcn-components/ui/use-toast';
+import { useToast } from '@shadcn-components/ui/use-toast';
 import { Button } from '@shadcn-components/ui/button';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
 import { Label } from '@shadcn-components/ui/label';
@@ -15,10 +15,15 @@ export default function BurnerWalletComponent() {
   const [entropyLoader, setEntropyLoader] = useState(0);
   const { toast } = useToast();
   const generateKeys = (entropy?: string) => {
-    if(entropy==null){
+    if (entropy == null) {
+      const wallet = ethers.Wallet.createRandom();
+      setPrivateKey(wallet.privateKey);
+      setPublicKey(wallet.publicKey);
+      setPublicAddress(wallet.address);
       return;
     }
-    const wallet = ethers.HDNodeWallet.fromPhrase(entropy);
+    const entropyHash = ethers.sha256(ethers.toUtf8Bytes(entropy));
+    const wallet = ethers.HDNodeWallet.fromSeed(entropyHash);
     setPrivateKey(wallet.privateKey);
     setPublicKey(wallet.publicKey);
     setPublicAddress(wallet.address);
