@@ -79,7 +79,7 @@ function UniswapV4HooksCheckerComponent() {
   const [hooks, setHooks] = useState<HookFlags | null>(null);
 
   const deriveHooks = (address: string): HookFlags | null => {
-    if (!ethers.utils.isAddress(address)) {
+    if (!ethers.isAddress(address)) {
       toast({
         ...toastOptions,
         title: 'Invalid address!',
@@ -87,7 +87,7 @@ function UniswapV4HooksCheckerComponent() {
       return null;
     }
 
-    const addressBigInt = ethers.BigNumber.from(address).toBigInt();
+    const addressBigInt = ethers.toBigInt(address);
 
     const hooks: HookFlags = {
       BEFORE_INITIALIZE: Boolean(addressBigInt & BEFORE_INITIALIZE_FLAG),
