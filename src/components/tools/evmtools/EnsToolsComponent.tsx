@@ -11,12 +11,10 @@ import {
 
 import { RadioGroup, RadioGroupItem } from '@shadcn-components/ui/radio-group'; // Assuming shadcn-ui has this
 import { Label } from '@shadcn-components/ui/label';
-import { useEthersProvider } from '@hooks/useEthersSigner';
-import { useChainId } from 'wagmi';
 
 const ENSResolverTool: React.FC = () => {
-  const chainId = useChainId();
-  let provider = useEthersProvider({ chainId: chainId });
+  // const chainId = useChainId();
+  // let provider = useEthersProvider({ chainId: chainId });
   const [inputValue, setInputValue] = useState<string>('');
   const [resolvedResult, setResolvedResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +30,7 @@ const ENSResolverTool: React.FC = () => {
       return;
     }
 
+    const provider = ethers.getDefaultProvider('mainnet');
     if (!provider) {
       return;
     }

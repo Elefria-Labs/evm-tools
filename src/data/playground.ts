@@ -24,6 +24,8 @@ import BaseContractUiComponent from '@components/tools/evmtools/BaseContractUiCo
 import ContractGenerator from '@components/tools/evmtools/HooksTemplateGeneratorComponent';
 import HookMinerComponent from '@components/tools/evmtools/HooksMinerComponent';
 import ContractAbiEncoder from '@components/tools/evmtools/ContractEncoderComponent';
+import ENSResolverTool from '@components/tools/evmtools/EnsToolsComponent';
+import ENSRecordInspectorComponent from '@components/tools/evmtools/EnsRecordsComponent';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -294,10 +296,30 @@ export const playgroundToolsList: Item[] = [
     description: 'Encode smart contract function parameters.',
     link: Links.abiEncoder,
     component: ContractAbiEncoder,
-    isBeta: true,
+    isBeta: false,
     isWalletRequired: false,
     category: ToolCategory.Contracts,
   },
+
+  {
+    title: 'ENS Lookup',
+    description: 'ENS Lookup and Reverse Lookup',
+    link: Links.ensLookup,
+    component: ENSResolverTool,
+    isBeta: true,
+    isWalletRequired: false,
+    category: ToolCategory.DecodersAndConverters,
+  },
+  {
+    title: 'ENS Record Inspector',
+    description: 'Inspect ENS records',
+    link: Links.ensRecordInspector,
+    component: ENSRecordInspectorComponent,
+    isBeta: true,
+    isWalletRequired: false,
+    category: ToolCategory.DecodersAndConverters,
+  },
+
   // {
   //   title: 'HD Key Generator',
   //   description: 'Derive keys using mnemonic phrase and BIP44 derivation',

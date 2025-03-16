@@ -38,6 +38,8 @@ export const Links = {
   contractAddressGen: 'contract-address-gen',
   burnerWallet: 'burner-wallet',
   merkleTreeGenerator: 'merkletree-generator',
+  ensRecordInspector: 'ens-record-inspector',
+  ensLookup: 'ens-lookup',
   cheatsheet: 'cheatsheet',
   abiEncoder: 'abi-encoder',
   about: 'about',

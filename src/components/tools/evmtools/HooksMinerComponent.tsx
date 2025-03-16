@@ -127,7 +127,7 @@ const HookMinerComponent: React.FC = () => {
     abi: hookMinerABI,
     functionName: 'computeAddress',
     args: computeSalt
-      ? [deployerAddress, ethers.BigNumber.from(computeSalt), creationCode]
+      ? [deployerAddress, ethers.toBigInt(computeSalt), creationCode]
       : undefined,
     query: { enabled: false },
   });
@@ -167,10 +167,10 @@ const HookMinerComponent: React.FC = () => {
         hookMinerABI,
         ethersProvider,
       );
-
+      //@ts-ignore
       const findSaltResult = await contractInstance.find(
         deployerAddress,
-        ethers.BigNumber.from(flags),
+        ethers.toBigInt(flags),
         creationCode,
         constructorArgs,
       );

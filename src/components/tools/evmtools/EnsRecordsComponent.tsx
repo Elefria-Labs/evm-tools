@@ -18,7 +18,7 @@ const TEXT_KEYS = [
   'vnd.github',
 ];
 
-const ENSRecordInspector: React.FC = () => {
+const ENSRecordInspectorComponent: React.FC = () => {
   const [ensName, setEnsName] = useState<string>('');
   const [records, setRecords] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -156,4 +156,4 @@ const ENSRecordInspector: React.FC = () => {
   );
 };
 
-export default ENSRecordInspector;
+export default ENSRecordInspectorComponent;
