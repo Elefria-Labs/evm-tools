@@ -24,6 +24,10 @@ import {
   polygonMumbai,
   polygonZkEvm,
   hardhat,
+  avalanche,
+  avalancheFuji,
+  arbitrumSepolia,
+  optimismSepolia,
 } from 'wagmi/chains';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@shadcn-components/ui/toaster';
@@ -36,15 +40,20 @@ const config = getDefaultConfig({
   chains: [
     // @ts-ignore
     mainnet,
-    polygon,
+    avalanche,
+    avalancheFuji,
+
     optimism,
     arbitrum,
+    arbitrumSepolia,
+    optimismSepolia,
     base,
     zora,
     sepolia,
     baseSepolia,
     bsc,
     bscTestnet,
+    polygon,
     polygonMumbai,
     polygonZkEvm,
     hardhat,

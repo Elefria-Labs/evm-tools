@@ -31,7 +31,7 @@ const DeterministicAddress = () => {
     const getNonce = async () => {
       if (
         addressInput == null ||
-        !ethers.utils.isAddress(addressInput) ||
+        !ethers.isAddress(addressInput) ||
         publicClient == null
       ) {
         return;
@@ -47,7 +47,7 @@ const DeterministicAddress = () => {
   }, [addressInput, publicClient]);
 
   const isValidAddress = (address?: string) => {
-    if (address == null || !ethers.utils.isAddress(address)) {
+    if (address == null || !ethers.isAddress(address)) {
       return false;
     }
     return true;
@@ -64,7 +64,7 @@ const DeterministicAddress = () => {
       toast({ ...toastOptions, title: 'Please check input.' });
       return;
     }
-    const contractAddress = ethers.utils.getContractAddress({
+    const contractAddress = ethers.getCreateAddress({
       from: addressInput,
       nonce: nonce,
     });
@@ -83,9 +83,9 @@ const DeterministicAddress = () => {
       toast({ ...toastOptions, title: 'Please provide correct input!' });
       return;
     }
-    const contractAddress = ethers.utils.getCreate2Address(
+    const contractAddress = ethers.getCreate2Address(
       addressInput,
-      ethers.utils.keccak256(salt),
+      ethers.keccak256(salt),
       byteCode,
     );
     setContractAddress(contractAddress);

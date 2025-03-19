@@ -24,11 +24,11 @@ function HexConverterComponent() {
   };
 
   const convertHexToDecimal = (hexValue: string) => {
-    if (!ethers.utils.isHexString(hexValue)) {
+    if (!ethers.isHexString(hexValue)) {
       return;
     }
     try {
-      const dec = ethers.BigNumber.from(hexValue).toBigInt();
+      const dec = ethers.toBigInt(hexValue);
       setDecimals(dec);
       setBinary(dec.toString(2));
     } catch (error) {
