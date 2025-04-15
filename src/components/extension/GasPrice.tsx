@@ -21,7 +21,7 @@ export default function GasPrice() {
     getGasFee();
   }, []);
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row align-middle items-center">
       <p>Gas: {gasFee ? `${gasFee} Gwei` : 'Loading...'}</p>
     </div>
   );

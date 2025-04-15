@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from '@shadcn-components/ui/dropdown-menu';
-import { Button } from '@chakra-ui/react';
+import { Button } from '@shadcn-components/ui/button';
 
 export default function ToolExtHeader() {
   return (

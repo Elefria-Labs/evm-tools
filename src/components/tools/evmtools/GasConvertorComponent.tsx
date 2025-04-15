@@ -5,8 +5,8 @@ import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
 import { useGetBaseFee } from '@hooks/useGetBaseFee';
 import { Label } from '@shadcn-components/ui/label';
 import InputBaseCopy from '@components/common/BaseInputCopy';
-import { useToast } from '@chakra-ui/react';
 import { toastOptions } from '@components/common/toast';
+import { useToast } from '@shadcn-components/ui/use-toast';
 
 function calculateValue(ethAmount: string, gasPrice: string): string {
   let value;
