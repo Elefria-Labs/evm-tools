@@ -67,7 +67,6 @@ const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
 
   return (
-    // <ChakraProvider resetCSS>
     <ThemeProvider
       attribute="class"
       defaultTheme="dark"

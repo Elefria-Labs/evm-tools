@@ -1,6 +1,6 @@
 {
   "name": "evm-tools",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "env-cmd -f env/.env.local next dev",
     "local": "env-cmd -f env/.env.local next dev",
@@ -34,6 +34,7 @@
     "@radix-ui/react-menubar": "^1.0.4",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-radio-group": "^1.2.0",
+    "@radix-ui/react-scroll-area": "^1.2.3",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slider": "^1.2.0",

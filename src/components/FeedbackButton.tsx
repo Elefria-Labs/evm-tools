@@ -13,7 +13,6 @@ import {
   AlertDialogTrigger,
 } from '@shadcn-components/ui/alert-dialog';
 import { Button } from '@shadcn-components/ui/button';
-import { createClient } from '@supabase/supabase-js';
 import { Textarea } from '@shadcn-components/ui/textarea';
 import { supabase } from '@utils/AppConfig';
 

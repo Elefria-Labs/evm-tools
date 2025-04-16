@@ -1,0 +1,91 @@
+name: Build and Release Website
+
+on:
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    env:
+      # Define environment variables (optional, for direct access in scripts)
+      NODE_ENV: production
+      # Add non-sensitive variables here if needed
+
+    steps:
+    # Checkout the repository (uses the branch selected in workflow_dispatch)
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }} # Ensures the selected branch is checked out
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+
+      # Create .env file with secrets
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_WP_API_URL=${{ secrets.NEXT_PUBLIC_WP_API_URL }}" >> env/.env.development
+          echo "NEXT_PUBLIC_ENV=${{ secrets.NEXT_PUBLIC_ENV }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_API_KEY=${{ secrets.NEXT_PUBLIC_FB_API_KEY }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FB_AUTH_DOMAIN }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_PROJECT_ID=${{ secrets.NEXT_PUBLIC_FB_PROJECT_ID }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_STORAGE_BUCKET=${{ secrets.NEXT_PUBLIC_FB_STORAGE_BUCKET }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_MESSAGING_SENDER_ID=${{ secrets.NEXT_PUBLIC_FB_MESSAGING_SENDER_ID }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_APP_ID=${{ secrets.NEXT_PUBLIC_FB_APP_ID }}" >> env/.env.development
+          echo "NEXT_PUBLIC_FB_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FB_MEASUREMENT_ID }}" >> env/.env.development
+          echo "NEXT_PUBLIC_BACKEND_BASE_URL=${{ secrets.NEXT_PUBLIC_BACKEND_BASE_URL }}" >> env/.env.development
+          echo "NEXT_PUBLIC_WALLET_CONNECT_ID=${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_ID }}" >> env/.env.development
+          echo "NEXT_PUBLIC_ETHERSCAN_API_KEY=${{ secrets.NEXT_PUBLIC_ETHERSCAN_API_KEY }}" >> env/.env.development
+          echo "NEXT_PUBLIC_ALCHEMY_RPC_URL=${{ secrets.NEXT_PUBLIC_ALCHEMY_RPC_URL }}" >> env/.env.development
+          echo "NEXT_PUBLIC_SBASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SBASE_ANON_KEY }}" >> env/.env.development
+          echo "NEXT_PUBLIC_SBASE_URL=${{ secrets.NEXT_PUBLIC_SBASE_URL }}" >> env/.env.development
+          echo "NEXT_PUBLIC_POLYGONSCAN_API_KEY=${{ secrets.NEXT_PUBLIC_POLYGONSCAN_API_KEY }}" >> env/.env.development
+          echo "NEXT_PUBLIC_ARBISCAN_API_KEY=${{ secrets.NEXT_PUBLIC_ARBISCAN_API_KEY }}" >> env/.env.development
+          echo "NEXT_PUBLIC_BASESCAN_API_KEY=${{ secrets.NEXT_PUBLIC_BASESCAN_API_KEY }}" >> env/.env.development
+          echo "NEXT_PUBLIC_OPTIMISM_API_KEY=${{ secrets.NEXT_PUBLIC_OPTIMISM_API_KEY }}" >> env/.env.development
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Extract version from package.json
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=v$VERSION" >> $GITHUB_OUTPUT
+
+      # Build the website
+      - name: Build website
+        run: npm run build:dev
+        # Assumes build script loads .env (e.g., via dotenv in Node.js)
+
+      # Clean up .env file
+      - name: Clean up .env file
+        run: |
+          rm -f env/.env.development
+        # Ensures .env is deleted before packaging
+
+      # Package the build output
+      - name: Package build
+        run: |
+          zip -r website-release.zip out/
+
+      # Create a GitHub Release and upload the package
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            Release ${{ steps.get_version.outputs.VERSION }} of the website.
+            - Built and packaged automatically via GitHub Actions.
+          draft: false
+          prerelease: false
+          files: evm-tools.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
