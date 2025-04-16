@@ -24,7 +24,7 @@ export default function GasConverterComponent() {
   const [weiValue, setWeiValue] = useState<string>('');
   const [gweiValue, setGweiValue] = useState<string>('');
   const [ethValue, setEthValue] = useState<string>('');
-  const toast = useToast();
+  const { toast } = useToast();
 
   const {
     data: ethPrice,

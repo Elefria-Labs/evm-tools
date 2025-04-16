@@ -33,7 +33,10 @@ export default function ToolExtHeader() {
             <div className="ml-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
+                  <Button
+                    variant="outline"
+                    style={{ padding: 0, margin: 0, border: 0 }}
+                  >
                     <HamburgerMenuIcon />
                   </Button>
                 </DropdownMenuTrigger>
