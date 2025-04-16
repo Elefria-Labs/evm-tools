@@ -1,7 +1,7 @@
 import { SiteHeader } from '@components/global-header';
 import { PageWrapper } from '@components/page-wrapper';
 import { ReactNode } from 'react';
-import { Footer } from '@components/Footer';
+import { GlobalFooter } from '@components/global-footer';
 import ToolCarousel from '@components/common/ToolCarousel';
 import { playgroundToolKeyRecord, playgroundToolsList } from '@data/playground';
 import ClosableAlert from '@components/common/ExtensionAlert';
@@ -48,7 +48,7 @@ const Main = (props: IMainProps) => {
               )}
             </div>
           </div>
-          <Footer />
+          <GlobalFooter />
         </PageWrapper>
       </div>
     </div>

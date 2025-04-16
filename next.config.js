@@ -56,7 +56,7 @@ module.exports = withPlugins(
             asyncWebAssembly: true,
           };
         }
-        config.resolve.alias['@components'] = path.join(__dirname, 'src/components');
+        // config.resolve.alias['@components'] = path.join(__dirname, 'src/components');
         return config;
       },
     },
