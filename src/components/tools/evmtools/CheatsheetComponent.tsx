@@ -26,18 +26,13 @@ export default function CheatsheetComponent() {
 
   const getMaxMinValue = useCallback((bits: number, intType: string) => {
     if (intType.includes('uint') == false) {
-      const min = ((ethers.toBigInt('2')
-         ** BigInt(bits - 1)) *
-        -1n).toString()
-        
-      const max = (ethers.toBigInt('2')
-        ** BigInt(bits - 1)
-        -1n)
-        .toString();
+      const min = (ethers.toBigInt('2') ** BigInt(bits - 1) * -1n).toString();
+
+      const max = (ethers.toBigInt('2') ** BigInt(bits - 1) - 1n).toString();
       setMinMaxValue({ min, max });
       return;
     }
-    const maxValue = ethers.toBigInt('2') ** BigInt(bits) -1n;
+    const maxValue = ethers.toBigInt('2') ** BigInt(bits) - 1n;
     setMinMaxValue({ max: maxValue.toString() });
   }, []);
   useEffect(() => {
@@ -82,7 +77,7 @@ export default function CheatsheetComponent() {
                   <IconButton
                     aria-label="Copy int value"
                     icon={<CopyIcon />}
-                    onClick={() => handleCopyClick(minMaxValue.min)}
+                    onClick={() => handleCopyClick(minMaxValue?.min)}
                   />
                 </InputRightElement>
               </InputGroup>
