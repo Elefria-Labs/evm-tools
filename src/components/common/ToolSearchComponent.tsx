@@ -22,8 +22,6 @@ import {
   PopoverTrigger,
 } from '@shadcn-components/ui/popover';
 import { playgroundToolsList } from '@data/playground';
-import { Label } from '@shadcn-components/ui/label';
-import { getAnalytics, logEvent } from 'firebase/analytics';
 
 type ToolSearchComponentProps = {
   onSelected: (selectedTool: {

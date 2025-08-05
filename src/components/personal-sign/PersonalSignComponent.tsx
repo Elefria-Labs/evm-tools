@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { Signature, verifyMessage } from 'ethers';
 
-
 import { toastOptions } from '@components/common/toast';
 import { useAccount, useChainId } from 'wagmi';
 import { Textarea } from '@shadcn-components/ui/textarea';
@@ -15,7 +14,6 @@ import {
   CrossCircledIcon,
   LockClosedIcon,
 } from '@radix-ui/react-icons';
-
 
 type PersonalSignComponentPropsType = {};
 
