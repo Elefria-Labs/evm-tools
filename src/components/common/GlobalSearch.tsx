@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { type DialogProps } from '@radix-ui/react-dialog';
 import { ExternalLinkIcon } from '@radix-ui/react-icons';
-import { useTheme } from 'next-themes';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@shadcn-components/ui/button';

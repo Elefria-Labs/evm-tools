@@ -87,7 +87,7 @@ export default function ToolTabs(props: ToolTabsProps) {
                 setTabHover(i);
               }}
               onMouseLeave={() => setTabHover(null)}
-              //@ts-ignore
+              // @ts-ignore
               ref={(el) => (tabRefs.current[t?.link!] = el)}
             >
               <div className="relative flex items-center">

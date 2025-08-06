@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { ethers, verifyTypedData } from 'ethers';
 
 import JSONInput from 'react-json-editor-ajrm';
-import { SignatureLike } from '@ethersproject/bytes';
 import {
   GenericData712Type,
   getEip721DataByTemplate,
@@ -42,9 +41,7 @@ export default function Eip712PlaygroundComponent() {
   } = useSignTypedData();
 
   const [eip721Template, setEip712Template] = useState<string>('');
-  const [verifySigInput, setVerifySigInput] = useState<
-    string | undefined
-  >();
+  const [verifySigInput, setVerifySigInput] = useState<string | undefined>();
   const [rsvSig, setRsvSig] = useState<ethers.Signature | undefined>();
   const [data7122, setData7122] = useState<
     GenericData712Type<
@@ -121,7 +118,6 @@ export default function Eip712PlaygroundComponent() {
       [data7122.primaryType]: data7122.types[data7122.primaryType],
     } as Record<string, []>;
     try {
-      
       const recoveredAddress = verifyTypedData(
         data7122.domain,
         types,

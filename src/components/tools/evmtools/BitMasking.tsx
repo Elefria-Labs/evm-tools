@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from '@shadcn-components/ui/input';
 import { Button } from '@shadcn-components/ui/button';
 import {
@@ -18,7 +18,7 @@ function BitMaskingComponent() {
   const setMaskValue = useGlobalStore.use.setMaskValue();
   const shiftedValue = bitManipulationState.shiftedValue;
   const setShiftedValue = useGlobalStore.use.setShiftedValue();
-  //const [binaryValue, setBinaryValue] = useState<string>('0');
+  // const [binaryValue, setBinaryValue] = useState<string>('0');
   // const [maskValue, setMaskValue] = useState<string>('0');
   // const [shiftedValue, setShiftedValue] = useState<string>(binaryValue);
 

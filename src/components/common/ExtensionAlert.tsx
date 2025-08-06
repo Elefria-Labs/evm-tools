@@ -4,7 +4,7 @@ import {
   AlertTitle,
   AlertDescription,
 } from '@shadcn-components/ui/alert';
-import { RocketIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { RocketIcon } from '@radix-ui/react-icons';
 import { extensionLink } from '@config/constants';
 import PhraseAnimation from './PhraseAnimation';
 
