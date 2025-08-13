@@ -23,15 +23,12 @@ export const useGetErc20Balance = (
 
     const fetchBalance = async () => {
       try {
-        const accountAddress =  (await provider.getSigner()).address;
-        //@ts-ignore
+        const accountAddress = (await provider.getSigner()).address;
+        // @ts-ignore
         const balanceResult = await tokenContract.balanceOf(accountAddress);
-        //@ts-ignore
+        // @ts-ignore
         const decimals = await tokenContract.decimals();
-        const formattedBalance = ethers.formatUnits(
-          balanceResult,
-          decimals,
-        );
+        const formattedBalance = ethers.formatUnits(balanceResult, decimals);
         setBalance(formattedBalance);
       } catch (error) {
         console.error('Error fetching ERC20 token balance:', error);
@@ -42,12 +39,12 @@ export const useGetErc20Balance = (
     const fetchAllowance = async (spender: string) => {
       try {
         const accountAddress = (await provider.getSigner()).address;
-        //@ts-ignore
+        // @ts-ignore
         const allowance = await tokenContract.allowance(
           accountAddress,
           spender,
         );
-        //@ts-ignore
+        // @ts-ignore
         const decimals = await tokenContract.decimals();
         const formattedBalance = ethers.formatUnits(allowance, decimals);
         setAllowance(formattedBalance);

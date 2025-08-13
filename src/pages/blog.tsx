@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import { getPosts } from '../utils/mdx-utils';
 import { getGlobalData } from '../utils/global-data';
-import SEO from '../components/SEO';
 import ToolBase from '@components/common/ToolBase';
 import { pageMeta } from '@config/constants';
 import { Meta } from '@layout/Meta';

@@ -5,7 +5,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { ethers, } from 'ethers';
+import { ethers } from 'ethers';
 import { getNetworkForMetamask, networkConfig } from '@config/network';
 import { toHex } from '@utils/wallet';
 
@@ -35,8 +35,9 @@ export const useWalletConnect = (): UseWalletConnectReturnType => {
       return;
     }
     try {
-      const web3provider: ethers.JsonRpcProvider =
-        new ethers.JsonRpcProvider(window.ethereum);
+      const web3provider: ethers.JsonRpcProvider = new ethers.JsonRpcProvider(
+        window.ethereum,
+      );
       const accounts = await web3provider.send('eth_requestAccounts', []);
       const providerNetwork = await web3provider.getNetwork();
 

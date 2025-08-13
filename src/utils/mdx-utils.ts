@@ -17,7 +17,7 @@ export const sortPostsByDate = (posts: any) => {
   return posts.sort((a: any, b: any) => {
     const aDate = new Date(a.data.date);
     const bDate = new Date(b.data.date);
-    //@ts-ignore
+    // @ts-ignore
     return bDate - aDate;
   });
 };
@@ -48,7 +48,7 @@ export const getPostBySlug = async (slug: string) => {
     // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      //@ts-ignore
+      // @ts-ignore
       rehypePlugins: [rehypePrism],
     },
     scope: data,

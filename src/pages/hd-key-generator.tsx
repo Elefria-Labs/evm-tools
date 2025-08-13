@@ -2,7 +2,6 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
-import HashingComponent from '@components/tools/evmtools/HashingComponent';
 import { pageMeta } from '@config/constants';
 import HdKeyGeneratorComponent from '@components/tools/evmtools/HdKeyGeneratorComponent';
 
