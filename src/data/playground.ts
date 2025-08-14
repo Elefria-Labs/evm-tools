@@ -26,6 +26,7 @@ import HookMinerComponent from '@components/tools/evmtools/HooksMinerComponent';
 import ContractAbiEncoder from '@components/tools/evmtools/ContractEncoderComponent';
 import ENSResolverTool from '@components/tools/evmtools/EnsToolsComponent';
 import ENSRecordInspectorComponent from '@components/tools/evmtools/EnsRecordsComponent';
+import Eip7702Component from '@components/tools/evmtools/Eip7702Component';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -77,6 +78,17 @@ export const playgroundToolsList: Item[] = [
     component: PersonalSignComponent,
     isOnlyWeb: true,
     category: ToolCategory.WalletAndSignatures,
+  },
+  {
+    title: 'EIP-7702',
+    description:
+      'EIP-7702 enables account abstraction for EOAs by allowing them to temporarily adopt smart contract code through authorization signatures.',
+    link: Links.eip7702,
+    component: Eip7702Component,
+    isOnlyWeb: true,
+    category: ToolCategory.WalletAndSignatures,
+    commonlyUsed: true,
+    isBeta: true,
   },
   {
     title: 'Checksum Address',
@@ -306,7 +318,7 @@ export const playgroundToolsList: Item[] = [
     description: 'ENS Lookup and Reverse Lookup',
     link: Links.ensLookup,
     component: ENSResolverTool,
-    isBeta: true,
+
     isWalletRequired: false,
     category: ToolCategory.DecodersAndConverters,
   },
@@ -315,7 +327,6 @@ export const playgroundToolsList: Item[] = [
     description: 'Inspect ENS records',
     link: Links.ensRecordInspector,
     component: ENSRecordInspectorComponent,
-    isBeta: true,
     isWalletRequired: false,
     category: ToolCategory.DecodersAndConverters,
   },
