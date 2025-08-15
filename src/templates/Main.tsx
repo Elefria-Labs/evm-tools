@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { GlobalFooter } from '@components/global-footer';
 import ToolCarousel from '@components/common/ToolCarousel';
 import { playgroundToolKeyRecord, playgroundToolsList } from '@data/playground';
-import ClosableAlert from '@components/common/ExtensionAlert';
+import { CommandMenu } from '@components/common/GlobalSearch';
 
 type IMainProps = {
   meta: ReactNode;
@@ -12,22 +12,32 @@ type IMainProps = {
   showConnectWallet?: boolean;
   link?: string;
   bannerNotVisible?: boolean;
+  searchVisible?: boolean;
 };
 
 const Main = (props: IMainProps) => {
+  const { searchVisible = false } = props;
   return (
     <div>
       {props.meta}
       <div style={{ paddingLeft: '0px', paddingTop: '0px' }}>
         <PageWrapper>
           <SiteHeader showConnectWallet={props?.showConnectWallet} />
+          {props?.searchVisible ? (
+            <div className="sticky top-[56px] backdrop-blur  z-50 flex-row flex justify-center">
+              <CommandMenu />
+            </div>
+          ) : (
+            <div></div>
+          )}
           {props?.bannerNotVisible ? (
             <></>
           ) : (
             <div className="flex-row flex justify-center">
-              <ClosableAlert />
+              {/* <ClosableAlert /> */} <></>
             </div>
           )}
+
           <div className="flex flex-col content-between items-center min-h-screen">
             <div className="flex flex-col max-w-[1024px] w-11/12">
               {props.children}

@@ -88,7 +88,7 @@ export const playgroundToolsList: Item[] = [
     isOnlyWeb: true,
     category: ToolCategory.WalletAndSignatures,
     commonlyUsed: true,
-    isBeta: true,
+    isBeta: false,
   },
   {
     title: 'Checksum Address',
