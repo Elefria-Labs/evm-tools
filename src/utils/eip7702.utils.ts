@@ -35,7 +35,7 @@ export function createEip7702TypedData(
       name: 'EIP-7702',
       version: '1',
       chainId: chainId,
-      verifyingContract: undefined, // Make it compatible with Wagmi's expected domain type
+      // verifyingContract: undefined, // Make it compatible with Wagmi's expected domain type
     },
     message: {
       chainId: Number(authorization.chainId),
@@ -86,20 +86,22 @@ export function parseSignature(signature: Hex): {
   };
 }
 
-export function recoverAuthorizationSigner(
+export async function recoverAuthorizationSigner(
   authorization: Eip7702Authorization,
   signature: Hex,
   chainId: number = 1,
 ): Promise<string> {
   const typedData = createEip7702TypedData(authorization, chainId);
 
-  return verifyTypedData({
-    domain: typedData.domain,
+  return (await verifyTypedData({
+    domain: typedData.domain as any,
     types: { Authorization: typedData.types.Authorization },
     primaryType: 'Authorization',
     message: typedData.message,
     signature,
-  });
+  } as any))
+    ? 'true'
+    : 'false';
 }
 
 export function createAuthorizationHash(
@@ -109,7 +111,7 @@ export function createAuthorizationHash(
   const typedData = createEip7702TypedData(authorization, chainId);
 
   return hashTypedData({
-    domain: typedData.domain,
+    domain: typedData.domain as any,
     types: { Authorization: typedData.types.Authorization },
     primaryType: 'Authorization',
     message: typedData.message,

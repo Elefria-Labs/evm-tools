@@ -7,7 +7,7 @@ import { pageMeta } from '@config/constants';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 
-export default function Blog({ posts, globalData }: any) {
+export default function Blog({ posts, _ }: any) {
   return (
     // <SEO title={globalData.name} description={globalData.blogTitle} />
     <Main

@@ -66,7 +66,7 @@ export function useEip7702() {
         setCurrentAuthorization(authorization);
 
         await signTypedData({
-          domain: typedData.domain,
+          domain: typedData.domain as any,
           types: { Authorization: typedData.types.Authorization },
           primaryType: typedData.primaryType,
           message: typedData.message,
@@ -86,16 +86,16 @@ export function useEip7702() {
   );
 
   const verifyAuthorization = useCallback(
-    (
+    async (
       authorization: Eip7702Authorization,
       sig: string,
       targetChainId?: number,
     ) => {
       try {
         const authChainId = targetChainId || chainId;
-        const recoveredAddress = recoverAuthorizationSigner(
+        const recoveredAddress = await recoverAuthorizationSigner(
           authorization,
-          sig,
+          sig as `0x${string}`,
           authChainId,
         );
         return {
