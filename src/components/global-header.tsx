@@ -1,12 +1,12 @@
 import Image from 'next/image';
-import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { HamburgerMenuIcon, RocketIcon } from '@radix-ui/react-icons';
 import {
   Menubar,
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
 } from '@shadcn-components/ui/menubar';
-import { Links, evmToolsXLink } from '@config/constants';
+import { Links, evmToolsXLink, extensionLink } from '@config/constants';
 import Link from 'next/link';
 import {
   DropdownMenu,
@@ -20,8 +20,6 @@ import {
 import { TwitterIcon } from './icon/twitter';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Badge } from '@shadcn-components/ui/badge';
-import ClosableAlert from './common/ExtensionAlert';
-import { CommandMenu } from './common/GlobalSearch';
 import { Button } from '@shadcn-components/ui/button';
 
 import { cn } from '@lib/utils';
@@ -52,10 +50,6 @@ const menuLinks = [
     link: Links.contractsUi,
   },
   {
-    title: 'ZK Networks',
-    link: Links.zkChains,
-  },
-  {
     title: 'Storage Reader',
     link: Links.storageReader,
   },
@@ -70,6 +64,7 @@ const menuLinks = [
 ];
 
 import { usePathname } from 'next/navigation';
+import { CommandMenu } from './common/GlobalSearch';
 function MenuNavLink(props: { link: string; title: string }) {
   const pathname = usePathname();
   return (
@@ -107,6 +102,7 @@ export function MainNav() {
         {menuLinks.map((m, i) => (
           <MenuNavLink key={i} link={`/${m.link}`} title={m.title} />
         ))}
+        <DesktopMenuExtensionLink key={'extension-link'} />
       </nav>
     </div>
   );
@@ -148,6 +144,18 @@ function DesktopMenuLink(props: {
     </MenubarMenu>
   );
 }
+
+function DesktopMenuExtensionLink() {
+  return (
+    <Link href={extensionLink} target="_blank">
+      <div className="flex flex-row hover:text-foreground/80">
+        Try Extension
+        <RocketIcon className="h-4 w-4 ml-1" />
+      </div>
+    </Link>
+  );
+}
+
 function DesktopMenuLinks({
   showConnectWallet = true,
 }: {
@@ -162,34 +170,7 @@ function DesktopMenuLinks({
             link: Links.home,
           }}
         />
-        {/* <MenubarMenu>
-          <MenubarTrigger className="cursor-pointer">Tools</MenubarTrigger>
-          <MenubarContent>
-            <MenuLink text={'View all'} link={`/${Links.devTools}`} />
 
-            <MenuLink text={'EIP-712'} link={`/${Links.eip712}`} />
-            <MenuLink text={'ERC-191'} link={`/${Links.erc191}`} />
-            <MenuLink
-              text={'Checksum Address'}
-              link={`/${Links.evmChecksumAddress}`}
-            />
-            <MenuLink text={'Tx Decoder'} link={`/${Links.txDecoder}`} />
-            <MenuLink text={'Gas Converter'} link={`/${Links.gasConverter}`} />
-            <MenuLink text={'Burner Wallet'} link={`/${Links.burnerWallet}`} />
-            <MenuLink
-              text={'Merkle Tree Generator'}
-              link={`/${Links.merkleTreeGenerator}`}
-            />
-            <MenuLink
-              text={'Bytes32 Conversion'}
-              link={`/${Links.byteconversion}`}
-            />
-            <MenuLink
-              text={'Deterministic Address'}
-              link={`/${Links.contractAddressGen}`}
-            />
-          </MenubarContent>
-        </MenubarMenu> */}
         {menuLinks.map((m, i) => (
           <DesktopMenuLink key={i} link={m} />
         ))}
@@ -201,9 +182,9 @@ function DesktopMenuLinks({
           <TwitterIcon className="w-6 h-6" />
         </Button>
       </Link>
-      <div className="w-full flex-1 md:w-auto md:flex-none">
+      {/* <div className="w-full flex-1 md:w-auto md:flex-none">
         <CommandMenu />
-      </div>
+      </div> */}
       {showConnectWallet && (
         <div className="ml-[2px]">
           <ConnectButton
@@ -309,9 +290,9 @@ export function GlobalHeader(props: { showConnectWallet?: boolean }) {
           </div>
         </div>
       </nav>
-      <div className="flex-row flex justify-center">
+      {/* <div className="flex-row flex justify-center">
         <ClosableAlert />
-      </div>
+      </div> */}
     </div>
   );
 }
