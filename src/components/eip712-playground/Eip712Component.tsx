@@ -50,7 +50,7 @@ export default function Eip712PlaygroundComponent() {
     >
   >(getEip721DataByTemplate('default'));
   const [recoveredAddr, setRecoveredAddr] = useState<string | undefined>();
-  const [_, setLoading] = useState<boolean>(false);
+  const [, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (eip721Template == null) {

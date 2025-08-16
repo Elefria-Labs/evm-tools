@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { ToolCategory, playgroundToolsList } from '@data/playground';
-import { HomeCard } from '@components/home/HomeCard';
+import { playgroundToolsList } from '@data/playground';
+import { ToolsViewToggle } from '@components/tools-view-toggle';
 
 const Index = () => {
   const [defaultView, setDefaultView] = useState(true);
@@ -28,6 +28,8 @@ const Index = () => {
           description="Tools for web3, evm and zero knowledge proofs"
         />
       }
+      bannerNotVisible={true}
+      searchVisible={false}
     >
       <div>
         <div className="flex flex-col justify-between">
@@ -65,49 +67,31 @@ const Index = () => {
               </div> */}
               <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
               {defaultView && (
-                <div className="mb-8">
-                  {/* <div>
-                    <h3 className="my-8 text-xl font-bold">
-                      Most Commonly used
-                    </h3>
-                    <div>
-                      {
-                        <ToolCarousel
-                          playgroundTools={playgroundToolsList.filter(
-                            (tool) => tool.commonlyUsed,
-                          )}
-                        />
-                      }
-                    </div>
-                  </div> */}
-                  <>
-                    {Object.values(ToolCategory).map((toolCategory, i) => {
-                      return (
-                        <div key={i}>
-                          <h3 className="my-8 text-xl font-bold">
-                            {toolCategory}
-                          </h3>
-                          <div className="mb-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {playgroundToolsList
-                              .filter(
-                                (tool) =>
-                                  tool.category ==
-                                    (toolCategory as ToolCategory) &&
-                                  !tool.isOnlyExtension,
-                              )
-                              .map((tool) => (
-                                <HomeCard
-                                  {...tool}
-                                  key={tool.title}
-                                  glow={tool.isBeta}
-                                />
-                              ))}
-                          </div>
-                        </div>
+                <ToolsViewToggle
+                  tools={playgroundToolsList}
+                  onToolSelect={(toolLink) => {
+                    if (toolLink === 'all') {
+                      setDefaultView(true);
+                      setSelectedTool(null);
+                      return;
+                    }
+
+                    const tool = playgroundToolsList.find(
+                      (t) => t.link === toolLink,
+                    );
+                    if (tool?.isExternal) {
+                      window.open(
+                        toolLink,
+                        '_blank',
+                        'rel=noopener noreferrer',
                       );
-                    })}
-                  </>
-                </div>
+                      return;
+                    }
+
+                    setDefaultView(false);
+                    setSelectedTool(toolLink);
+                  }}
+                />
               )}
               {selectedTool && (
                 <div>

@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { toastOptions } from '@components/common/toast';
-import { repoLink, zkToosLink } from '@config/constants';
-import Link from 'next/link';
-import { CheckCircledIcon } from '@radix-ui/react-icons';
 import {
   Card,
   CardHeader,
