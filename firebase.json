@@ -1,6 +1,12 @@
 {
   "hosting": [
     {
+      "site": "evmtools-xyz",
+      "public": "out",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "cleanUrls": true
+    },
+    {
       "site": "evmtools-dev",
       "public": "out",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

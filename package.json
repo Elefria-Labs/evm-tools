@@ -114,8 +114,8 @@
     "tiny-secp256k1": "^2.2.3",
     "use-debounce": "^10.0.1",
     "vaul": "^0.9.1",
-    "viem": "^2.21.55",
-    "wagmi": "^2.14.1",
+    "viem": "^2.33.3",
+    "wagmi": "^2.16.1",
     "web3": "^1.7.0",
     "web3modal": "^1.9.5",
     "zod": "^3.23.6",
@@ -163,7 +163,8 @@
   },
   "resolutions": {
     "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.0.0"
+    "@types/react-dom": "^18.0.0",
+    "ox": "0.8.7"
   },
   "engines": {
     "node": "23.7.0"

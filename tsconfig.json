@@ -14,7 +14,6 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,
-
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
     "outDir": "out",
@@ -36,6 +35,6 @@
       "@public/*": ["./public/*"]
     }
   },
-  "exclude": ["./out/**/*", "./node_modules/**/*", "./src/ext"],
+  "exclude": ["./out/**/*", "./node_modules/**/*", "./src/ext", "**/node_modules/ox/**/*"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
