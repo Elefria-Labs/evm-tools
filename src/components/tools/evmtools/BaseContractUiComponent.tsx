@@ -20,7 +20,7 @@ const BaseContractUiComponent = () => {
   const [contracts, setContracts] = useState<ReadWriteUserContract[]>([
     {
       id: '1',
-      address: '0xc3De830EA07524a0761646a6a4e4be0e114a3C83',
+      address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
       abi: '',
       parsedAbi: null,
       parseError: '',
