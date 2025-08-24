@@ -167,7 +167,7 @@ const HookMinerComponent: React.FC = () => {
         hookMinerABI,
         ethersProvider,
       );
-      //@ts-ignore
+      // @ts-ignore
       const findSaltResult = await contractInstance.find(
         deployerAddress,
         ethers.toBigInt(flags),

@@ -18,13 +18,25 @@
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    }
+    },
+    "ignorePatterns": [
+    "node_modules/",
+     "node_modules/**",
+    "**/node_modules/",
+    "/**/node_modules/*",
+    "out/",
+    "dist/",
+    "build/"
+  ]
   },
+
   "overrides": [
     // Configuration for TypeScript files
+    
     {
       "files": ["**/*.ts", "**/*.tsx"],
       "plugins": ["@typescript-eslint", "unused-imports"],
+ 
       "extends": [
         "airbnb-typescript",
         "next/core-web-vitals",
@@ -85,16 +97,19 @@
         ],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["off"],
+        "@typescript-eslint/no-use-before-define":["warn"],
         "no-await-in-loop": "off",
         "no-plusplus": "off",
         "prefer-template": "off",
         "no-useless-concat": "off",
         "newline-after-import": "off",
         "consistent-return": "off",
+        
         "import/extensions": [
           "error",
           "ignorePackages",
           {
+
             "js": "never",
             "jsx": "never",
             "ts": "never",
