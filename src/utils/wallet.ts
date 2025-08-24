@@ -18,7 +18,7 @@ export enum ConnectorNames {
   Metamask = 'metamask',
 }
 
-export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
+export const connectorsByName: { [_connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Metamask]: injected,
 };
 
