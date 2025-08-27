@@ -18,6 +18,13 @@ export interface ContractEncoderAbi {
   contractAbi: AbiItem[];
 }
 
+export interface AbiCacheItem {
+  address: string;
+  chainId: number;
+  abi: any[];
+  timestamp: number;
+}
+
 export interface GlobalState {
   toChecksumAddress: string;
   setToChecksumAddress: (address: string) => void;
@@ -42,6 +49,13 @@ export interface GlobalState {
   // abi encoder
   contractEncoderAbi: ContractEncoderAbi;
   setContractEncoderAbi: (contractEncoderAbi: ContractEncoderAbi) => void;
+
+  // abi cache
+  abiCache: AbiCacheItem[];
+  saveAbiToCache: (address: string, chainId: number, abi: any[]) => void;
+  loadAbiFromCache: (address: string, chainId: number) => any[] | null;
+  clearAbiFromCache: (address: string, chainId: number) => void;
+
   // Ext
   lastOpenTab: string;
   setLastOpenTab: (lastOpenTab: string) => void;

@@ -1,5 +1,6 @@
 import { StoreApi } from 'zustand';
 import {
+  AbiCacheItem,
   ContractEncoderAbi,
   GlobalState,
   ReadWriteUserContract,
@@ -127,4 +128,54 @@ export const createAbiEncoderUiSlice = (
       ...state,
       contractEncoderAbi: userContractAbi,
     })),
+});
+
+export const createAbiCacheSlice = (
+  set: (
+    partial:
+      | Partial<GlobalState>
+      | ((state: GlobalState) => Partial<GlobalState>),
+  ) => void,
+  get: () => GlobalState,
+  _: StoreApi<unknown>,
+) => ({
+  abiCache: [] as AbiCacheItem[],
+  saveAbiToCache: (address: string, chainId: number, abi: any[]) =>
+    set((state) => {
+      const key = `${address.toLowerCase()}-${chainId}`;
+      const existingIndex = state.abiCache.findIndex(
+        (item) => `${item.address.toLowerCase()}-${item.chainId}` === key,
+      );
+      const newItem: AbiCacheItem = {
+        address: address.toLowerCase(),
+        chainId,
+        abi,
+        timestamp: Date.now(),
+      };
+
+      if (existingIndex >= 0) {
+        const updatedCache = [...state.abiCache];
+        updatedCache[existingIndex] = newItem;
+        return { abiCache: updatedCache };
+      } else {
+        return { abiCache: [...state.abiCache, newItem] };
+      }
+    }),
+  loadAbiFromCache: (address: string, chainId: number): any[] | null => {
+    const state = get();
+    const key = `${address.toLowerCase()}-${chainId}`;
+    const cachedItem = state.abiCache.find(
+      (item) => `${item.address.toLowerCase()}-${item.chainId}` === key,
+    );
+    return cachedItem ? cachedItem.abi : null;
+  },
+  clearAbiFromCache: (address: string, chainId: number) =>
+    set((state) => {
+      const key = `${address.toLowerCase()}-${chainId}`;
+      return {
+        abiCache: state.abiCache.filter(
+          (item) => `${item.address.toLowerCase()}-${item.chainId}` !== key,
+        ),
+      };
+    }),
 });

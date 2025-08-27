@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Input } from '@shadcn-components/ui/input';
+import { Button } from '@shadcn-components/ui/button';
 import { useChainId, usePublicClient } from 'wagmi';
 import { getContractAbi } from '@hooks/useGetContractAbi';
 import { Textarea } from '@shadcn-components/ui/textarea';
@@ -11,8 +12,10 @@ import {
   TabsList,
   TabsTrigger,
 } from '@shadcn-components/ui/tabs';
-import { PlusCircledIcon, Cross1Icon } from '@radix-ui/react-icons';
+import { PlusCircledIcon, Cross1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { ReadWriteUserContract } from '@store/state';
+import { useGlobalStore } from '@store/global-store';
+import { isAddress } from 'ethers';
 
 const BaseContractUiComponent = () => {
   // const contracts = useGlobalStore.use.readWriteUserContracts();
@@ -29,8 +32,16 @@ const BaseContractUiComponent = () => {
     },
   ]);
   const [activeTab, setActiveTab] = useState('1');
+  const [abiLoadedFromCache, setAbiLoadedFromCache] = useState<{
+    [key: string]: boolean;
+  }>({});
   const chainId = useChainId();
   const publicClient = usePublicClient();
+
+  // ABI cache store functions
+  const saveAbiToCache = useGlobalStore.use.saveAbiToCache();
+  const loadAbiFromCache = useGlobalStore.use.loadAbiFromCache();
+  const clearAbiFromCache = useGlobalStore.use.clearAbiFromCache();
 
   const addNewContract = useCallback(() => {
     const newId = (
@@ -75,7 +86,7 @@ const BaseContractUiComponent = () => {
 
   const fetchAbi = useCallback(
     async (contractId: string, address: string) => {
-      if (!address) return;
+      if (!address || !chainId) return;
       try {
         const abi = await getContractAbi(address, chainId);
         if (abi == null) {
@@ -85,12 +96,14 @@ const BaseContractUiComponent = () => {
           });
         } else {
           updateContract(contractId, { contractAbi: abi, abiError: null });
+          // Save ABI to cache when successfully fetched
+          saveAbiToCache(address, chainId, abi);
         }
       } catch (error) {
         updateContract(contractId, { abiError: (error as Error).message });
       }
     },
-    [chainId, updateContract],
+    [chainId, updateContract, saveAbiToCache],
   );
 
   useEffect(() => {
@@ -116,6 +129,10 @@ const BaseContractUiComponent = () => {
 
   const handleAddressChange = useCallback(
     (id: string, value: string) => {
+      // Clear previous cache status
+      setAbiLoadedFromCache((prev) => ({ ...prev, [id]: false }));
+
+      // Reset contract state first
       updateContract(id, {
         address: value,
         abi: '',
@@ -124,8 +141,21 @@ const BaseContractUiComponent = () => {
         contractAbi: null,
         abiError: null,
       });
+
+      // Check for cached ABI if address is valid and chainId is available
+      if (value && chainId && isAddress(value)) {
+        const cachedAbi = loadAbiFromCache(value, chainId);
+        if (cachedAbi) {
+          updateContract(id, {
+            address: value,
+            contractAbi: cachedAbi,
+            abiError: null,
+          });
+          setAbiLoadedFromCache((prev) => ({ ...prev, [id]: true }));
+        }
+      }
     },
-    [updateContract],
+    [updateContract, chainId, loadAbiFromCache],
   );
 
   const handleAbiChange = useCallback(
@@ -137,6 +167,12 @@ const BaseContractUiComponent = () => {
           parsedAbi,
           parseError: '',
         });
+
+        // Save manually entered ABI to cache if address and chainId are available
+        const contract = contracts.find((c) => c.id === id);
+        if (contract?.address && chainId && isAddress(contract.address)) {
+          saveAbiToCache(contract.address, chainId, parsedAbi);
+        }
       } catch (e) {
         updateContract(id, {
           abi: value,
@@ -146,7 +182,23 @@ const BaseContractUiComponent = () => {
         });
       }
     },
-    [updateContract],
+    [updateContract, contracts, chainId, saveAbiToCache],
+  );
+
+  const handleClearCache = useCallback(
+    (id: string) => {
+      const contract = contracts.find((c) => c.id === id);
+      if (contract?.address && chainId) {
+        clearAbiFromCache(contract.address, chainId);
+        setAbiLoadedFromCache((prev) => ({ ...prev, [id]: false }));
+        // Reset the contract to refetch ABI
+        updateContract(id, {
+          contractAbi: null,
+          abiError: null,
+        });
+      }
+    },
+    [contracts, chainId, clearAbiFromCache, updateContract],
   );
 
   const memoizedContracts = useMemo(() => contracts, [contracts]);
@@ -203,9 +255,24 @@ const BaseContractUiComponent = () => {
               <div className="text-red-500 mb-4">{contract.abiError}</div>
             )}
             {contract.contractAbi ? (
-              <div className="text-green-500 mb-4">
-                Contract ABI loaded successfully from{' '}
-                {publicClient?.chain?.name}
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-green-500">
+                  Contract ABI loaded successfully{' '}
+                  {abiLoadedFromCache[contract.id]
+                    ? 'from cache'
+                    : `from ${publicClient?.chain?.name}`}
+                </div>
+                {abiLoadedFromCache[contract.id] && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleClearCache(contract.id)}
+                    className="ml-2 h-8 px-2 text-xs"
+                  >
+                    <TrashIcon className="h-3 w-3 mr-1" />
+                    Clear Cache
+                  </Button>
+                )}
               </div>
             ) : (
               <>
