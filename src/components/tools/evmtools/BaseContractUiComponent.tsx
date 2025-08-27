@@ -35,8 +35,13 @@ const BaseContractUiComponent = () => {
   const [abiLoadedFromCache, setAbiLoadedFromCache] = useState<{
     [key: string]: boolean;
   }>({});
+  const [mounted, setMounted] = useState(false);
   const chainId = useChainId();
   const publicClient = usePublicClient();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // ABI cache store functions
   const saveAbiToCache = useGlobalStore.use.saveAbiToCache();
@@ -246,11 +251,14 @@ const BaseContractUiComponent = () => {
         {memoizedContracts.map((contract) => (
           <TabsContent key={contract.id} value={contract.id}>
             <Input
-              className="mb-4"
+              className="mb-2"
               value={contract.address}
               onChange={(e) => handleAddressChange(contract.id, e.target.value)}
               placeholder="Contract address"
             />
+            <div className="text-sm text-gray-500 mb-4">
+              Chain ID: {mounted ? (chainId || 'Not connected') : 'Loading...'}
+            </div>
             {contract.abiError && (
               <div className="text-red-500 mb-4">{contract.abiError}</div>
             )}
