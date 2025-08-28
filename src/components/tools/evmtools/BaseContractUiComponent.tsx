@@ -257,7 +257,7 @@ const BaseContractUiComponent = () => {
               placeholder="Contract address"
             />
             <div className="text-sm text-gray-500 mb-4">
-              Chain ID: {mounted ? (chainId || 'Not connected') : 'Loading...'}
+              Chain ID: {mounted ? chainId || 'Not connected' : 'Loading...'}
             </div>
             {contract.abiError && (
               <div className="text-red-500 mb-4">{contract.abiError}</div>
