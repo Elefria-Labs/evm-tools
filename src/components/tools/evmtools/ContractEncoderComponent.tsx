@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { Alert, AlertDescription } from '@shadcn-components/ui/alert';
 import { Button } from '@shadcn-components/ui/button';
@@ -18,18 +18,35 @@ const ContractAbiEncoder: React.FC = () => {
   // const [abi, setAbi] = useState<AbiItem[]>([]);
   const abi = useGlobalStore().contractEncoderAbi.contractAbi;
   const setAbi = useGlobalStore().setContractEncoderAbi;
+  const [abiText, setAbiText] = useState<string>('');
   const [selectedFunction, setSelectedFunction] = useState<string>('');
   const [inputs, setInputs] = useState<{ [key: string]: string }>({});
   const [encodedOutput, setEncodedOutput] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  // Sync local abiText with global ABI state
+  useEffect(() => {
+    if (abi && abi.length > 0) {
+      setAbiText(JSON.stringify(abi, null, 2));
+    } else {
+      setAbiText('');
+    }
+  }, [abi]);
+
   const handleAbiInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setAbiText(value);
+    
     try {
-      const parsedAbi = JSON.parse(e.target.value);
+      const parsedAbi = JSON.parse(value);
       setAbi({ contractAbi: parsedAbi });
       setError('');
     } catch (err) {
-      setError('Invalid ABI format');
+      if (value.trim()) {
+        setError('Invalid ABI format');
+      } else {
+        setError('');
+      }
     }
   };
 
@@ -82,6 +99,7 @@ const ContractAbiEncoder: React.FC = () => {
             className="text-xs hover:underline-offset-4 underline cursor-pointer decoration-sky-500 italic"
             onClick={() => {
               setAbi({ contractAbi: [] });
+              setAbiText('');
             }}
           >
             {'Clear'}
@@ -91,7 +109,7 @@ const ContractAbiEncoder: React.FC = () => {
         <Textarea
           className="w-full h-32 p-2 border rounded"
           placeholder="Paste contract ABI here..."
-          value={JSON.stringify(abi)}
+          value={abiText}
           onChange={handleAbiInput}
         />
       </div>
