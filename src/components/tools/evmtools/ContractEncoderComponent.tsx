@@ -36,7 +36,7 @@ const ContractAbiEncoder: React.FC = () => {
   const handleAbiInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setAbiText(value);
-    
+
     try {
       const parsedAbi = JSON.parse(value);
       setAbi({ contractAbi: parsedAbi });

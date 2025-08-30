@@ -20,7 +20,7 @@ import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@hooks/useEthersSigner';
 import { Checkbox } from '@shadcn-components/ui/checkbox';
 
-import { ReloadIcon } from '@radix-ui/react-icons';
+import { ReloadIcon, CopyIcon } from '@radix-ui/react-icons';
 import { Badge } from '@shadcn-components/ui/badge';
 
 interface ContractFunction {
@@ -30,10 +30,122 @@ interface ContractFunction {
   stateMutability: string;
 }
 
+interface AbiOutput {
+  name: string;
+  type: string;
+}
+
+interface ParsedResult {
+  value: any;
+  formattedValue: string;
+  type: string;
+  outputs: AbiOutput[];
+}
+
 interface ContractUiComponentProps {
   abi: any[];
   contractAddress: string;
 }
+
+// ABI parsing utilities
+const formatValueByType = (value: any, type: string): any => {
+  if (value === null || value === undefined) {
+    return 'null';
+  }
+
+  if (type === 'address') {
+    return value;
+  }
+
+  if (type.startsWith('uint') || type.startsWith('int')) {
+    return formatBigNumber(value, type);
+  }
+
+  if (type.startsWith('bytes')) {
+    return formatBytes(value);
+  }
+
+  if (type === 'bool') {
+    return value.toString();
+  }
+
+  if (type === 'string') {
+    return value;
+  }
+
+  return value.toString();
+};
+
+const formatAddress = (address: string): string => {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+const formatBigNumber = (value: any, type: string): string => {
+  const num = BigInt(value.toString());
+  return num.toString();
+};
+
+const formatBytes = (value: any): string => {
+  if (typeof value === 'string' && value.startsWith('0x')) {
+    return value;
+  }
+  return ethers.hexlify(value);
+};
+
+const formatArrayOrTuple = (value: any, outputs: AbiOutput[]): string => {
+  if (Array.isArray(value)) {
+    if (outputs.length === 1 && outputs[0]!.type.includes('[]')) {
+      // Simple array
+      return JSON.stringify(
+        value.map((v) =>
+          formatValueByType(v, outputs[0]!.type.replace('[]', '')),
+        ),
+        null,
+        2,
+      );
+    } else {
+      // Tuple/struct - use proper field names
+      const formatted: { [key: string]: any } = {};
+      outputs.forEach((output, index) => {
+        // Use the actual field name from ABI, fallback to index only if truly empty
+        const key =
+          output.name && output.name.trim() ? output.name : `${index}`;
+        formatted[key] = formatValueByType(value[index], output.type);
+      });
+      return JSON.stringify(formatted, null, 2);
+    }
+  }
+  return JSON.stringify(value, null, 2);
+};
+
+const formatResultByAbi = (result: any, outputs: AbiOutput[]): ParsedResult => {
+  if (outputs.length === 0) {
+    return {
+      value: result,
+      formattedValue: 'void',
+      type: 'void',
+      outputs: [],
+    };
+  }
+
+  if (outputs.length === 1) {
+    const output = outputs[0]!;
+    return {
+      value: result,
+      formattedValue: formatValueByType(result, output.type),
+      type: output.type,
+      outputs,
+    };
+  }
+
+  // Multiple outputs - treat as tuple
+  return {
+    value: result,
+    formattedValue: formatArrayOrTuple(result, outputs),
+    type: 'tuple',
+    outputs,
+  };
+};
 
 const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   abi,
@@ -44,7 +156,7 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   const [readFunctions, setReadFunctions] = useState<ContractFunction[]>([]);
   const [writeFunctions, setWriteFunctions] = useState<ContractFunction[]>([]);
   const [results, setResults] = useState<{
-    [key: string]: { value: string; type: string };
+    [key: string]: ParsedResult;
   }>({});
   const [selectedFunctions, setSelectedFunctions] = useState<Set<string>>(
     new Set(),
@@ -53,36 +165,23 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
   const chainId = useChainId();
 
   const [autoFetchedResults, setAutoFetchedResults] = useState<{
-    [key: string]: { value: string; type: string };
+    [key: string]: ParsedResult;
+  }>({});
+  const [copyFeedback, setCopyFeedback] = useState<{
+    [key: string]: boolean;
   }>({});
   const signer = useEthersSigner({ chainId });
 
-  const formatResult = (result: any): string => {
-    if (result === null || result === undefined) {
-      return 'null';
+  const copyToClipboard = async (text: string, feedbackKey: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopyFeedback((prev) => ({ ...prev, [feedbackKey]: true }));
+      setTimeout(() => {
+        setCopyFeedback((prev) => ({ ...prev, [feedbackKey]: false }));
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
     }
-    if (typeof result === 'bigint') {
-      return result.toString();
-    }
-    if (Array.isArray(result)) {
-      return JSON.stringify(result.map(formatResult), null, 2);
-    }
-    if (typeof result === 'object') {
-      if (Object.prototype.hasOwnProperty.call(result, 'toString')) {
-        return result.toString();
-      }
-      return JSON.stringify(
-        Object.fromEntries(
-          Object.entries(result).map(([key, value]) => [
-            key,
-            formatResult(value),
-          ]),
-        ),
-        null,
-        2,
-      );
-    }
-    return JSON.stringify(result, null, 2);
   };
 
   const fetchAutoFetchableResults = async (
@@ -96,16 +195,19 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
         }
         // @ts-ignore
         const result = await smartContract[func.name]();
+        const parsedResult = formatResultByAbi(result, func.outputs);
+        return [func.name, parsedResult];
+      } catch (error) {
+        console.error(`Error fetching ${func.name}:`, error);
         return [
           func.name,
           {
-            value: formatResult(result),
-            type: func.outputs[0]?.type || 'unknown',
+            value: 'Error fetching result',
+            formattedValue: 'Error fetching result',
+            type: 'error',
+            outputs: [],
           },
         ];
-      } catch (error) {
-        console.error(`Error fetching ${func.name}:`, error);
-        return [func.name, { value: 'Error fetching result', type: 'error' }];
       }
     });
 
@@ -161,18 +263,21 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
       // @ts-ignore
       const result = await contract[funcName]();
       const func = abi.find((item: any) => item.name === funcName);
+      const parsedResult = formatResultByAbi(result, func?.outputs || []);
       setAutoFetchedResults((prev) => ({
         ...prev,
-        [funcName]: {
-          value: formatResult(result),
-          type: func?.outputs[0]?.type || 'unknown',
-        },
+        [funcName]: parsedResult,
       }));
     } catch (error) {
       console.error(`Error refreshing ${funcName}:`, error);
       setAutoFetchedResults((prev) => ({
         ...prev,
-        [funcName]: { value: 'Error refreshing result', type: 'error' },
+        [funcName]: {
+          value: 'Error refreshing result',
+          formattedValue: 'Error refreshing result',
+          type: 'error',
+          outputs: [],
+        },
       }));
     }
   };
@@ -241,12 +346,11 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
         setTxLoading(false);
       }
 
-      const formattedResult = formatResult(result);
-      const returnType = func.outputs[0]?.type || 'void';
+      const parsedResult = formatResultByAbi(result, func.outputs);
 
       setResults((prevResults) => ({
         ...prevResults,
-        [func.name]: { value: formattedResult, type: returnType },
+        [func.name]: parsedResult,
       }));
     } catch (error) {
       console.error('Error calling function:', error);
@@ -254,7 +358,9 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
         ...prevResults,
         [func.name]: {
           value: 'Error: ' + (error as Error).message,
+          formattedValue: 'Error: ' + (error as Error).message,
           type: 'error',
+          outputs: [],
         },
       }));
     }
@@ -341,7 +447,7 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
                           <Badge>{results[func.name]!.type}</Badge>
                         </div>
                         <pre className="dark:bg-gray-500 bg-gray-200 p-2 rounded mt-1 overflow-x-auto">
-                          {results[func.name]!.value}
+                          {results[func.name]!.formattedValue}
                         </pre>
                       </div>
                     )}
@@ -366,23 +472,65 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
               {Object.entries(autoFetchedResults).map(([funcName, result]) => (
                 <div
                   key={funcName}
-                  className="flex items-center justify-between"
+                  className="border rounded p-3 mb-3 bg-gray-50 dark:bg-gray-900"
                 >
-                  <div className="flex items-center w-full">
-                    <div className="w-4/12">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
                       <strong className="mr-2">{funcName}</strong>
-                      <Badge>{result.type}</Badge>
+                      <Badge variant="outline">{result.type}</Badge>
+                      {result.outputs.length > 1 && (
+                        <Badge variant="secondary" className="ml-1">
+                          {result.outputs.length} outputs
+                        </Badge>
+                      )}
                     </div>
-                    <div className="w-4/12">{result.value}</div>
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          copyToClipboard(result.formattedValue, funcName)
+                        }
+                        className="h-8 w-8 p-0"
+                        title={
+                          copyFeedback[funcName] ? 'Copied!' : 'Copy value'
+                        }
+                      >
+                        {copyFeedback[funcName] ? (
+                          <span className="text-green-500 text-xs">✓</span>
+                        ) : (
+                          <CopyIcon className="h-3 w-3" />
+                        )}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => refreshAutoFetchedResult(funcName)}
+                        className="h-8 w-8 p-0"
+                      >
+                        <ReloadIcon className="h-3 w-3" />
+                      </Button>
+                    </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => refreshAutoFetchedResult(funcName)}
-                    className="ml-2 p-1"
-                  >
-                    <ReloadIcon className="h-4 w-4" />
-                  </Button>
+
+                  {result.type === 'address' ? (
+                    <code className="text-sm bg-white dark:bg-gray-800 px-2 py-1 rounded border block">
+                      {result.formattedValue}
+                    </code>
+                  ) : result.type === 'tuple' || result.outputs.length > 1 ? (
+                    <details className="mt-1">
+                      <summary className="cursor-pointer text-sm font-medium mb-2">
+                        View details ({result.outputs.length} fields)
+                      </summary>
+                      <pre className="text-sm bg-white dark:bg-gray-800 p-3 rounded border overflow-x-auto">
+                        {result.formattedValue}
+                      </pre>
+                    </details>
+                  ) : (
+                    <code className="text-sm bg-white dark:bg-gray-800 px-2 py-1 rounded border block">
+                      {result.formattedValue}
+                    </code>
+                  )}
                 </div>
               ))}
             </AccordionContent>
