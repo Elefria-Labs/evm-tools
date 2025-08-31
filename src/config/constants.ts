@@ -14,7 +14,6 @@ export const Links = {
   contractsUi: 'contracts-ui',
   zkTools: 'zk-tools',
   eip712: 'eip712',
-  eip7702: 'eip7702',
   erc191: 'erc191',
   mimicWallet: 'mimic-wallet',
   hexConverter: 'hex-converter',

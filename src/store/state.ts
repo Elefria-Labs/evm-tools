@@ -25,6 +25,12 @@ export interface AbiCacheItem {
   timestamp: number;
 }
 
+export interface RecentAddress {
+  address: string;
+  chainId: number;
+  timestamp: number;
+}
+
 export interface GlobalState {
   toChecksumAddress: string;
   setToChecksumAddress: (address: string) => void;
@@ -55,6 +61,12 @@ export interface GlobalState {
   saveAbiToCache: (address: string, chainId: number, abi: any[]) => void;
   loadAbiFromCache: (address: string, chainId: number) => any[] | null;
   clearAbiFromCache: (address: string, chainId: number) => void;
+
+  // recent addresses
+  recentAddresses: RecentAddress[];
+  addRecentAddress: (address: string, chainId: number) => void;
+  getRecentAddresses: (chainId: number) => RecentAddress[];
+  removeRecentAddress: (address: string, chainId: number) => void;
 
   // Ext
   lastOpenTab: string;
