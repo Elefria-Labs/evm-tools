@@ -48,6 +48,13 @@ const BaseContractUiComponent = () => {
   const loadAbiFromCache = useGlobalStore.use.loadAbiFromCache();
   const clearAbiFromCache = useGlobalStore.use.clearAbiFromCache();
 
+  // Recent addresses store functions
+  const addRecentAddress = useGlobalStore.use.addRecentAddress();
+  const removeRecentAddress = useGlobalStore.use.removeRecentAddress();
+
+  // Subscribe to recent addresses changes to trigger re-renders
+  const recentAddresses = useGlobalStore.use.recentAddresses();
+
   const addNewContract = useCallback(() => {
     const newId = (
       parseInt(contracts[contracts.length - 1]!.id) + 1
@@ -149,6 +156,9 @@ const BaseContractUiComponent = () => {
 
       // Check for cached ABI if address is valid and chainId is available
       if (value && chainId && isAddress(value)) {
+        // Add to recent addresses when a valid address is entered
+        addRecentAddress(value, chainId);
+
         const cachedAbi = loadAbiFromCache(value, chainId);
         if (cachedAbi) {
           updateContract(id, {
@@ -160,7 +170,7 @@ const BaseContractUiComponent = () => {
         }
       }
     },
-    [updateContract, chainId, loadAbiFromCache],
+    [updateContract, chainId, loadAbiFromCache, addRecentAddress],
   );
 
   const handleAbiChange = useCallback(
@@ -204,6 +214,15 @@ const BaseContractUiComponent = () => {
       }
     },
     [contracts, chainId, clearAbiFromCache, updateContract],
+  );
+
+  const handleRemoveRecentAddress = useCallback(
+    (address: string) => {
+      if (chainId) {
+        removeRecentAddress(address, chainId);
+      }
+    },
+    [removeRecentAddress, chainId],
   );
 
   const memoizedContracts = useMemo(() => contracts, [contracts]);
@@ -256,9 +275,53 @@ const BaseContractUiComponent = () => {
               onChange={(e) => handleAddressChange(contract.id, e.target.value)}
               placeholder="Contract address"
             />
-            <div className="text-sm text-gray-500 mb-4">
+            <div className="text-sm text-gray-500 mb-2">
               Chain ID: {mounted ? chainId || 'Not connected' : 'Loading...'}
             </div>
+            {mounted &&
+              chainId &&
+              recentAddresses.filter((item) => item.chainId === chainId)
+                .length > 0 && (
+                <div className="mb-4">
+                  <div className="text-xs text-gray-400 mb-2">
+                    Recent addresses:
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {recentAddresses
+                      .filter((item) => item.chainId === chainId)
+                      .sort((a, b) => b.timestamp - a.timestamp)
+                      .slice(0, 8)
+                      .map((recent) => (
+                        <div
+                          key={`${recent.address}-${recent.chainId}-${recent.timestamp}`}
+                          className="flex items-center text-xs bg-gray-100 dark:bg-gray-800 rounded border group"
+                        >
+                          <button
+                            onClick={() =>
+                              handleAddressChange(contract.id, recent.address)
+                            }
+                            className="px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-l flex-1"
+                            title={recent.address}
+                          >
+                            {recent.address.slice(0, 6)}...
+                            {recent.address.slice(-4)}
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleRemoveRecentAddress(recent.address);
+                            }}
+                            className="px-1 py-1 hover:bg-red-100 dark:hover:bg-red-900 hover:text-red-600 rounded-r border-l border-gray-200 dark:border-gray-700"
+                            title="Remove address"
+                          >
+                            <Cross1Icon className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
             {contract.abiError && (
               <div className="text-red-500 mb-4">{contract.abiError}</div>
             )}
