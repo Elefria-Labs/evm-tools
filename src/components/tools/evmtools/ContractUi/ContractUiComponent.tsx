@@ -153,10 +153,14 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
 }) => {
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [txLoading, setTxLoading] = useState<boolean>(false);
+  const [simulating, setSimulating] = useState<boolean>(false);
   const [readFunctions, setReadFunctions] = useState<ContractFunction[]>([]);
   const [writeFunctions, setWriteFunctions] = useState<ContractFunction[]>([]);
   const [results, setResults] = useState<{
     [key: string]: ParsedResult;
+  }>({});
+  const [simulationResults, setSimulationResults] = useState<{
+    [key: string]: any;
   }>({});
   const [selectedFunctions, setSelectedFunctions] = useState<Set<string>>(
     new Set(),
@@ -366,6 +370,144 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
     }
   };
 
+  // Function to simulate write function calls
+  const handleFunctionSimulation = async (func: ContractFunction) => {
+    if (!contract || !signer) return;
+
+    const inputValues = func.inputs.map((input) => {
+      const inputElement = document.getElementById(
+        `${func.name}-${input.name}`,
+      ) as HTMLInputElement;
+      const value = inputElement.value;
+
+      // Handle struct inputs
+      if (input.type.startsWith('tuple')) {
+        try {
+          return JSON.parse(value);
+        } catch (e) {
+          throw new Error(`Invalid JSON for struct parameter ${input.name}`);
+        }
+      }
+
+      // Handle array inputs
+      if (input.type.includes('[]')) {
+        try {
+          return JSON.parse(value);
+        } catch (e) {
+          throw new Error(`Invalid JSON for array parameter ${input.name}`);
+        }
+      }
+
+      return value;
+    });
+
+    try {
+      setSimulating(true);
+
+      // Create a read-only contract instance for simulation
+      const readOnlyContract = new ethers.Contract(
+        contractAddress,
+        abi,
+        signer.provider,
+      );
+
+      // Prepare the transaction data
+      const options: { value?: ethers.BigNumberish } = {};
+      if (func.stateMutability === 'payable') {
+        const valueInput = document.getElementById(
+          `${func.name}-value`,
+        ) as HTMLInputElement;
+        const value = valueInput.value;
+        if (value) {
+          options.value = ethers.toBigInt(value);
+        }
+      }
+
+      // Simulate the transaction call
+      const populatedTx = await readOnlyContract[func.name].populateTransaction(
+        ...inputValues,
+        options,
+      );
+      if (!populatedTx) throw new Error('Failed to populate transaction');
+
+      // Get the current block for simulation
+      const block = await signer.provider?.getBlock('latest');
+      if (!block || !signer.provider)
+        throw new Error('Could not get latest block or provider');
+
+      // Estimate gas for the transaction
+      let gasEstimate = 'Unknown';
+      let gasPrice = 'Unknown';
+      try {
+        const estimatedGas = await signer.provider.estimateGas({
+          ...populatedTx,
+          blockTag: block.number,
+        });
+        gasEstimate = estimatedGas.toString();
+
+        // Get current gas price
+        const currentGasPrice = await signer.provider.getFeeData();
+        gasPrice = currentGasPrice.gasPrice?.toString() || 'Unknown';
+      } catch (gasError) {
+        console.warn('Gas estimation failed:', gasError);
+        gasEstimate = 'Estimation failed';
+      }
+
+      // Simulate the call
+      const simulationResult = await signer.provider.call({
+        ...populatedTx,
+        blockTag: block.number,
+      });
+
+      // Parse the result if there are outputs
+      let parsedSimulationResult;
+      if (func.outputs && func.outputs.length > 0) {
+        try {
+          // Decode the result using the ABI
+          const decodedResult = ethers.AbiCoder.defaultAbiCoder().decode(
+            func.outputs.map((output) => output.type),
+            simulationResult,
+          );
+
+          // Format the result
+          if (func.outputs.length === 1) {
+            parsedSimulationResult = decodedResult[0];
+          } else {
+            parsedSimulationResult = decodedResult;
+          }
+        } catch (decodeError) {
+          parsedSimulationResult = simulationResult;
+        }
+      } else {
+        parsedSimulationResult = 'Simulation successful (no return value)';
+      }
+
+      // Store simulation result
+      setSimulationResults((prevResults) => ({
+        ...prevResults,
+        [func.name]: {
+          success: true,
+          result: parsedSimulationResult,
+          gasEstimate: gasEstimate,
+          gasPrice: gasPrice,
+          data: populatedTx.data,
+        },
+      }));
+    } catch (error) {
+      console.error('Error simulating function:', error);
+      setSimulationResults((prevResults) => ({
+        ...prevResults,
+        [func.name]: {
+          success: false,
+          error: (error as Error).message,
+          data: null,
+        },
+      }));
+    } finally {
+      setSimulating(false);
+    }
+  };
+
   const renderFunctions = (functions: ContractFunction[], title: string) => (
     <>
       <h2 className="text-xl font-semibold mt-6 mb-4">{title}</h2>
@@ -429,17 +571,180 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
                         />
                       </div>
                     )}
-                    <Button
-                      onClick={() => handleFunctionCall(func)}
-                      className="mt-2"
-                    >
-                      {func.stateMutability === 'view' ||
-                      func.stateMutability === 'pure'
-                        ? 'Call'
-                        : 'Execute'}
-                    </Button>
+                    <div className="flex gap-2 mt-2">
+                      {func.stateMutability !== 'view' &&
+                        func.stateMutability !== 'pure' && (
+                          <Button
+                            onClick={() => handleFunctionSimulation(func)}
+                            variant="outline"
+                            disabled={simulating}
+                            className="flex-1"
+                            title="Test the function call without executing it. Shows gas estimate, return values, and transaction data."
+                          >
+                            {simulating ? 'Simulating...' : 'Simulate'}
+                          </Button>
+                        )}
+                      <Button
+                        onClick={() => handleFunctionCall(func)}
+                        className="flex-1"
+                        disabled={txLoading}
+                        title={
+                          func.stateMutability === 'view' ||
+                          func.stateMutability === 'pure'
+                            ? 'Execute read function'
+                            : 'Execute write function (sends actual transaction)'
+                        }
+                      >
+                        {func.stateMutability === 'view' ||
+                        func.stateMutability === 'pure'
+                          ? 'Call'
+                          : txLoading
+                          ? 'Executing...'
+                          : 'Execute'}
+                      </Button>
+                    </div>
 
                     {txLoading && <div className="mt-4">Loading.....</div>}
+
+                    {/* Simulation Results */}
+                    {simulationResults[func.name] && (
+                      <div className="mt-4 p-3 border rounded bg-blue-50 dark:bg-blue-900/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center">
+                            <h4 className="font-semibold mr-2">
+                              Simulation Result:
+                            </h4>
+                            <Badge
+                              variant={
+                                simulationResults[func.name].success
+                                  ? 'default'
+                                  : 'destructive'
+                              }
+                            >
+                              {simulationResults[func.name].success
+                                ? 'Success'
+                                : 'Failed'}
+                            </Badge>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setSimulationResults((prev) => {
+                                const newResults = { ...prev };
+                                delete newResults[func.name];
+                                return newResults;
+                              });
+                            }}
+                            className="h-6 px-2 text-xs"
+                            title="Clear simulation result"
+                          >
+                            ×
+                          </Button>
+                        </div>
+                        {simulationResults[func.name].success ? (
+                          <div className="space-y-2">
+                            {simulationResults[func.name].result && (
+                              <div>
+                                <span className="font-medium">
+                                  Return Value:
+                                </span>
+                                <pre className="text-sm bg-white dark:bg-gray-800 p-2 rounded mt-1 overflow-x-auto">
+                                  {JSON.stringify(
+                                    simulationResults[func.name].result,
+                                    null,
+                                    2,
+                                  )}
+                                </pre>
+                              </div>
+                            )}
+                            {simulationResults[func.name].gasEstimate && (
+                              <div>
+                                <span className="font-medium">
+                                  Gas Estimate:
+                                </span>
+                                <code className="ml-2 text-sm bg-white dark:bg-gray-800 px-2 py-1 rounded">
+                                  {simulationResults[func.name].gasEstimate ===
+                                  'Estimation failed'
+                                    ? 'Estimation failed'
+                                    : `${Number(
+                                        simulationResults[func.name]
+                                          .gasEstimate,
+                                      ).toLocaleString()} gas units`}
+                                </code>
+                                {simulationResults[func.name].gasEstimate !==
+                                  'Estimation failed' && (
+                                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                    ≈{' '}
+                                    {Number(
+                                      simulationResults[func.name].gasEstimate,
+                                    ) * 0.000000001}{' '}
+                                    ETH (at 1 gwei)
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            {simulationResults[func.name].gasPrice &&
+                              simulationResults[func.name].gasPrice !==
+                                'Unknown' && (
+                                <div>
+                                  <span className="font-medium">
+                                    Gas Price:
+                                  </span>
+                                  <code className="ml-2 text-sm bg-white dark:bg-gray-800 px-2 py-1 rounded">
+                                    {simulationResults[func.name].gasPrice}
+                                  </code>
+                                  {simulationResults[func.name].gasPrice !==
+                                    'Unknown' && (
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                      ≈{' '}
+                                      {Number(
+                                        simulationResults[func.name].gasPrice,
+                                      ) * 0.000000001}{' '}
+                                      ETH (at 1 gwei)
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            {simulationResults[func.name].gasPrice &&
+                              simulationResults[func.name].gasPrice !==
+                                'Unknown' &&
+                              simulationResults[func.name].gasEstimate !==
+                                'Estimation failed' && (
+                                <div className="text-xs text-blue-600 dark:text-blue-400 mt-1 font-medium">
+                                  💰 Total Cost: ≈{' '}
+                                  {(
+                                    (Number(
+                                      simulationResults[func.name].gasEstimate,
+                                    ) *
+                                      Number(
+                                        simulationResults[func.name].gasPrice,
+                                      )) /
+                                    1e18
+                                  ).toFixed(6)}{' '}
+                                  ETH
+                                </div>
+                              )}
+                            {simulationResults[func.name].data && (
+                              <div>
+                                <span className="font-medium">
+                                  Transaction Data:
+                                </span>
+                                <code className="ml-2 text-sm bg-white dark:bg-gray-800 px-2 py-1 rounded break-all">
+                                  {simulationResults[func.name].data}
+                                </code>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="text-red-600 dark:text-red-400">
+                            <span className="font-medium">Error:</span>{' '}
+                            {simulationResults[func.name].error}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {results[func.name] && (
                       <div className="mt-4">
                         <div className="flex items-center">

@@ -97,12 +97,12 @@ export const createReadWriteContractUiSlice = (
     {
       id: '1',
       address: '0xc3De830EA07524a0761646a6a4e4be0e114a3C83',
-
       abi: '',
       parsedAbi: null,
       parseError: '',
       contractAbi: null,
       abiError: null,
+      autoFetchAbi: true,
     },
   ],
   setReadWriteUserContracts: (rwUserContract: ReadWriteUserContract[]) =>

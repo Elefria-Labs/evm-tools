@@ -6,6 +6,7 @@ export interface ReadWriteUserContract {
   parseError: string;
   contractAbi: null | any[];
   abiError: null | string;
+  autoFetchAbi: boolean;
 }
 
 interface AbiItem {

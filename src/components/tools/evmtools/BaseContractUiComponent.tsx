@@ -5,6 +5,7 @@ import { Button } from '@shadcn-components/ui/button';
 import { useChainId, usePublicClient } from 'wagmi';
 import { getContractAbi } from '@hooks/useGetContractAbi';
 import { Textarea } from '@shadcn-components/ui/textarea';
+import { Checkbox } from '@shadcn-components/ui/checkbox';
 import ContractUiComponent from './ContractUi/ContractUiComponent';
 import {
   Tabs,
@@ -12,12 +13,16 @@ import {
   TabsList,
   TabsTrigger,
 } from '@shadcn-components/ui/tabs';
-import { PlusCircledIcon, Cross1Icon, TrashIcon } from '@radix-ui/react-icons';
+import {
+  PlusCircledIcon,
+  Cross1Icon,
+  TrashIcon,
+  Share1Icon,
+} from '@radix-ui/react-icons';
 import { ReadWriteUserContract } from '@store/state';
 import { useGlobalStore } from '@store/global-store';
 import { isAddress } from 'ethers';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Share1Icon, CheckIcon } from '@radix-ui/react-icons';
+import { CheckIcon } from '@radix-ui/react-icons';
 
 const BaseContractUiComponent = () => {
   // const contracts = useGlobalStore.use.readWriteUserContracts();
@@ -31,6 +36,7 @@ const BaseContractUiComponent = () => {
       parseError: '',
       contractAbi: null,
       abiError: null,
+      autoFetchAbi: true,
     },
   ]);
   const [activeTab, setActiveTab] = useState('1');
@@ -38,19 +44,14 @@ const BaseContractUiComponent = () => {
     [key: string]: boolean;
   }>({});
   const [mounted, setMounted] = useState(false);
-  const [loadedFromUrl, setLoadedFromUrl] = useState(false);
-  const [chainMismatch, setChainMismatch] = useState<{
-    urlChainId: number;
-    connectedChainId: number;
-  } | null>(null);
   const [copyFeedback, setCopyFeedback] = useState<{
-    message: string;
     show: boolean;
-  } | null>(null);
+    message: string;
+  }>({ show: false, message: '' });
+  const [loadedFromUrl, setLoadedFromUrl] = useState(false);
+  const [hasLoadedFromUrl, setHasLoadedFromUrl] = useState(false);
   const chainId = useChainId();
   const publicClient = usePublicClient();
-  const searchParams = useSearchParams();
-  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -82,6 +83,7 @@ const BaseContractUiComponent = () => {
         parseError: '',
         contractAbi: null,
         abiError: null,
+        autoFetchAbi: true,
       },
     ]);
     setActiveTab(newId);
@@ -107,91 +109,6 @@ const BaseContractUiComponent = () => {
       );
     },
     [contracts, setContracts],
-  );
-
-  // Read URL parameters and prepopulate contract UI
-  useEffect(() => {
-    if (mounted && searchParams) {
-      const urlAddress = searchParams.get('address');
-      const urlChainId = searchParams.get('chainId');
-
-      if (urlAddress && isAddress(urlAddress)) {
-        // Update the first contract with the URL address
-        updateContract('1', { address: urlAddress });
-        setLoadedFromUrl(true);
-
-        // Add to recent addresses if chainId is available
-        if (chainId) {
-          addRecentAddress(urlAddress, chainId);
-        }
-
-        // If URL has a specific chainId, check if it matches current chain
-        if (urlChainId && chainId) {
-          const urlChainIdNum = parseInt(urlChainId);
-          if (urlChainIdNum !== chainId) {
-            console.log(
-              `URL chainId (${urlChainIdNum}) doesn't match connected chain (${chainId})`,
-            );
-            setChainMismatch({
-              urlChainId: urlChainIdNum,
-              connectedChainId: chainId,
-            });
-          } else {
-            setChainMismatch(null);
-          }
-        }
-      }
-    }
-  }, [mounted, searchParams, chainId, addRecentAddress, updateContract]);
-
-  // Function to update URL with contract address and chainId
-  const updateUrlWithContract = useCallback(
-    (address: string) => {
-      if (address && isAddress(address) && chainId) {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('address', address);
-        params.set('chainId', chainId.toString());
-
-        // Update URL without page reload
-        const newUrl = `${window.location.pathname}?${params.toString()}`;
-        router.replace(newUrl, { scroll: false });
-      }
-    },
-    [searchParams, chainId, router],
-  );
-
-  // Function to copy share link
-  const copyShareLink = useCallback(
-    async (address: string) => {
-      if (address && isAddress(address) && chainId) {
-        const params = new URLSearchParams();
-        params.set('address', address);
-        params.set('chainId', chainId.toString());
-
-        const shareUrl = `${window.location.origin}${
-          window.location.pathname
-        }?${params.toString()}`;
-
-        try {
-          await navigator.clipboard.writeText(shareUrl);
-          setCopyFeedback({
-            message: `Share link for ${address.slice(0, 6)}...${address.slice(
-              -4,
-            )} copied!`,
-            show: true,
-          });
-          setTimeout(() => setCopyFeedback(null), 3000);
-        } catch (err) {
-          console.error('Failed to copy share link:', err);
-          setCopyFeedback({
-            message: 'Failed to copy link',
-            show: true,
-          });
-          setTimeout(() => setCopyFeedback(null), 3000);
-        }
-      }
-    },
-    [chainId],
   );
 
   const fetchAbi = useCallback(
@@ -226,27 +143,17 @@ const BaseContractUiComponent = () => {
       currentContract.address &&
       currentContract.contractAbi == null &&
       !currentContract.abiError &&
-      currentContract.abi.length === 0
+      currentContract.abi.length === 0 &&
+      currentContract.autoFetchAbi
     ) {
       fetchAbi(currentContract.id, currentContract.address);
     }
   }, [activeTab, contracts, fetchAbi]);
 
-  // useEffect(()=>{
-  //   //handle change in network
-  //   // remove all the abi
-  // },[chainId])
-
   const handleAddressChange = useCallback(
     (id: string, value: string) => {
       // Clear previous cache status
       setAbiLoadedFromCache((prev) => ({ ...prev, [id]: false }));
-
-      // Clear the "loaded from URL" indicator when user manually changes address
-      if (id === '1') {
-        setLoadedFromUrl(false);
-        setChainMismatch(null);
-      }
 
       // Reset contract state first
       updateContract(id, {
@@ -263,39 +170,36 @@ const BaseContractUiComponent = () => {
         // Add to recent addresses when a valid address is entered
         addRecentAddress(value, chainId);
 
-        // Update URL with the new contract address
-        updateUrlWithContract(value);
-
+        // Always check cache first, regardless of autoFetchAbi setting
         const cachedAbi = loadAbiFromCache(value, chainId);
         if (cachedAbi) {
           updateContract(id, {
             address: value,
             contractAbi: cachedAbi,
+            abi: JSON.stringify(cachedAbi, null, 2), // Also populate manual ABI field
             abiError: null,
           });
           setAbiLoadedFromCache((prev) => ({ ...prev, [id]: true }));
         }
-      } else if (!value || !isAddress(value)) {
-        // Clear URL parameters if address is empty or invalid
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete('address');
-        params.delete('chainId');
-        const newUrl = params.toString()
-          ? `${window.location.pathname}?${params.toString()}`
-          : window.location.pathname;
-        router.replace(newUrl, { scroll: false });
       }
     },
-    [
-      updateContract,
-      chainId,
-      loadAbiFromCache,
-      addRecentAddress,
-      updateUrlWithContract,
-      searchParams,
-      router,
-    ],
+    [updateContract, chainId, loadAbiFromCache, addRecentAddress],
   );
+
+  // Load address from URL on mount
+  useEffect(() => {
+    if (!mounted || hasLoadedFromUrl) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlAddress = urlParams.get('address');
+
+    if (urlAddress && isAddress(urlAddress)) {
+      // Update the first contract with URL address
+      handleAddressChange('1', urlAddress);
+      setLoadedFromUrl(true);
+      setHasLoadedFromUrl(true);
+    }
+  }, [mounted, hasLoadedFromUrl, handleAddressChange]);
 
   const handleAbiChange = useCallback(
     (id: string, value: string) => {
@@ -347,6 +251,34 @@ const BaseContractUiComponent = () => {
       }
     },
     [removeRecentAddress, chainId],
+  );
+
+  const handleAutoFetchToggle = useCallback(
+    (id: string, checked: boolean) => {
+      updateContract(id, { autoFetchAbi: checked });
+    },
+    [updateContract],
+  );
+
+  const handleShare = useCallback(
+    async (address: string) => {
+      try {
+        const shareUrl = `${window.location.origin}${window.location.pathname}?address=${address}&chainId=${chainId}`;
+        await navigator.clipboard.writeText(shareUrl);
+        setCopyFeedback({
+          show: true,
+          message: `Share link for ${address.slice(0, 6)}...${address.slice(
+            -4,
+          )} copied to clipboard`,
+        });
+        setTimeout(() => {
+          setCopyFeedback({ show: false, message: '' });
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy share link:', err);
+      }
+    },
+    [chainId],
   );
 
   const memoizedContracts = useMemo(() => contracts, [contracts]);
@@ -406,9 +338,9 @@ const BaseContractUiComponent = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => copyShareLink(contract.address)}
+                  onClick={() => handleShare(contract.address)}
                   className="mb-2 sm:mb-0 sm:h-10 sm:px-4"
-                  title={`Copy share link for ${contract.address.slice(
+                  title={`Share link for ${contract.address.slice(
                     0,
                     6,
                   )}...${contract.address.slice(-4)}`}
@@ -427,12 +359,6 @@ const BaseContractUiComponent = () => {
             {loadedFromUrl && contract.id === '1' && (
               <div className="text-xs text-blue-600 dark:text-blue-400 mb-2">
                 ✓ Contract address loaded from URL
-              </div>
-            )}
-            {chainMismatch && contract.id === '1' && (
-              <div className="text-xs text-orange-600 dark:text-orange-400 mb-2">
-                ⚠️ URL chainId ({chainMismatch.urlChainId}) doesn&apos;t match
-                connected chain ({chainMismatch.connectedChainId})
               </div>
             )}
             <div className="text-sm text-gray-500 mb-2">
@@ -470,7 +396,7 @@ const BaseContractUiComponent = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              copyShareLink(recent.address);
+                              handleShare(recent.address);
                             }}
                             className="px-1 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 hover:text-blue-600 border-l border-gray-200 dark:border-gray-700"
                             title={`Share ${recent.address.slice(
@@ -496,6 +422,22 @@ const BaseContractUiComponent = () => {
                   </div>
                 </div>
               )}
+            <div className="flex items-center space-x-2 mb-4">
+              <Checkbox
+                id={`auto-fetch-${contract.id}`}
+                checked={contract.autoFetchAbi}
+                onCheckedChange={(checked) =>
+                  handleAutoFetchToggle(contract.id, checked as boolean)
+                }
+              />
+              <label
+                htmlFor={`auto-fetch-${contract.id}`}
+                className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+              >
+                Auto-fetch ABI from etherscan
+              </label>
+            </div>
+
             {contract.abiError && (
               <div className="text-red-500 mb-4">{contract.abiError}</div>
             )}
@@ -519,7 +461,7 @@ const BaseContractUiComponent = () => {
                   </Button>
                 )}
               </div>
-            ) : (
+            ) : !contract.autoFetchAbi ? (
               <>
                 <Textarea
                   className="my-8"
@@ -531,7 +473,7 @@ const BaseContractUiComponent = () => {
                   <div className="text-red-500 mb-4">{contract.parseError}</div>
                 )}
               </>
-            )}
+            ) : null}
             {chainId == null && (
               <div className="text-yellow-500 mb-4">
                 Please connect your wallet!
