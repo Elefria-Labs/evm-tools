@@ -424,6 +424,7 @@ const ContractUiComponent: React.FC<ContractUiComponentProps> = ({
       }
 
       // Simulate the transaction call
+      // @ts-ignore
       const populatedTx = await readOnlyContract[func.name].populateTransaction(
         ...inputValues,
         options,
