@@ -1,6 +1,6 @@
 {
   "name": "evm-tools",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "dev": "env-cmd -f env/.env.local next dev",
     "local": "env-cmd -f env/.env.local next dev",
