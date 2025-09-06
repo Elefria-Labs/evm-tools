@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useToast } from '@shadcn-components/ui/use-toast';
 import { ethers } from 'ethers';
 import { Button } from '@shadcn-components/ui/button';
@@ -40,9 +40,9 @@ export default function TxDecoderComponent() {
     }
   };
 
-  const renderDecodedTxTable = () => {
+  const renderDecodedTxTable = useCallback(() => {
     if (!decodedTx) return null;
-    const entries = Object.entries(decodedTx);
+    const entries = Object.entries(decodedTx.toJSON());
 
     return (
       <Table>
@@ -56,13 +56,17 @@ export default function TxDecoderComponent() {
           {entries.map(([key, value]) => (
             <TableRow key={key}>
               <TableCell>{key}</TableCell>
-              <TableCell>{value?.toString() || 'N/A'}</TableCell>
+              <TableCell>
+                {typeof value == 'object'
+                  ? JSON.stringify(value)
+                  : value?.toString() || 'N/A'}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     );
-  };
+  }, [decodedTx]);
 
   return (
     <div className="flex flex-col space-y-4">
