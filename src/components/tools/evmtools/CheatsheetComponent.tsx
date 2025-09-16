@@ -11,7 +11,7 @@ import {
 } from '@shadcn-components/ui/select';
 
 import { integerList } from '@data/integer-list';
-import { CopyIcon } from '@chakra-ui/icons';
+import { CopyIcon } from '@radix-ui/react-icons';
 import { handleCopyClick } from '@utils/wallet';
 import { ethers } from 'ethers';
 import InputBaseCopy from '@components/common/BaseInputCopy';

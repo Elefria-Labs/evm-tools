@@ -24,12 +24,56 @@ const ContractAbiEncoder: React.FC = () => {
   const [encodedOutput, setEncodedOutput] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  // Default sample ABI with all static types and string type
+  const sampleAbi = [
+    {
+      type: 'function',
+      name: 'sampleFunction',
+      inputs: [
+        {
+          name: 'uintValue',
+          type: 'uint256',
+        },
+        {
+          name: 'intValue',
+          type: 'int256',
+        },
+        {
+          name: 'boolValue',
+          type: 'bool',
+        },
+        {
+          name: 'addressValue',
+          type: 'address',
+        },
+      ],
+      outputs: [],
+      stateMutability: 'nonpayable',
+    },
+    {
+      type: 'constructor',
+      inputs: [
+        {
+          name: 'initialValue',
+          type: 'uint256',
+        },
+        {
+          name: 'name',
+          type: 'string',
+        },
+      ],
+      stateMutability: 'nonpayable',
+    },
+  ];
+
   // Sync local abiText with global ABI state
   useEffect(() => {
     if (abi && abi.length > 0) {
       setAbiText(JSON.stringify(abi, null, 2));
     } else {
-      setAbiText('');
+      // Set sample ABI as default when no ABI is present
+      setAbiText(JSON.stringify(sampleAbi, null, 2));
+      setAbi({ contractAbi: sampleAbi });
     }
   }, [abi]);
 
