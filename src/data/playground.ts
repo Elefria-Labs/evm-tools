@@ -26,6 +26,7 @@ import HookMinerComponent from '@components/tools/evmtools/HooksMinerComponent';
 import ContractAbiEncoder from '@components/tools/evmtools/ContractEncoderComponent';
 import ENSResolverTool from '@components/tools/evmtools/EnsToolsComponent';
 import ENSRecordInspectorComponent from '@components/tools/evmtools/EnsRecordsComponent';
+import NetworkListComponent from '@components/tools/evmtools/NetworkListComponent';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -33,6 +34,7 @@ export enum ToolCategory {
   Contracts = 'Contracts',
   Zk = 'ZK',
   Defi = 'DeFi',
+  Networks = 'Networks',
   Miscellaneous = 'Miscellaneous',
 }
 export interface Item {
@@ -317,6 +319,16 @@ export const playgroundToolsList: Item[] = [
     component: ENSRecordInspectorComponent,
     isWalletRequired: false,
     category: ToolCategory.DecodersAndConverters,
+  },
+  {
+    title: 'Network List',
+    description:
+      'Discover and connect to EVM-compatible networks with MetaMask integration',
+    link: Links.networkList,
+    component: NetworkListComponent,
+    isWalletRequired: false,
+    category: ToolCategory.Networks,
+    commonlyUsed: true,
   },
 
   // {

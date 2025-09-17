@@ -340,6 +340,7 @@ const BaseContractUiComponent = () => {
                   size="sm"
                   onClick={() => handleShare(contract.address)}
                   className="mb-2 sm:mb-0 sm:h-10 sm:px-4"
+                  style={{ margin: '0px' }}
                   title={`Share link for ${contract.address.slice(
                     0,
                     6,

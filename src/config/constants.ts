@@ -43,6 +43,7 @@ export const Links = {
   ensLookup: 'ens-lookup',
   cheatsheet: 'cheatsheet',
   abiEncoder: 'abi-encoder',
+  networkList: 'network-list',
   about: 'about',
   subscribe: 'subscribe',
   eipGpt: 'https://gpt.zkblock.app/',
