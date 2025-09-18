@@ -39,6 +39,14 @@ export function GlobalFooter() {
               web3 apps and cryptography.
             </p>
           </a>
+          <div className="mt-2">
+            <a
+              href="/llms.txt"
+              className="hover:underline text-xs text-gray-400"
+            >
+              /llms.txt
+            </a>
+          </div>
         </span>
       </div>
     </footer>
