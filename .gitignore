@@ -67,6 +67,7 @@ node_modules/
 .yarn-integrity
 
 # dotenv environment variables file
+.env.*
 .env.development
 .env.production
 .env.local
