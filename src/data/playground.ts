@@ -27,6 +27,7 @@ import ContractAbiEncoder from '@components/tools/evmtools/ContractEncoderCompon
 import ENSResolverTool from '@components/tools/evmtools/EnsToolsComponent';
 import ENSRecordInspectorComponent from '@components/tools/evmtools/EnsRecordsComponent';
 import NetworkListComponent from '@components/tools/evmtools/NetworkListComponent';
+import V4PoolIdToPoolKey from '@components/tools/evmtools/V4PoolIdToPoolKey';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -114,6 +115,17 @@ export const playgroundToolsList: Item[] = [
     isWalletRequired: false,
     isOnlyWeb: true,
     component: HookMinerComponent,
+    category: ToolCategory.Defi,
+  },
+  {
+    title: 'Uniswap V4 PoolId to PoolKey',
+    description: 'Retrieve PoolKey from PoolId',
+    link: Links.uniswapV4PoolIdToPoolKey,
+    isExternal: false,
+    isBeta: true,
+    isWalletRequired: false,
+    isOnlyWeb: true,
+    component: V4PoolIdToPoolKey,
     category: ToolCategory.Defi,
   },
   // {
@@ -289,7 +301,7 @@ export const playgroundToolsList: Item[] = [
       'Interact with multiple contracts at the same time. Call read and write functions.',
     link: Links.contractsUi,
     component: BaseContractUiComponent,
-    isBeta: true,
+    isBeta: false,
     category: ToolCategory.Contracts,
     isOnlyWeb: true,
   },
