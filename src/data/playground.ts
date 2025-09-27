@@ -28,6 +28,7 @@ import ENSResolverTool from '@components/tools/evmtools/EnsToolsComponent';
 import ENSRecordInspectorComponent from '@components/tools/evmtools/EnsRecordsComponent';
 import NetworkListComponent from '@components/tools/evmtools/NetworkListComponent';
 import V4PoolIdToPoolKey from '@components/tools/evmtools/V4PoolIdToPoolKey';
+import RawTransactionSubmitter from '@components/tools/evmtools/RawTransactionSubmitter';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -303,6 +304,15 @@ export const playgroundToolsList: Item[] = [
     component: BaseContractUiComponent,
     isBeta: false,
     category: ToolCategory.Contracts,
+    isOnlyWeb: true,
+  },
+  {
+    title: 'Send Raw Transactions',
+    description: 'Simulate & send serialized or raw transactions',
+    link: Links.sendRawTransaction,
+    component: RawTransactionSubmitter,
+    isBeta: false,
+    category: ToolCategory.Defi,
     isOnlyWeb: true,
   },
   {

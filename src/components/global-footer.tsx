@@ -23,14 +23,14 @@ export function GlobalFooter() {
               <Link className="ml-4" href={evmToolsXLink}>
                 <div className="w-[30px] h-[30px]">
                   <p>
-                    Follow <TwitterIcon />
+                    <TwitterIcon />
                   </p>
                 </div>
               </Link>
             </li>
           </ul>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           <a href={Links.main} className="hover:underline">
             evmtools.xyz

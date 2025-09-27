@@ -44,6 +44,7 @@ export const Links = {
   ensLookup: 'ens-lookup',
   cheatsheet: 'cheatsheet',
   abiEncoder: 'abi-encoder',
+  sendRawTransaction: 'send-raw-transactions',
   networkList: 'network-list',
   about: 'about',
   subscribe: 'subscribe',
