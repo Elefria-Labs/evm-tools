@@ -27,6 +27,7 @@ import ContractAbiEncoder from '@components/tools/evmtools/ContractEncoderCompon
 import ENSResolverTool from '@components/tools/evmtools/EnsToolsComponent';
 import ENSRecordInspectorComponent from '@components/tools/evmtools/EnsRecordsComponent';
 import NetworkListComponent from '@components/tools/evmtools/NetworkListComponent';
+import KrainodePlayground from '@components/tools/evmtools/KrainodePlayground';
 
 export enum ToolCategory {
   DecodersAndConverters = 'Converters & Decoders',
@@ -328,6 +329,14 @@ export const playgroundToolsList: Item[] = [
     component: NetworkListComponent,
     isWalletRequired: false,
     category: ToolCategory.Networks,
+    commonlyUsed: true,
+  },
+  {
+    title: 'JSON-RPC Playground',
+    description: 'Postman for JSON-RPC calls.',
+    link: Links.krainodePlayground,
+    component: KrainodePlayground,
+    category: ToolCategory.Miscellaneous,
     commonlyUsed: true,
   },
 

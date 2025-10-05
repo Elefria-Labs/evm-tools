@@ -47,6 +47,7 @@ export const Links = {
   about: 'about',
   subscribe: 'subscribe',
   eipGpt: 'https://gpt.zkblock.app/',
+  krainodePlayground: 'krainode-playground',
   // evm: 'https://evm.zkblock.app/',
   evmTools: 'https://evmtools.xyz/',
 };
