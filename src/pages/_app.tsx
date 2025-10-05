@@ -34,6 +34,8 @@ import {
   taikoTestnetSepolia,
   abstract,
   abstractTestnet,
+  unichain,
+  unichainSepolia,
 } from 'wagmi/chains';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@shadcn-components/ui/toaster';
@@ -56,6 +58,8 @@ const config = getDefaultConfig({
     zora,
     sepolia,
     baseSepolia,
+    unichain,
+    unichainSepolia,
     bsc,
     bscTestnet,
     polygon,

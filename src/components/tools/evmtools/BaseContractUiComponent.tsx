@@ -462,19 +462,22 @@ const BaseContractUiComponent = () => {
                   </Button>
                 )}
               </div>
-            ) : !contract.autoFetchAbi ? (
+            ) : null}
+
+            {!contract.autoFetchAbi && (
               <>
                 <Textarea
                   className="my-8"
-                  placeholder="Provide contract abi"
+                  placeholder="Provide contract abi in JSON format"
                   value={contract.abi}
                   onChange={(e) => handleAbiChange(contract.id, e.target.value)}
+                  rows={10}
                 />
                 {contract.parseError && (
                   <div className="text-red-500 mb-4">{contract.parseError}</div>
                 )}
               </>
-            ) : null}
+            )}
             {chainId == null && (
               <div className="text-yellow-500 mb-4">
                 Please connect your wallet!
