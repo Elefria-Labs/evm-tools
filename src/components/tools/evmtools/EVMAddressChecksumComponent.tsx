@@ -7,6 +7,7 @@ import { Label } from '@shadcn-components/ui/label';
 import InputBaseCopy from '@components/common/BaseInputCopy';
 import { useGlobalStore } from '@store/global-store';
 import { Button } from '@shadcn-components/ui/button';
+import { getAddress } from 'viem';
 
 export default function EvmAddressChecksumComponent() {
   const toChecksumAddress = useGlobalStore.use.toChecksumAddress();
@@ -22,15 +23,16 @@ export default function EvmAddressChecksumComponent() {
   };
 
   const handleToChecksumAddress = () => {
-    if (!ethers.isAddress(toChecksumAddress)) {
+    try {
+      setChecksummedAddress(getAddress(toChecksumAddress));
+    } catch (e) {
+      console.log('e', e);
       toast({
         ...toastOptions,
         title: 'Invalid address',
       });
       return;
     }
-
-    setChecksummedAddress(ethers.getAddress(toChecksumAddress));
   };
 
   const handleIsChecksumAddress = (
