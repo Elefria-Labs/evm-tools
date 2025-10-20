@@ -17,14 +17,14 @@ git clone https://github.com/heypran/evm-tools.git
 
 cd evm-tools
 
-yarn install
+npm install
 
 ```
 
 Then, you can run locally in development mode with live reload:
 
 ```
-yarn dev
+npm run dev
 ```
 
 Open http://localhost:3000 in the browser.
