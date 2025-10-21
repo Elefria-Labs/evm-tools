@@ -4,14 +4,18 @@ import ToolExtHeader from './ToolExtHeader';
 import { ToolSearchComponent } from '@components/common/ToolSearchComponent';
 import { Links } from '@config/constants';
 
-export default function ToolExtLayout() {
+type ToolExtLayoutPropsType = {
+  onSidebarClick?: () => void;
+};
+
+export default function ToolExtLayout(props: ToolExtLayoutPropsType) {
   const [searchSelectedTool, setSearchSelectedTool] = useState<
     string | undefined
   >();
   return (
     <div className="w-[480px] h-[600px] overflow-y-hidden">
       {/* 56px */}
-      <ToolExtHeader />
+      <ToolExtHeader onSidebarClick={props?.onSidebarClick} />
       <div className="px-2">
         <ToolSearchComponent
           isInExtension
